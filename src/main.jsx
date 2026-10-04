@@ -55,13 +55,65 @@ const tickets = [
   },
 ];
 const closedTickets = [
-  { ...tickets[0], id: "HIST-1017", submitted: "Sep 01", closed: "Sep 25, 2026", days: 24 },
-  { ...tickets[1], id: "HIST-1088", submitted: "Aug 20", closed: "Sep 27, 2026", days: 38 },
-  { ...tickets[3], id: "HIST-1124", submitted: "Sep 10", closed: "Sep 29, 2026", days: 19 },
+  {
+    ...tickets[0],
+    id: "HIST-1017",
+    submitted: "Sep 01",
+    closed: "Sep 25, 2026",
+    days: 24,
+  },
+  {
+    ...tickets[1],
+    id: "HIST-1088",
+    submitted: "Aug 20",
+    closed: "Sep 27, 2026",
+    days: 38,
+  },
+  {
+    ...tickets[3],
+    id: "HIST-1124",
+    submitted: "Sep 10",
+    closed: "Sep 29, 2026",
+    days: 19,
+  },
 ];
+// Illustrative contributions for the wireframe; these are not fitted-model SHAP results.
+const demoContributions = {
+  "DEMO-1042": [1.1, 0.7, 0.35],
+  "DEMO-1043": [0.75, 0.5, 0.2],
+  "DEMO-1044": [0.3, 0.2, -0.12],
+  "DEMO-1045": [-0.25, -0.2, 0.08],
+};
+function explanationFor(ticket) {
+  if (ticket.risk === null) return null;
+  const base = -0.8;
+  const output = Math.log(ticket.risk / (100 - ticket.risk));
+  const leading = demoContributions[ticket.id] || [0.3, 0.2, 0.1];
+  const values = [
+    ...leading,
+    output - base - leading.reduce((sum, value) => sum + value, 0),
+  ];
+  return {
+    base,
+    output,
+    total: output - base,
+    factors: values.map((value, i) => ({
+      label: [
+        "Prior local request volume",
+        "Service category",
+        "Submission month",
+        "Intake channel",
+      ][i],
+      value,
+    })),
+  };
+}
+const signed = (value) =>
+  `${value < 0 ? "−" : "+"}${Math.abs(value).toFixed(2)}`;
 const policyURL =
   "https://www.phila.gov/services/trash-recycling-city-upkeep/report-a-problem-with-trash-recycling-or-city-upkeep/track-a-service-request-with-311/";
 const pages = [
+  "closed-record",
   "queue",
   "closed",
   "ticket",
@@ -74,7 +126,7 @@ const pages = [
 ];
 const navItems = [
   ["queue", "Review Queue", "▦"],
-  ["closed", "Historical Closed Tickets", "▤"],
+  ["closed", "Closed Tickets", "▤"],
   ["log", "Action Log", "☷"],
 ];
 const actions = [
@@ -91,7 +143,7 @@ const actionDescriptions = [
 function readRoute() {
   const [page, id] = location.hash.slice(1).split("/");
   const selected =
-    tickets.find((t) => t.id === id) ||
+    [...tickets, ...closedTickets].find((t) => t.id === id) ||
     (page === "missing" ? tickets[4] : tickets[0]);
   return {
     page: pages.includes(page) && page !== "saved" ? page : "queue",
@@ -134,12 +186,25 @@ function Risk({ ticket }) {
 function App() {
   const [route, setRoute] = useState(readRoute);
   const { page, selected } = route;
+  const activeSection =
+    page === "closed-record"
+      ? "closed"
+      : [
+            "ticket",
+            "similar",
+            "policy",
+            "decision",
+            "saved",
+            "missing",
+          ].includes(page)
+        ? "queue"
+        : page;
+  const explanation = explanationFor(selected);
   const [logs, setLogs] = useState([]);
   const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("risk");
-  const [noMatches, setNoMatches] = useState(false);
   const [question, setQuestion] = useState(
     "How can a resident check the status of an existing 311 request?",
   );
@@ -148,6 +213,11 @@ function App() {
   const [rationale, setRationale] = useState("");
   const [ack, setAck] = useState(false);
   const [error, setError] = useState("");
+  const [explainedTicket, setExplainedTicket] = useState(null);
+
+  useEffect(() => {
+    setExplainedTicket(null);
+  }, [page, selected.id]);
 
   useEffect(() => {
     const handler = () => setRoute(readRoute());
@@ -183,7 +253,6 @@ function App() {
       setFilter("all");
       setSort("risk");
     }
-    if (next === "similar") setNoMatches(false);
     if (next === "policy") {
       setAnswer("supported");
       setQuestion(
@@ -259,14 +328,17 @@ function App() {
     )
     .filter(
       (t) =>
-        isClosed || filter === "all" ||
+        isClosed ||
+        filter === "all" ||
         (filter === "high" && t.risk !== null && t.risk >= 60) ||
         (filter === "missing" && t.risk === null),
     )
     .sort((a, b) =>
-      isClosed ? b.closed.localeCompare(a.closed) : sort === "risk"
-        ? (b.risk ?? -1) - (a.risk ?? -1)
-        : a.time.localeCompare(b.time),
+      isClosed
+        ? b.closed.localeCompare(a.closed)
+        : sort === "risk"
+          ? (b.risk ?? -1) - (a.risk ?? -1)
+          : a.time.localeCompare(b.time),
     );
   const ticketTabs = (
     <>
@@ -311,8 +383,8 @@ function App() {
         {navItems.map(([key, label, icon]) => (
           <button
             key={key}
-            className={`navbutton ${page === key || (key === "queue" && ["ticket", "similar", "policy", "decision", "saved", "missing"].includes(page)) ? "active" : ""}`}
-            aria-current={page === key || (key === "queue" && ["ticket", "similar", "policy", "decision", "saved", "missing"].includes(page)) ? "page" : undefined}
+            className={`navbutton ${activeSection === key ? "active" : ""}`}
+            aria-current={activeSection === key ? "page" : undefined}
             onClick={() => go(key)}
           >
             <span aria-hidden="true">{icon}</span>
@@ -323,7 +395,13 @@ function App() {
       <div className="workspace">
         <header className="topbar">
           <div className="topbar-brand">
-            <div className="brandicon">311</div>
+            <img
+              className="app-logo"
+              src={`${import.meta.env.BASE_URL}311-logo.png`}
+              alt=""
+              width="40"
+              height="40"
+            />
             <strong>Philadelphia 311 Delay Insight</strong>
           </div>
           <div>
@@ -335,23 +413,29 @@ function App() {
         <main className="content" aria-live="polite">
           {(page === "queue" || isClosed) && (
             <>
-              <Head title={isClosed ? "Historical Closed Tickets" : "Review Queue"} />
-              {!isClosed && <div className="grid three">
-                {[
-                  ["Requests", "5"],
-                  ["Requests at Risk", "2"],
-                  ["Requests Needing Data Review", "1"],
-                ].map(([label, num], i) => (
-                  <div className={`card kpi kpi-${i + 1}`} key={label}>
-                    <div className="label">{label}</div>
-                    <div className="num">{num}</div>
-                  </div>
-                ))}
-              </div>}
+              <Head
+                title={isClosed ? "Historical Closed Tickets" : "Review Queue"}
+              />
+              {!isClosed && (
+                <div className="grid three">
+                  {[
+                    ["Requests", "5"],
+                    ["Requests at Risk", "2"],
+                    ["Requests Needing Data Review", "1"],
+                  ].map(([label, num], i) => (
+                    <div className={`card kpi kpi-${i + 1}`} key={label}>
+                      <div className="label">{label}</div>
+                      <div className="num">{num}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <section className="card tablecard">
                 <div className="toolbar">
-                  <h2 style={{ margin: 0 }}>{isClosed ? "Closed Requests" : "Incoming review queue"}</h2>
+                  <h2 style={{ margin: 0 }}>
+                    {isClosed ? "Closed Requests" : "Incoming Review Queue"}
+                  </h2>
                   <div className="filters">
                     <input
                       type="search"
@@ -360,23 +444,27 @@ function App() {
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
-                    {!isClosed && <select
-                      aria-label="Filter risk"
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
-                    >
-                      <option value="all">All risk levels</option>
-                      <option value="high">Elevated risk</option>
-                      <option value="missing">Needs data review</option>
-                    </select>}
-                    {!isClosed && <select
-                      aria-label="Sort tickets"
-                      value={sort}
-                      onChange={(e) => setSort(e.target.value)}
-                    >
-                      <option value="risk">Risk: high to low</option>
-                      <option value="time">Submission time</option>
-                    </select>}
+                    {!isClosed && (
+                      <select
+                        aria-label="Filter risk"
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                      >
+                        <option value="all">All risk levels</option>
+                        <option value="high">Elevated risk</option>
+                        <option value="missing">Needs data review</option>
+                      </select>
+                    )}
+                    {!isClosed && (
+                      <select
+                        aria-label="Sort tickets"
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)}
+                      >
+                        <option value="risk">Risk: high to low</option>
+                        <option value="time">Submission time</option>
+                      </select>
+                    )}
                   </div>
                 </div>
                 <table>
@@ -388,6 +476,7 @@ function App() {
                         "ZIP",
                         "Submitted",
                         isClosed ? "Closed" : "Delay risk",
+                        ...(!isClosed ? ["Needs Data Review"] : []),
                         isClosed ? "Days to close" : "",
                       ].map((label, i) => (
                         <th key={i} scope="col">
@@ -400,30 +489,52 @@ function App() {
                     {rows.map((t) => (
                       <tr className="clickrow" key={t.id}>
                         <td>
-                          {isClosed ? <strong>{t.id}</strong> : <button
-                            className="ticketlink"
-                            onClick={() => go("ticket", t)}
-                          >
-                            {t.id}
-                          </button>}
+                          {isClosed ? (
+                            <button
+                              className="ticketlink"
+                              onClick={() => go("closed-record", t)}
+                            >
+                              {t.id}
+                            </button>
+                          ) : (
+                            <button
+                              className="ticketlink"
+                              onClick={() => go("ticket", t)}
+                            >
+                              {t.id}
+                            </button>
+                          )}
                           <span className="secondary">{t.category}</span>
                         </td>
                         <td>{t.dept}</td>
                         <td>{t.zip}</td>
                         <td>
                           {t.time}
-                          <span className="secondary">{t.submitted || "Oct 03"}</span>
+                          <span className="secondary">
+                            {t.submitted || "Oct 03"}
+                          </span>
                         </td>
-                        <td>
-                          {isClosed ? t.closed : <Risk ticket={t} />}
-                        </td>
+                        <td>{isClosed ? t.closed : <Risk ticket={t} />}</td>
+                        {!isClosed && (
+                          <td>
+                            {t.risk === null ? (
+                              <span className="pill high">Yes</span>
+                            ) : (
+                              "No"
+                            )}
+                          </td>
+                        )}
                         <td className="right">
-                          {isClosed ? `${t.days} days` : <button
-                            className="textbtn"
-                            onClick={() => go("ticket", t)}
-                          >
-                            Review →
-                          </button>}
+                          {isClosed ? (
+                            `${t.days} days`
+                          ) : (
+                            <button
+                              className="textbtn"
+                              onClick={() => go("ticket", t)}
+                            >
+                              Review →
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -438,13 +549,62 @@ function App() {
                   </div>
                 )}
                 <div className="tablefoot">
-                  <span>Showing {rows.length} of {queueTickets.length} requests</span>
-                  <span>{isClosed ? "Sample historical records" : "All scores are estimates"}</span>
+                  <span>
+                    Showing {rows.length} of {queueTickets.length} requests
+                  </span>
                 </div>
               </section>
             </>
           )}
 
+          {page === "closed-record" && (
+            <>
+              <div className="crumb">
+                <button className="textbtn" onClick={() => go("closed")}>
+                  Historical Closed Tickets
+                </button>
+                <span>/</span>
+                {selected.id}
+              </div>
+              <Head title={`${selected.id} : ${selected.category}`}>
+                <span className="pill low">Closed</span>
+              </Head>
+              <section className="card">
+                <h2>Request Details</h2>
+                <div className="meta">
+                  {[
+                    ["Request ID", selected.id],
+                    ["Service category", selected.category],
+                    ["Status", "Closed"],
+                    ["Department", selected.dept.trim()],
+                    ["Location", `ZIP ${selected.zip}`],
+                    ["Intake channel", selected.channel],
+                    [
+                      "Submitted",
+                      `${selected.submitted}, 2026 · ${selected.time}`,
+                    ],
+                    ["Closed", selected.closed],
+                    ["Time to close", `${selected.days} days`],
+                    [
+                      "Prior 7-day volume at intake",
+                      `${selected.volume} requests`,
+                    ],
+                    ["Risk estimate at intake", `${selected.risk}%`],
+                    ["Resolution notes", "Not available"],
+                  ].map(([label, value]) => (
+                    <div key={label}>
+                      <div className="key">{label}</div>
+                      <div className="value">{value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="rule" />
+                <Button onClick={() => go("closed")}>
+                  Back to Closed Tickets
+                </Button>
+              </section>
+            </>
+          )}
           {page === "ticket" && (
             <>
               {ticketTabs}
@@ -482,56 +642,106 @@ function App() {
                     <div>
                       <h2>SHAP Breakdown</h2>
                     </div>
+                    <Button
+                      aria-expanded={explainedTicket === selected.id}
+                      aria-controls="shap-explanation"
+                      onClick={() =>
+                        setExplainedTicket(
+                          explainedTicket === selected.id ? null : selected.id,
+                        )
+                      }
+                    >
+                      {explainedTicket === selected.id
+                        ? "Hide Explanation"
+                        : "Ask AI to Explain✨"}
+                    </Button>
                   </div>
-                  {selected.id === "DEMO-1042" ? (
+                  {explanation && (
                     <>
                       <div className="figurelabel">
-                        <span>Estimated contributions in log-odds</span>
-                        <span>Moves toward delay →</span>
+                        <span>Illustrative contributions in log-odds</span>
+                        <span>Blue increases risk · gray decreases risk</span>
                       </div>
-                      {[
-                        ["Prior local request volume", 92, "+1.10"],
-                        ["Service category", 59, "+0.70"],
-                        ["Submission month", 30, "+0.35"],
-                        ["Intake channel", 9, "−0.10"],
-                      ].map(([label, width, value], i) => (
+                      {explanation.factors.map(({ label, value }) => (
                         <div className="factor" key={label}>
                           <span>{label}</span>
-                          <div className={`track ${i === 3 ? "negative" : ""}`}>
-                            <span style={{ width: `${width}%` }} />
+                          <div
+                            className={`track ${value < 0 ? "negative" : ""}`}
+                          >
+                            <span
+                              style={{
+                                width: `${(Math.abs(value) / 1.2) * 100}%`,
+                              }}
+                            />
                           </div>
-                          <strong>{value}</strong>
+                          <strong>{signed(value)}</strong>
                         </div>
                       ))}
                       <div className="equation">
                         <div>
-                          Base log-odds<strong>−0.80</strong>
+                          Base log-odds
+                          <strong>{explanation.base.toFixed(2)}</strong>
                         </div>
                         <span>+</span>
                         <div>
-                          Contributions<strong>2.05</strong>
+                          Contributions
+                          <strong>{signed(explanation.total)}</strong>
                         </div>
                         <span>=</span>
                         <div>
-                          Output log-odds<strong>1.25</strong>
+                          Output log-odds
+                          <strong>{explanation.output.toFixed(2)}</strong>
                         </div>
                         <span>→</span>
                         <div>
-                          Probability<strong>≈ 78%</strong>
+                          Probability<strong>≈ {selected.risk}%</strong>
                         </div>
                       </div>
                     </>
-                  ) : (
-                    <>
-                      <Notice type="warning">
-                        This secondary ticket has an estimated risk score only.
-                        A ticket-specific SHAP breakdown is not supplied. Open
-                        DEMO-1042 to inspect the worked explanation layout.
-                      </Notice>
-                      <Button onClick={() => go("ticket", tickets[0])}>
-                        Open worked explanation
-                      </Button>
-                    </>
+                  )}
+                  {explanation && explainedTicket === selected.id && (
+                    <div
+                      id="shap-explanation"
+                      className="answer"
+                      style={{ marginTop: 20 }}
+                    >
+                      <h3>Understanding this estimate</h3>
+                      <p className="muted small">
+                        Sample explanation · AI service not connected
+                      </p>
+                      <p>
+                        This ticket starts from a baseline risk of{" "}
+                        {Math.round(100 / (1 + Math.exp(-explanation.base)))}%.
+                        The contributions below move that estimate to{" "}
+                        {selected.risk}%.
+                      </p>
+                      <ul>
+                        {[...explanation.factors]
+                          .sort((a, b) => Math.abs(b.value) - Math.abs(a.value))
+                          .map(({ label, value }) => (
+                            <li key={label}>
+                              <strong>{label}</strong>{" "}
+                              {value < 0 ? "lowers" : "raises"} the estimate (
+                              {signed(value)} log-odds).
+                            </li>
+                          ))}
+                      </ul>
+                      <p>
+                        The largest influence is{" "}
+                        {[...explanation.factors]
+                          .sort(
+                            (a, b) => Math.abs(b.value) - Math.abs(a.value),
+                          )[0]
+                          .label.toLowerCase()}
+                        . These values describe contributions to the estimate,
+                        not the causes of a delay.
+                      </p>
+                      <p className="muted small">
+                        Log-odds contributions are added to the baseline and
+                        converted to a probability. They are not
+                        percentage-point changes.
+                      </p>
+                    </div>
                   )}
                   <div className="actions" style={{ marginTop: 22 }}>
                     <Button onClick={() => go("similar")}>
@@ -549,64 +759,39 @@ function App() {
           {page === "similar" && (
             <>
               {ticketTabs}
-              <Head
-                title="Comparable closed records"
-                subtitle="Planned: metadata summaries → embeddings → category-filtered retrieval."
-              >
-                <Button onClick={() => setNoMatches(true)}>
-                  Test no matches
-                </Button>
-              </Head>
-              {noMatches ? (
-                <div className="card empty">
-                  <h2>No supported matches found</h2>
-                  <p className="muted small">
-                    Try broader intake metadata. Never invent a past resolution.
-                  </p>
-                  <Button onClick={() => setNoMatches(false)}>
-                    Return to demo matches
-                  </Button>
-                </div>
-              ) : (
-                <div className="grid three">
-                  {[24, 38, 19].map((days, i) => (
-                    <article className="card" key={i}>
-                      <h2 style={{ marginTop: 18 }}>
-                        {["HIST-DEMO-017", "HIST-DEMO-088", "HIST-DEMO-124"][i]}
-                      </h2>
-                      <p className="small">{selected.category}</p>
-                      <div className="rule" />
-                      <div className="meta">
-                        {[
-                          ["Status", "Closed"],
-                          ["Estimated closure age", `${days} days`],
-                          ["Match basis", "Category + intake context"],
-                          ["Handling notes", "Not available"],
-                        ].map(([key, value]) => (
-                          <div key={key}>
-                            <div className="key">{key}</div>
-                            <div className="value">{value}</div>
-                          </div>
-                        ))}
-                      </div>
-                      <p className="muted small" style={{ marginTop: 22 }}>
-                        Closure status alone does not document how an issue was
-                        resolved.
-                      </p>
-                      <button
-                        className="textbtn"
-                        onClick={() =>
-                          setMessage(
-                            "Mock record only. No audited source record is available.",
-                          )
-                        }
-                      >
-                        Inspect source record ↗
-                      </button>
-                    </article>
-                  ))}
-                </div>
-              )}
+              <Head title="Comparable Closed Records" />
+              <div className="grid three">
+                {closedTickets.map((record) => (
+                  <article className="card" key={record.id}>
+                    <h2 style={{ marginTop: 18 }}>{record.id}</h2>
+                    <p className="small">{record.category}</p>
+                    <div className="rule" />
+                    <div className="meta">
+                      {[
+                        ["Status", "Closed"],
+                        ["Time to close", `${record.days} days`],
+                        ["Match basis", "Category + intake context"],
+                        ["Handling notes", "Not available"],
+                      ].map(([key, value]) => (
+                        <div key={key}>
+                          <div className="key">{key}</div>
+                          <div className="value">{value}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="muted small" style={{ marginTop: 22 }}>
+                      Closure status alone does not document how an issue was
+                      resolved.
+                    </p>
+                    <button
+                      className="textbtn"
+                      onClick={() => go("closed-record", record)}
+                    >
+                      Inspect source record ↗
+                    </button>
+                  </article>
+                ))}
+              </div>
               <div className="actions" style={{ marginTop: 20 }}>
                 <Button primary onClick={() => go("policy")}>
                   Open policy guidance →
@@ -625,12 +810,10 @@ function App() {
                 <section className="card">
                   <div className="head">
                     <div>
-                      <h2>Ask the policy assistant</h2>
-                      <p>Optional · official sources only</p>
+                      <h2>Ask the AI Policy Assistant ✨</h2>
                     </div>
-                    <span className="pill neutral">Prewritten demo</span>
                   </div>
-                  <label htmlFor="question">Operational question</label>
+                  <label htmlFor="question">Operational Question</label>
                   <textarea
                     id="question"
                     value={question}
@@ -649,22 +832,6 @@ function App() {
                     >
                       Retrieve guidance
                     </Button>
-                    <Button
-                      onClick={() => {
-                        setQuestion(
-                          "Which crew can guarantee that this ticket will be fixed tomorrow?",
-                        );
-                        setAnswer("unsupported");
-                      }}
-                    >
-                      Try unsupported question
-                    </Button>
-                    <button
-                      className="textbtn"
-                      onClick={() => setAnswer("offline")}
-                    >
-                      Test service unavailable
-                    </button>
                   </div>
                   <div className="answer">
                     {answer === "supported" && (
@@ -729,36 +896,16 @@ function App() {
                         </div>
                       </>
                     )}
-                    {answer === "offline" && (
-                      <>
-                        <span className="pill neutral">
-                          Retrieval unavailable · simulated
-                        </span>
-                        <h2 style={{ marginTop: 15 }}>
-                          Prediction review still works.
-                        </h2>
-                        <p className="muted small">
-                          The optional knowledge service is unavailable. Do not
-                          generate an ungrounded answer.
-                        </p>
-                        <div className="actions">
-                          <Button onClick={() => go("policy")}>
-                            Retry demo
-                          </Button>
-                          <Button onClick={() => go("ticket")}>
-                            Back to explanation
-                          </Button>
-                        </div>
-                      </>
-                    )}
                   </div>
                 </section>
                 <aside className="card">
-                  <h2>Evidence before an answer.</h2>
-                  <p className="muted small">Planned retrieval contract</p>
+                  <h2>Evidence Before an Answer.</h2>
+                  <p className="muted small">
+                    Where generated answers come from
+                  </p>
                   {[
                     [
-                      "Retrieve approved passages",
+                      "Retrieve approved sources",
                       "Official City pages with source URLs.",
                     ],
                     [
@@ -779,7 +926,6 @@ function App() {
                     </div>
                   ))}
                   <div className="sourcecard">
-                    <span className="pill low">Official source</span>
                     <h3 style={{ marginTop: 12 }}>
                       Track a service request with 311
                     </h3>
@@ -794,10 +940,6 @@ function App() {
                       Open original guidance ↗
                     </a>
                   </div>
-                  <Notice type="warning">
-                    No evidence? State the limit and retain a manual-review
-                    path.
-                  </Notice>
                 </aside>
               </div>
             </>
@@ -872,7 +1014,6 @@ function App() {
                   </form>
                 </section>
                 <section className="card">
-                  <span className="pill neutral">Selected request</span>
                   <h2 style={{ marginTop: 18 }}>
                     {selected.id} · {selected.category}
                   </h2>
@@ -885,11 +1026,6 @@ function App() {
                     Ticket reference, model marker, estimated probability,
                     selected action, reason and timestamp.
                   </p>
-                  <Notice>
-                    This app stores decisions in memory for this page session
-                    only. Refresh or Reset clears them. Export creates a local
-                    JSON copy.
-                  </Notice>
                   <div className="rule" />
                   <h3>No automatic learning from a button click</h3>
                   <p className="muted small">
@@ -933,9 +1069,12 @@ function App() {
                 {selected.id}
               </div>
               <section className="card state">
-                <div className="bigicon">!</div>
-                <div className="eyebrow">Input validation</div>
-                <h1>Not enough information to score.</h1>
+                <div className="missing-state-heading">
+                  <div className="bigicon" aria-hidden="true">
+                    !
+                  </div>
+                  <h1>Not enough information to score.</h1>
+                </div>
                 <p className="muted">
                   {selected.id} has no verified service category. The prototype
                   does not substitute a reassuring low-risk number.
@@ -962,10 +1101,7 @@ function App() {
           )}
           {page === "log" && (
             <>
-              <Head
-                title="A record of human review."
-                subtitle="Session-only simulated decisions. No live ticket actions."
-              />
+              <Head title="A record of human review." />
               <div className="actions" style={{ marginBottom: 18 }}>
                 <Button onClick={exportLog}>Export JSON log</Button>
               </div>
@@ -1024,7 +1160,6 @@ function App() {
             <span>
               Explainable AI for 311 Complaint Escalation · AI Applications
             </span>
-            <span>Simulated data · prototype v1.0</span>
           </div>
         </main>
       </div>
