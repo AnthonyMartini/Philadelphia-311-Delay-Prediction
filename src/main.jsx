@@ -953,10 +953,7 @@ function App() {
                 </button>
                 <span>/</span>Human review
               </div>
-              <Head
-                title="The dispatcher makes the decision."
-                subtitle="Record a simulated action. This prototype never changes a City request."
-              />
+              <Head title="Review a Ticket" />
               <div className="grid two">
                 <section className="card">
                   <h2>Review decision</h2>
@@ -1014,23 +1011,41 @@ function App() {
                   </form>
                 </section>
                 <section className="card">
-                  <h2 style={{ marginTop: 18 }}>
-                    {selected.id} · {selected.category}
-                  </h2>
-                  <p className="muted small">
-                    ZIP {selected.zip} · {selected.dept}
-                  </p>
+                  <h2 style={{ marginTop: 18 }}>Ticket summary</h2>
+                  <div className="meta">
+                    {[
+                      ["Request ID", selected.id],
+                      ["Service category", selected.category],
+                      ["Department", selected.dept.trim()],
+                      ["Location", `ZIP ${selected.zip}`],
+                      ["Intake channel", selected.channel],
+                      ["Submitted", selected.time],
+                    ].map(([label, value]) => (
+                      <div key={label}>
+                        <div className="key">{label}</div>
+                        <div className="value">{value}</div>
+                      </div>
+                    ))}
+                  </div>
                   <div className="rule" />
-                  <h3>What the demo log retains</h3>
-                  <p className="muted small">
-                    Ticket reference, model marker, estimated probability,
-                    selected action, reason and timestamp.
-                  </p>
+                  <div className="risk-summary">
+                    <div className="key">Estimated delay risk</div>
+                    <div className="riskfigure">
+                      {selected.risk === null ? "No score" : selected.risk}
+                      {selected.risk !== null && <span>%</span>}
+                    </div>
+                    <p className="muted small">
+                      {selected.risk === null
+                        ? "A verified service category is needed before this request can be scored."
+                        : `This is an estimated probability that the request may experience delay. Review the intake details before choosing an action.`}
+                    </p>
+                  </div>
                   <div className="rule" />
-                  <h3>No automatic learning from a button click</h3>
+                  <h3>Review summary</h3>
                   <p className="muted small">
-                    Only validated outcome records should enter a reviewed,
-                    versioned retraining process.
+                    {selected.risk === null
+                      ? "The missing category requires human review and data correction."
+                      : `${selected.category} request received through ${selected.channel.toLowerCase()} intake in ZIP ${selected.zip}.`}
                   </p>
                 </section>
               </div>
@@ -1156,11 +1171,6 @@ function App() {
               </section>
             </>
           )}
-          <div className="footer">
-            <span>
-              Explainable AI for 311 Complaint Escalation · AI Applications
-            </span>
-          </div>
         </main>
       </div>
       {message && (
