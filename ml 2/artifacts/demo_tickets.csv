@@ -1,0 +1,401 @@
+objectid,month,requested_datetime,expected_datetime,closed_datetime,status,service_notice,resolution_days,service_backlog,split,delayed,service_name,agency_responsible,zipcode,sla_business_days,day_of_week,prior_7d_service_volume,prior_7d_zip_volume,backlog_share,request_id
+5761985,4,2026-04-29,2026-08-05,2026-05-02,Closed,60 Business Days,3.0,153,test,0,Traffic (Other),Streets Department,19123,60.0,2,46.0,32.0,0.6219512195121951,PHL-5761985
+5567403,12,2025-12-23,2025-12-24,2025-12-24,Closed,1 Business Days,1.0,2,test,0,Homeless Encampment Request,Office of Homeless Services,19133,1.0,1,19.0,65.0,0.0196078431372549,PHL-5567403
+5794245,5,2026-05-27,2026-05-28,2026-05-28,Closed,1 Business Days,1.0,105,test,0,Traffic Signal Emergency,Streets Department,19134,1.0,2,71.0,100.0,0.3888888888888889,PHL-5794245
+5430145,9,2025-09-16,2025-10-01,2025-11-05,Closed,10 Business Days,50.0,509,test,1,Street Light Outage,Streets Department,19152,10.0,1,175.0,56.0,0.7830769230769231,PHL-5430145
+5689650,3,2026-03-05,2026-03-27,2026-03-05,Closed,15 Business Days,0.0,19,test,0,Street Trees,Parks & Recreation,19138,15.0,3,61.0,124.0,0.07224334600760456,PHL-5689650
+5617068,1,2026-01-27,2026-01-30,2026-01-29,Closed,3 Business Days,2.0,2836,test,0,Salting,Streets Department,19151,3.0,1,3164.0,191.0,0.8002257336343115,PHL-5617068
+5832090,6,2026-06-26,2026-07-07,2026-07-02,Closed,5 Business Days,6.0,127,test,0,Illegal Dumping,Streets Department,19144,5.0,4,214.0,140.0,0.13039014373716631,PHL-5832090
+5386840,8,2025-08-18,2026-02-24,2025-12-01,Closed,120 Business Days,105.0,2536,test,0,Abandoned Vehicle,Police Department,19149,120.0,0,635.0,99.0,0.978772674642995,PHL-5386840
+5370194,8,2025-08-07,2025-08-14,2025-08-19,Closed,5 Business Days,12.0,218,test,1,Sanitation Violation,Streets Department,19125,5.0,3,238.0,229.0,0.2868421052631579,PHL-5370194
+5434664,9,2025-09-18,2026-03-27,2026-02-04,Closed,120 Business Days,139.0,2487,test,0,Abandoned Vehicle,Police Department,19145,120.0,3,587.0,150.0,0.9904420549581839,PHL-5434664
+5630136,1,2026-01-30,2026-02-05,2026-02-01,Closed,3 Business Days,2.0,5184,test,0,Salting,Streets Department,19139,3.0,4,9129.0,327.0,0.5280097779588511,PHL-5630136
+5718282,3,2026-03-26,2026-03-30,2026-03-26,Closed,,0.0,409,test,0,Rubbish/Recyclable Material Collection,Streets Department,19106,,3,654.0,19.0,0.13878520529351884,PHL-5718282
+5311652,7,2025-07-06,2025-10-23,,Open,70 Business Days,,3732,test,1,Maintenance Complaint,Community Life Improvement Program,19140,70.0,6,525.0,100.0,0.9144817446704239,PHL-5311652
+5432314,9,2025-09-17,2025-09-24,2025-09-30,Closed,5 Business Days,13.0,315,test,1,Illegal Dumping,Streets Department,19142,5.0,2,532.0,88.0,0.1382791922739245,PHL-5432314
+5308459,7,2025-07-01,2025-07-03,2025-07-14,Closed,2 Business Days,13.0,590,test,1,Rubbish/Recyclable Material Collection,Streets Department,19147,2.0,1,990.0,179.0,0.2081863091037403,PHL-5308459
+5576228,1,2026-01-02,2026-07-14,2026-07-21,Closed,120 Business Days,200.0,50,test,1,Parks and Rec Safety and Maintenance,Parks & Recreation,19152,120.0,4,20.0,32.0,0.5681818181818182,PHL-5576228
+5314899,7,2025-07-09,2025-07-18,2025-07-17,Closed,6 Business Days,8.0,238,test,0,Graffiti Removal,Community Life Improvement Program,19146,6.0,2,160.0,140.0,0.3600605143721634,PHL-5314899
+5789619,5,2026-05-21,2026-05-25,2026-05-27,Closed,2 Business Days,6.0,287,test,1,Rubbish/Recyclable Material Collection,Streets Department,19134,2.0,3,474.0,130.0,0.1559782608695652,PHL-5789619
+5396942,8,2025-08-25,2025-12-11,2025-10-29,Closed,70 Business Days,65.0,4330,test,0,Maintenance Complaint,Community Life Improvement Program,19144,70.0,0,1027.0,148.0,0.8530338849487785,PHL-5396942
+5351561,7,2025-07-27,2025-07-30,2025-12-11,Closed,2 Business Days,137.0,11,test,1,Manhole Cover,Streets Department,19135,2.0,6,4.0,211.0,0.3793103448275862,PHL-5351561
+5748738,4,2026-04-19,2026-04-22,2026-04-21,Closed,2 Business Days,2.0,333,test,0,Rubbish/Recyclable Material Collection,Streets Department,19123,2.0,6,549.0,55.0,0.15020297699594046,PHL-5748738
+5340477,7,2025-07-22,2026-01-28,2025-11-14,Closed,120 Business Days,115.0,2139,test,0,Abandoned Vehicle,Police Department,19143,120.0,1,666.0,525.0,0.9807427785419532,PHL-5340477
+5345806,7,2025-07-23,2025-07-28,2025-07-25,Closed,2 Business Days,2.0,2965,test,0,Rubbish/Recyclable Material Collection,Streets Department,19139,2.0,2,5313.0,373.0,0.43008413112851757,PHL-5345806
+5671137,2,2026-02-23,2026-02-25,2026-02-24,Closed,1 Business Day,1.0,686,test,0,Shoveling,Streets Department,19115,1.0,0,16.0,27.0,0.18230135530162106,PHL-5671137
+5774206,5,2026-05-08,2026-05-12,2026-05-12,Closed,2 Business Days,4.0,227,test,0,Rubbish/Recyclable Material Collection,Streets Department,19139,2.0,4,405.0,135.0,0.11430010070493454,PHL-5774206
+5381169,8,2025-08-13,2025-08-22,2025-08-18,Closed,6 Business Days,5.0,123,test,0,Graffiti Removal,Community Life Improvement Program,19146,6.0,2,100.0,216.0,0.16120576671035386,PHL-5381169
+5586736,1,2026-01-08,2026-07-21,,Open,120 Business Days,,1737,test,1,Maintenance Complaint,Community Life Improvement Program,19143,120.0,3,504.0,170.0,0.8728643216080402,PHL-5586736
+5450090,9,2025-09-29,2025-09-30,2025-09-29,Closed,1 Business Days,0.0,7,test,0,Homeless Encampment Request,Office of Homeless Services,19134,1.0,0,37.0,236.0,0.04895104895104895,PHL-5450090
+5632405,2,2026-02-02,2026-02-05,2026-02-05,Closed,3 Business Days,3.0,2353,test,0,Salting,Streets Department,19130,3.0,0,9912.0,480.0,0.21799147674634056,PHL-5632405
+5390087,8,2025-08-20,2025-12-08,2025-09-22,Closed,70 Business Days,33.0,4705,test,0,Maintenance Complaint,Community Life Improvement Program,19125,70.0,2,1152.0,142.0,0.8382326741492963,PHL-5390087
+5502602,11,2025-11-05,2025-11-06,2026-01-14,Closed,1 Business Days,70.0,96,test,1,Traffic Signal Emergency,Streets Department,19116,1.0,2,76.0,41.0,0.22748815165876776,PHL-5502602
+5772306,5,2026-05-06,2026-08-12,2026-05-13,Closed,60 Business Days,7.0,37,test,0,Street Paving,Streets Department,19118,60.0,2,23.0,11.0,0.3394495412844037,PHL-5772306
+5553575,12,2025-12-15,2026-01-15,2026-06-02,Closed,20 Business Days,169.0,1727,test,1,Maintenance Complaint,License & Inspections,19131,20.0,0,584.0,126.0,0.8630684657671165,PHL-5553575
+5684493,3,2026-03-02,2026-04-02,2026-07-24,Closed,20 Business Days,144.0,1578,test,1,Maintenance Complaint,License & Inspections,19144,20.0,0,354.0,106.0,0.8214471629359709,PHL-5684493
+5512783,11,2025-11-12,2025-12-15,2025-11-13,Closed,20 Business Days,1.0,2125,test,0,Maintenance Complaint,License & Inspections,19140,20.0,2,483.0,141.0,0.8148006134969326,PHL-5512783
+5414163,9,2025-09-05,2026-03-16,2025-09-09,Closed,120 Business Days,4.0,4341,test,0,Maintenance Complaint,Community Life Improvement Program,19111,120.0,4,1061.0,140.0,0.8526812021213906,PHL-5414163
+5394764,8,2025-08-22,2026-01-14,2026-06-12,Closed,90 Business Days,294.0,296,test,1,Smoke Detector,Fire Department,19151,90.0,4,51.0,118.0,0.9966329966329966,PHL-5394764
+5607031,1,2026-01-23,2026-08-04,,Open,120 Business Days,,1852,test,1,Abandoned Vehicle,Police Department,19145,120.0,4,422.0,110.0,0.9877333333333334,PHL-5607031
+5373619,8,2025-08-08,2025-08-25,2025-08-27,Closed,10 Business Days,19.0,539,test,1,Street Light Outage,Streets Department,19134,10.0,4,163.0,378.0,0.8154311649016641,PHL-5373619
+5608257,1,2026-01-23,2026-01-26,2026-03-09,Closed,1 Business Days,45.0,117,test,1,Traffic Signal Emergency,Streets Department,19137,1.0,4,152.0,31.0,0.28398058252427183,PHL-5608257
+5336531,7,2025-07-19,2025-07-23,2025-09-19,Closed,2 Business Days,62.0,2979,test,1,Rubbish/Recyclable Material Collection,Streets Department,19121,2.0,5,3515.0,221.0,0.6123329907502569,PHL-5336531
+5385087,8,2025-08-15,2025-08-20,2025-08-22,Closed,2 Business Days,7.0,873,test,1,Rubbish/Recyclable Material Collection,Streets Department,19152,2.0,4,777.0,51.0,0.0824985824985825,PHL-5385087
+5369965,8,2025-08-06,2025-08-14,2025-08-08,Closed,5 Business Days,2.0,264,test,0,Sanitation Violation,Streets Department,19130,5.0,2,239.0,146.0,0.36213991769547327,PHL-5369965
+5538254,12,2025-12-03,2025-12-05,2025-12-04,Closed,2 Business Days,1.0,283,test,0,Rubbish/Recyclable Material Collection,Streets Department,19139,2.0,2,441.0,74.0,0.14256926952141058,PHL-5538254
+5618358,1,2026-01-27,2026-01-28,2026-02-12,Closed,1 Business Day,16.0,544,test,1,Shoveling,Streets Department,19147,1.0,1,820.0,280.0,0.5774946921443737,PHL-5618358
+5462439,10,2025-10-08,2026-01-27,2025-10-12,Closed,70 Business Days,4.0,3058,test,0,Maintenance Complaint,Community Life Improvement Program,19152,70.0,2,593.0,57.0,0.8449848024316109,PHL-5462439
+5678036,2,2026-02-26,2026-03-02,2026-02-28,Closed,2 Business Days,2.0,416,test,0,Rubbish/Recyclable Material Collection,Streets Department,19141,2.0,3,347.0,85.0,0.05168986083499006,PHL-5678036
+5707877,3,2026-03-18,2026-05-28,2026-05-15,Closed,45 Business Days,58.0,930,test,0,Street Defect,Streets Department,19147,45.0,2,395.0,102.0,0.5305191100969766,PHL-5707877
+5360690,8,2025-08-01,2025-08-25,2025-08-01,Closed,15 Business Days,0.0,325,test,0,Street Trees,Parks & Recreation,19139,15.0,4,125.0,267.0,0.5603448275862069,PHL-5360690
+5458857,10,2025-10-06,2025-10-14,2025-10-08,Closed,6 Business Days,2.0,76,test,0,Graffiti Removal,Community Life Improvement Program,19123,6.0,0,70.0,39.0,0.10689170182841069,PHL-5458857
+5491488,10,2025-10-28,2026-02-02,2025-11-06,Closed,60 Business Days,9.0,81,test,0,Dangerous Sidewalk,Streets Department,19138,60.0,1,44.0,81.0,0.2793103448275862,PHL-5491488
+5784169,5,2026-05-18,2026-09-08,2026-06-11,Closed,70 Business Days,24.0,2227,test,0,Maintenance Complaint,Community Life Improvement Program,19141,70.0,0,633.0,89.0,0.8535837485626677,PHL-5784169
+5799418,6,2026-06-01,2026-06-16,2026-07-27,Closed,10 Business Days,56.0,126,test,1,Construction Complaints,License & Inspections,19128,10.0,0,64.0,25.0,0.3684210526315789,PHL-5799418
+5642349,2,2026-02-05,2026-02-09,2026-02-07,Closed,2 Business Days,2.0,1495,test,0,Rubbish/Recyclable Material Collection,Streets Department,19120,2.0,3,2527.0,287.0,0.31862745098039214,PHL-5642349
+5657636,2,2026-02-12,2026-07-06,2026-06-22,Closed,90 Business Days,130.0,336,test,0,Smoke Detector,Fire Department,19120,90.0,3,186.0,220.0,0.9882352941176471,PHL-5657636
+5316204,7,2025-07-10,2025-10-13,,Open,60 Business Days,,123,test,1,Traffic (Other),Streets Department,19131,60.0,3,20.0,64.0,0.6648648648648648,PHL-5316204
+5674688,2,2026-02-25,2026-03-02,2026-02-26,Closed,3 Business Days,1.0,118,test,0,Salting,Streets Department,19148,3.0,2,239.0,119.0,0.009385937002863507,PHL-5674688
+5602383,1,2026-01-20,2026-02-20,2026-03-09,Closed,20 Business Days,48.0,1736,test,1,Maintenance Complaint,License & Inspections,19150,20.0,1,510.0,24.0,0.8843606724401426,PHL-5602383
+5542389,12,2025-12-05,2025-12-10,2025-12-08,Closed,3 Business Days,3.0,21,test,0,Inlet Cleaning,Water Department (PWD),19120,3.0,4,71.0,97.0,0.08860759493670886,PHL-5542389
+5692524,3,2026-03-06,2026-09-15,,Open,120 Business Days,,1187,test,1,Abandoned Vehicle,Police Department,19120,120.0,4,317.0,123.0,0.9958053691275168,PHL-5692524
+5637260,2,2026-02-03,2026-02-04,2026-02-09,Closed,1 Business Day,6.0,1842,test,1,Shoveling,Streets Department,19123,1.0,1,2246.0,187.0,0.5862507956715468,PHL-5637260
+5625216,1,2026-01-29,2026-02-03,2026-02-01,Closed,3 Business Days,3.0,5410,test,0,Salting,Streets Department,19127,3.0,3,7959.0,214.0,0.6274646253769427,PHL-5625216
+5716154,3,2026-03-24,2026-06-29,2026-03-25,Closed,60 Business Days,1.0,44,test,0,Street Paving,Streets Department,19132,60.0,1,25.0,115.0,0.4782608695652174,PHL-5716154
+5494796,10,2025-10-30,2025-12-03,2026-03-03,Closed,20 Business Days,124.0,2324,test,1,Maintenance Complaint,License & Inspections,19134,20.0,3,580.0,166.0,0.8317823908375089,PHL-5494796
+5445783,9,2025-09-25,2025-10-03,2025-09-29,Closed,5 Business Days,4.0,358,test,0,Illegal Dumping,Streets Department,19131,5.0,3,246.0,154.0,0.1808080808080808,PHL-5445783
+5641737,2,2026-02-05,2026-02-09,2026-02-10,Closed,2 Business Days,5.0,1495,test,1,Rubbish/Recyclable Material Collection,Streets Department,19144,2.0,3,2527.0,297.0,0.31862745098039214,PHL-5641737
+5311534,7,2025-07-06,2025-07-15,2025-07-14,Closed,6 Business Days,8.0,178,test,0,Graffiti Removal,Community Life Improvement Program,19146,6.0,6,173.0,131.0,0.24895104895104894,PHL-5311534
+5330989,7,2025-07-17,2025-07-21,2025-07-24,Closed,2 Business Days,7.0,1393,test,1,Rubbish/Recyclable Material Collection,Streets Department,19148,2.0,3,1153.0,209.0,0.49982059562253317,PHL-5330989
+5516930,11,2025-11-14,2025-12-02,2026-01-13,Closed,10 Business Days,60.0,477,test,1,Street Light Outage,Streets Department,19119,10.0,4,166.0,51.0,0.6652719665271967,PHL-5516930
+5695316,3,2026-03-10,2026-06-29,2026-04-20,Closed,70 Business Days,41.0,1600,test,0,Maintenance Complaint,Community Life Improvement Program,19134,70.0,1,485.0,142.0,0.8285862247540134,PHL-5695316
+5652961,2,2026-02-10,2026-02-19,2026-03-27,Closed,6 Business Days,45.0,88,test,1,Graffiti Removal,Community Life Improvement Program,19145,6.0,1,78.0,372.0,0.2,PHL-5652961
+5796510,5,2026-05-28,2026-06-08,2026-06-03,Closed,6 Business Days,6.0,31,test,0,Graffiti Removal,Community Life Improvement Program,19143,6.0,3,24.0,146.0,0.22627737226277372,PHL-5796510
+5660688,2,2026-02-13,2026-03-18,,Open,20 Business Days,,1958,test,1,Maintenance Complaint,License & Inspections,19104,20.0,4,592.0,175.0,0.8686779059449867,PHL-5660688
+5342054,7,2025-07-22,2026-01-28,2025-11-20,Closed,120 Business Days,121.0,2139,test,0,Abandoned Vehicle,Police Department,19152,120.0,1,666.0,137.0,0.9807427785419532,PHL-5342054
+5479705,10,2025-10-20,2025-10-28,2025-10-22,Closed,5 Business Days,2.0,550,test,0,Illegal Dumping,Streets Department,19133,5.0,0,789.0,108.0,0.32144944476914084,PHL-5479705
+5766712,5,2026-05-04,2026-06-03,2026-07-22,Closed,20 Business Days,79.0,2095,test,1,Maintenance Complaint,License & Inspections,19132,20.0,0,673.0,118.0,0.8593109105824446,PHL-5766712
+5739268,4,2026-04-13,2026-06-23,2026-05-04,Closed,45 Business Days,21.0,748,test,0,Street Defect,Streets Department,19130,45.0,0,310.0,41.0,0.5927099841521395,PHL-5739268
+5587729,1,2026-01-09,2026-01-16,2026-01-16,Closed,5 Business Days,7.0,179,test,0,Other (Streets),Streets Department,19145,5.0,4,173.0,181.0,0.34757281553398056,PHL-5587729
+5337194,7,2025-07-20,2025-07-28,2025-07-24,Closed,5 Business Days,4.0,722,test,0,Illegal Dumping,Streets Department,19123,5.0,6,966.0,123.0,0.25333333333333335,PHL-5337194
+5687323,3,2026-03-04,2026-09-11,,Open,120 Business Days,,1180,test,1,Abandoned Vehicle,Police Department,19111,120.0,2,283.0,84.0,0.9957805907172996,PHL-5687323
+5707398,3,2026-03-18,2026-04-17,,Open,20 Business Days,,1686,test,1,Maintenance Complaint,License & Inspections,19142,20.0,2,515.0,62.0,0.8472361809045226,PHL-5707398
+5747724,4,2026-04-17,2026-04-27,2026-04-22,Closed,5 Business Days,5.0,294,test,0,Other (Streets),Streets Department,19111,5.0,4,209.0,61.0,0.39569313593539707,PHL-5747724
+5617297,1,2026-01-27,2026-01-30,2026-01-28,Closed,3 Business Days,1.0,2836,test,0,Salting,Streets Department,19153,3.0,1,3164.0,68.0,0.8002257336343115,PHL-5617297
+5347647,7,2025-07-24,2026-01-30,2025-12-02,Closed,120 Business Days,131.0,2203,test,0,Abandoned Vehicle,Police Department,19135,120.0,3,619.0,270.0,0.9795464650955981,PHL-5347647
+5832872,6,2026-06-28,2026-07-01,2026-07-06,Closed,2 Business Days,8.0,541,test,1,Rubbish/Recyclable Material Collection,Streets Department,19147,2.0,6,944.0,73.0,0.2097712291585886,PHL-5832872
+5313689,7,2025-07-08,2025-07-16,2025-07-16,Closed,5 Business Days,8.0,331,test,0,Other (Streets),Streets Department,19123,5.0,1,49.0,44.0,0.6713995943204868,PHL-5313689
+5552451,12,2025-12-13,2026-06-23,,Open,120 Business Days,,1887,test,1,Abandoned Vehicle,Police Department,19154,120.0,5,446.0,44.0,0.9823008849557522,PHL-5552451
+5803519,6,2026-06-04,2026-07-08,2026-06-25,Closed,20 Business Days,21.0,2702,test,0,Maintenance Complaint,License & Inspections,19139,20.0,3,796.0,161.0,0.8911609498680739,PHL-5803519
+5630023,1,2026-01-30,2026-03-04,,Open,20 Business Days,,1901,test,1,Maintenance Complaint,License & Inspections,19131,20.0,4,430.0,235.0,0.8979688238072745,PHL-5630023
+5513349,11,2025-11-13,2025-11-28,,Open,10 Business Days,,477,test,1,Street Light Outage,Streets Department,19103,10.0,3,134.0,47.0,0.691304347826087,PHL-5513349
+5779300,5,2026-05-13,2026-06-12,,Open,20 Business Days,,2476,test,1,Maintenance Complaint,License & Inspections,19141,20.0,2,618.0,91.0,0.8639218422889045,PHL-5779300
+5308890,7,2025-07-01,2025-07-09,2025-07-17,Closed,5 Business Days,16.0,354,test,1,Illegal Dumping,Streets Department,19116,5.0,1,465.0,78.0,0.18153846153846154,PHL-5308890
+5351476,7,2025-07-27,2025-08-12,2025-10-02,Closed,10 Business Days,67.0,464,test,1,Street Light Outage,Streets Department,19111,10.0,6,146.0,277.0,0.8390596745027125,PHL-5351476
+5626557,1,2026-01-29,2026-02-03,2026-02-06,Closed,3 Business Days,8.0,5410,test,1,Salting,Streets Department,19145,3.0,3,7959.0,762.0,0.6274646253769427,PHL-5626557
+5628320,1,2026-01-30,2026-02-04,2026-02-02,Closed,3 Business Days,3.0,5184,test,0,Salting,Streets Department,19125,3.0,4,9129.0,481.0,0.5280097779588511,PHL-5628320
+5368159,8,2025-08-06,2025-08-08,2025-08-08,Closed,2 Business Days,2.0,1299,test,0,Rubbish/Recyclable Material Collection,Streets Department,19126,2.0,2,1088.0,61.0,0.1318781725888325,PHL-5368159
+5817561,6,2026-06-15,2026-06-24,2026-06-17,Closed,5 Business Days,2.0,235,test,0,Other (Streets),Streets Department,19139,5.0,0,178.0,154.0,0.3884297520661157,PHL-5817561
+5441304,9,2025-09-23,2025-10-23,2026-04-23,Closed,20 Business Days,212.0,3403,test,1,Maintenance Complaint,License & Inspections,19140,20.0,1,944.0,186.0,0.8043015835499882,PHL-5441304
+5344267,7,2025-07-23,2025-07-25,2025-07-24,Closed,2 Business Days,1.0,2965,test,0,Rubbish/Recyclable Material Collection,Streets Department,19130,2.0,2,5313.0,227.0,0.43008413112851757,PHL-5344267
+5693378,3,2026-03-09,2026-05-18,2026-04-07,Closed,45 Business Days,29.0,747,test,0,Street Defect,Streets Department,19133,45.0,0,474.0,113.0,0.5385724585436193,PHL-5693378
+5705439,3,2026-03-17,2026-09-24,,Open,120 Business Days,,1057,test,1,Abandoned Vehicle,Police Department,19145,120.0,1,291.0,91.0,0.9887745556594949,PHL-5705439
+5615925,1,2026-01-27,2026-01-30,2026-02-02,Closed,3 Business Days,6.0,2836,test,1,Salting,Streets Department,19125,3.0,1,3164.0,205.0,0.8002257336343115,PHL-5615925
+5736340,4,2026-04-09,2026-04-17,2026-04-29,Closed,5 Business Days,20.0,93,test,1,Sanitation Violation,Streets Department,19143,5.0,3,94.0,151.0,0.1631578947368421,PHL-5736340
+5437788,9,2025-09-21,2026-03-31,,Open,120 Business Days,,2459,test,1,Abandoned Vehicle,Police Department,19142,120.0,6,630.0,101.0,0.9899355877616747,PHL-5437788
+5492806,10,2025-10-29,2025-11-04,2025-10-31,Closed,4 Business Days,2.0,1,test,0,Opioid Response Unit,Community Life Improvement Program,19120,4.0,2,11.0,128.0,0.015384615384615385,PHL-5492806
+5612150,1,2026-01-26,2026-01-29,2026-01-28,Closed,3 Business Days,2.0,255,test,0,Salting,Streets Department,19141,3.0,0,792.0,73.0,0.25914634146341464,PHL-5612150
+5519844,11,2025-11-18,2026-02-20,,Open,60 Business Days,,238,test,1,Traffic (Other),Streets Department,19124,60.0,1,63.0,128.0,0.7104477611940299,PHL-5519844
+5584613,1,2026-01-07,2026-04-13,2026-01-13,Closed,60 Business Days,6.0,138,test,0,Traffic (Other),Streets Department,19145,60.0,2,44.0,116.0,0.647887323943662,PHL-5584613
+5360555,8,2025-08-01,2025-08-18,2025-09-22,Closed,10 Business Days,52.0,463,test,1,Street Light Outage,Streets Department,19151,10.0,4,115.0,166.0,0.7996545768566494,PHL-5360555
+5372321,8,2025-08-07,2025-08-15,2025-08-15,Closed,5 Business Days,8.0,247,test,0,Dangerous Sidewalk,Streets Department,19104,5.0,3,129.0,182.0,0.49798387096774194,PHL-5372321
+5393111,8,2025-08-21,2025-10-08,2025-08-21,Closed,30 Business Days,0.0,18,test,0,Complaint (Streets),Streets Department,19107,30.0,3,19.0,41.0,0.18947368421052632,PHL-5393111
+5552999,12,2025-12-15,2025-12-18,2025-12-17,Closed,3 Business Days,2.0,32,test,0,Salting,Streets Department,19128,3.0,0,34.0,68.0,0.9142857142857143,PHL-5552999
+5745739,4,2026-04-16,2026-04-24,2026-05-02,Closed,5 Business Days,16.0,68,test,1,Dangerous Sidewalk,Streets Department,19134,5.0,3,45.0,146.0,0.40236686390532544,PHL-5745739
+5440870,9,2025-09-23,2026-04-01,,Open,120 Business Days,,2495,test,1,Abandoned Vehicle,Police Department,19115,120.0,1,620.0,47.0,0.9900793650793651,PHL-5440870
+5651858,2,2026-02-10,2026-03-12,2026-08-31,Closed,20 Business Days,202.0,1967,test,1,Maintenance Complaint,License & Inspections,19121,20.0,1,567.0,268.0,0.8949044585987261,PHL-5651858
+5420361,9,2025-09-10,2025-09-25,2025-10-28,Closed,10 Business Days,48.0,512,test,1,Street Light Outage,Streets Department,19121,10.0,2,185.0,153.0,0.7937984496124031,PHL-5420361
+5821423,6,2026-06-18,2026-06-23,2026-06-23,Closed,2 Business Days,5.0,287,test,0,Rubbish/Recyclable Material Collection,Streets Department,19143,2.0,3,584.0,180.0,0.12755555555555556,PHL-5821423
+5476274,10,2025-10-17,2026-01-21,2025-12-10,Closed,60 Business Days,54.0,28,test,0,Street Paving,Streets Department,19136,60.0,4,9.0,80.0,0.3888888888888889,PHL-5476274
+5335453,7,2025-07-18,2025-07-23,2025-09-17,Closed,2 Business Days,61.0,2096,test,1,Rubbish/Recyclable Material Collection,Streets Department,19138,2.0,4,2221.0,248.0,0.5654167790666307,PHL-5335453
+5327117,7,2025-07-16,2025-07-31,2025-07-18,Closed,10 Business Days,2.0,525,test,0,Street Light Outage,Streets Department,19140,10.0,2,156.0,232.0,0.8793969849246231,PHL-5327117
+5684760,3,2026-03-02,2026-03-06,2026-03-05,Closed,3 Business Days,3.0,590,test,0,Street Defect,Streets Department,19118,3.0,0,348.0,15.0,0.5373406193078324,PHL-5684760
+5610878,1,2026-01-26,2026-01-29,2026-01-29,Closed,3 Business Days,3.0,255,test,0,Salting,Streets Department,19120,3.0,0,792.0,88.0,0.25914634146341464,PHL-5610878
+5717687,3,2026-03-25,2026-03-30,2026-03-28,Closed,2 Business Days,3.0,339,test,0,Rubbish/Recyclable Material Collection,Streets Department,19141,2.0,2,623.0,85.0,0.12089871611982882,PHL-5717687
+5736634,4,2026-04-10,2026-10-20,2026-08-25,Closed,120 Business Days,137.0,1184,test,0,Abandoned Vehicle,Police Department,19124,120.0,4,243.0,117.0,0.9941225860621327,PHL-5736634
+5579995,1,2026-01-05,2026-01-08,2026-01-07,Closed,2 Business Days,2.0,231,test,0,Rubbish/Recyclable Material Collection,Streets Department,19120,2.0,0,445.0,82.0,0.10824742268041238,PHL-5579995
+5351613,7,2025-07-27,2025-07-30,2025-08-12,Closed,2 Business Days,16.0,2552,test,1,Rubbish/Recyclable Material Collection,Streets Department,19134,2.0,6,4577.0,469.0,0.28960508397639584,PHL-5351613
+5800612,6,2026-06-02,2026-06-17,2026-06-02,Closed,10 Business Days,0.0,145,test,0,Construction Complaints,License & Inspections,19137,10.0,1,89.0,16.0,0.39617486338797814,PHL-5800612
+5427008,9,2025-09-14,2025-09-22,2025-09-18,Closed,5 Business Days,4.0,333,test,0,Illegal Dumping,Streets Department,19130,5.0,6,529.0,72.0,0.15040650406504066,PHL-5427008
+5599916,1,2026-01-19,2026-01-20,2026-01-27,Closed,1 Business Days,8.0,105,test,1,Traffic Signal Emergency,Streets Department,19125,1.0,0,101.0,103.0,0.29829545454545453,PHL-5599916
+5359829,7,2025-07-31,2025-08-04,2025-08-04,Closed,2 Business Days,4.0,1679,test,0,Rubbish/Recyclable Material Collection,Streets Department,19140,2.0,3,2296.0,304.0,0.18521787093215664,PHL-5359829
+5487985,10,2025-10-27,2026-05-06,2026-08-20,Closed,120 Business Days,297.0,2246,test,1,Abandoned Vehicle,Police Department,19132,120.0,0,547.0,125.0,0.9968930315135375,PHL-5487985
+5599435,1,2026-01-19,2026-01-22,2026-01-19,Closed,3 Business Days,0.0,71,test,0,Salting,Streets Department,19130,3.0,0,84.0,81.0,0.3287037037037037,PHL-5599435
+5557319,12,2025-12-16,2025-12-22,2025-12-18,Closed,3 Business Days,2.0,666,test,0,Salting,Streets Department,19118,3.0,1,774.0,35.0,0.8593548387096774,PHL-5557319
+5574702,12,2025-12-31,2026-04-03,2026-01-06,Closed,60 Business Days,6.0,159,test,0,Traffic (Other),Streets Department,19107,60.0,2,35.0,22.0,0.6883116883116883,PHL-5574702
+5616035,1,2026-01-27,2026-01-30,2026-02-02,Closed,3 Business Days,6.0,2836,test,1,Salting,Streets Department,19134,3.0,1,3164.0,257.0,0.8002257336343115,PHL-5616035
+5509178,11,2025-11-10,2025-12-10,,Open,20 Business Days,,2010,test,1,Maintenance Complaint,License & Inspections,19123,20.0,0,601.0,72.0,0.8062575210589651,PHL-5509178
+5829001,6,2026-06-25,2026-07-28,2026-08-05,Closed,20 Business Days,41.0,3009,test,1,Maintenance Complaint,License & Inspections,19139,20.0,3,667.0,120.0,0.8597142857142858,PHL-5829001
+5570531,12,2025-12-27,2026-07-03,2026-01-14,Closed,120 Business Days,18.0,43,test,0,Parks and Rec Safety and Maintenance,Parks & Recreation,19128,120.0,5,19.0,72.0,0.524390243902439,PHL-5570531
+5640043,2,2026-02-04,2026-02-06,2026-02-05,Closed,2 Business Days,1.0,933,test,0,Rubbish/Recyclable Material Collection,Streets Department,19151,2.0,2,2101.0,263.0,0.22596270283361589,PHL-5640043
+5484622,10,2025-10-23,2025-10-27,2025-10-27,Closed,2 Business Days,4.0,304,test,0,Rubbish/Recyclable Material Collection,Streets Department,19147,2.0,3,518.0,136.0,0.13469206911829862,PHL-5484622
+5766675,5,2026-05-03,2026-06-03,2026-05-13,Closed,20 Business Days,10.0,2098,test,0,Maintenance Complaint,License & Inspections,19115,20.0,6,677.0,36.0,0.8608945424702503,PHL-5766675
+5596705,1,2026-01-15,2026-03-27,2026-03-04,Closed,45 Business Days,48.0,416,test,0,Street Defect,Streets Department,19147,45.0,3,331.0,170.0,0.3943127962085308,PHL-5596705
+5648179,2,2026-02-09,2026-03-11,2026-08-17,Closed,20 Business Days,189.0,1816,test,1,Maintenance Complaint,License & Inspections,19140,20.0,0,552.0,289.0,0.88671875,PHL-5648179
+5789470,5,2026-05-21,2026-05-22,,Open,1 Business Days,,108,test,1,Traffic Signal Emergency,Streets Department,Missing,1.0,3,59.0,0.0,0.42857142857142855,PHL-5789470
+5485566,10,2025-10-23,2025-10-31,2025-11-22,Closed,5 Business Days,30.0,286,test,1,Other (Streets),Streets Department,19121,5.0,3,164.0,136.0,0.4230769230769231,PHL-5485566
+5609270,1,2026-01-25,2026-01-29,2026-01-27,Closed,3 Business Days,2.0,33,test,0,Salting,Streets Department,19138,3.0,6,629.0,93.0,0.042690815006468305,PHL-5609270
+5509362,11,2025-11-10,2025-12-10,,Open,20 Business Days,,2010,test,1,Maintenance Complaint,License & Inspections,19138,20.0,0,601.0,98.0,0.8062575210589651,PHL-5509362
+5390947,8,2025-08-20,2025-08-22,2025-10-21,Closed,2 Business Days,62.0,536,test,1,Rubbish/Recyclable Material Collection,Streets Department,19151,2.0,2,812.0,126.0,0.07198495836690841,PHL-5390947
+5668564,2,2026-02-20,2026-02-24,2026-02-28,Closed,2 Business Days,8.0,591,test,1,Rubbish/Recyclable Material Collection,Streets Department,19124,2.0,4,836.0,133.0,0.07052505966587112,PHL-5668564
+5616274,1,2026-01-27,2026-01-30,2026-01-30,Closed,3 Business Days,3.0,2836,test,0,Salting,Streets Department,19145,3.0,1,3164.0,299.0,0.8002257336343115,PHL-5616274
+5636623,2,2026-02-03,2026-03-05,2026-09-08,Closed,20 Business Days,217.0,2035,test,1,Maintenance Complaint,License & Inspections,19106,20.0,1,524.0,145.0,0.9072670530539456,PHL-5636623
+5813088,6,2026-06-11,2026-06-29,,Open,10 Business Days,,190,test,1,Construction Complaints,License & Inspections,19133,10.0,3,103.0,100.0,0.49868766404199477,PHL-5813088
+5651662,2,2026-02-10,2026-02-13,2026-02-10,Closed,3 Business Days,0.0,16,test,0,Dumpster Violation,Streets Department,19124,3.0,1,19.0,264.0,0.37209302325581395,PHL-5651662
+5327679,7,2025-07-16,2025-07-18,2025-07-25,Closed,2 Business Days,9.0,809,test,1,Rubbish/Recyclable Material Collection,Streets Department,19140,2.0,2,400.0,232.0,0.382144544166273,PHL-5327679
+5568656,12,2025-12-25,2026-01-02,2025-12-29,Closed,5 Business Days,4.0,140,test,0,Illegal Dumping,Streets Department,19121,5.0,3,317.0,103.0,0.11049723756906077,PHL-5568656
+5711391,3,2026-03-20,2026-03-25,2026-03-20,Closed,,0.0,7,test,0,Dead Animal in Street,Streets Department,19124,,4,20.0,138.0,0.11864406779661017,PHL-5711391
+5676699,2,2026-02-25,2026-03-05,2026-02-27,Closed,5 Business Days,2.0,153,test,0,Illegal Dumping,Streets Department,19144,5.0,2,194.0,104.0,0.19615384615384615,PHL-5676699
+5567158,12,2025-12-23,2026-07-01,,Open,120 Business Days,,1669,test,1,Abandoned Vehicle,Police Department,19134,120.0,1,394.0,152.0,0.9887440758293838,PHL-5567158
+5689102,3,2026-03-04,2026-03-09,2026-03-10,Closed,2 Business Days,6.0,648,test,1,Rubbish/Recyclable Material Collection,Streets Department,19143,2.0,2,716.0,157.0,0.08713190802743041,PHL-5689102
+5376388,8,2025-08-11,2025-08-13,2025-08-13,Closed,2 Business Days,2.0,1179,test,0,Rubbish/Recyclable Material Collection,Streets Department,19146,2.0,0,891.0,226.0,0.11346357424694448,PHL-5376388
+5611019,1,2026-01-26,2026-01-29,2026-01-31,Closed,3 Business Days,5.0,255,test,1,Salting,Streets Department,19124,3.0,0,792.0,155.0,0.25914634146341464,PHL-5611019
+5614826,1,2026-01-27,2026-01-30,2026-02-02,Closed,3 Business Days,6.0,2836,test,1,Salting,Streets Department,19134,3.0,1,3164.0,257.0,0.8002257336343115,PHL-5614826
+5793896,5,2026-05-27,2026-06-03,2026-05-29,Closed,5 Business Days,2.0,79,test,0,Sanitation Violation,Streets Department,19133,5.0,2,85.0,66.0,0.15737051792828685,PHL-5793896
+5775501,5,2026-05-11,2026-05-26,2026-05-13,Closed,10 Business Days,2.0,145,test,0,Construction Complaints,License & Inspections,19106,10.0,0,85.0,19.0,0.3502415458937198,PHL-5775501
+5556557,12,2025-12-16,2025-12-19,2025-12-17,Closed,3 Business Days,1.0,666,test,0,Salting,Streets Department,19144,3.0,1,774.0,155.0,0.8593548387096774,PHL-5556557
+5331581,7,2025-07-17,2026-01-23,,Open,120 Business Days,,2133,test,1,Abandoned Vehicle,Police Department,19145,120.0,3,632.0,218.0,0.9802389705882353,PHL-5331581
+5363028,8,2025-08-03,2025-08-11,2025-08-06,Closed,5 Business Days,3.0,376,test,0,Illegal Dumping,Streets Department,19104,5.0,6,728.0,170.0,0.11137440758293839,PHL-5363028
+5824613,6,2026-06-22,2026-06-30,2026-06-24,Closed,5 Business Days,2.0,60,test,0,Sanitation Violation,Streets Department,19104,5.0,0,144.0,67.0,0.12170385395537525,PHL-5824613
+5517916,11,2025-11-17,2025-11-19,2025-11-19,Closed,2 Business Days,2.0,219,test,0,Rubbish/Recyclable Material Collection,Streets Department,19150,2.0,0,409.0,28.0,0.11869918699186992,PHL-5517916
+5470254,10,2025-10-14,2025-12-24,2025-12-09,Closed,45 Business Days,56.0,494,test,0,Street Defect,Streets Department,19143,45.0,1,160.0,158.0,0.6031746031746031,PHL-5470254
+5430738,9,2025-09-16,2025-09-22,2025-09-25,Closed,3 Business Days,9.0,660,test,1,Street Defect,Streets Department,19142,3.0,1,232.0,81.0,0.6382978723404256,PHL-5430738
+5739968,4,2026-04-13,2026-04-21,2026-04-16,Closed,5 Business Days,3.0,140,test,0,Illegal Dumping,Streets Department,19124,5.0,0,236.0,136.0,0.14242115971515767,PHL-5739968
+5349949,7,2025-07-25,2025-07-29,2025-08-12,Closed,2 Business Days,18.0,2947,test,1,Rubbish/Recyclable Material Collection,Streets Department,19134,2.0,4,5398.0,478.0,0.3468282923384724,PHL-5349949
+5467933,10,2025-10-13,2025-11-14,2025-12-26,Closed,20 Business Days,74.0,2683,test,1,Maintenance Complaint,License & Inspections,19143,20.0,0,644.0,182.0,0.8512055837563451,PHL-5467933
+5526971,11,2025-11-21,2025-11-24,2025-11-25,Closed,1 Business Days,4.0,164,test,1,Traffic Signal Emergency,Streets Department,19134,1.0,4,166.0,236.0,0.3761467889908257,PHL-5526971
+5434747,9,2025-09-18,2025-09-22,2025-09-23,Closed,2 Business Days,5.0,369,test,1,Rubbish/Recyclable Material Collection,Streets Department,19134,2.0,3,524.0,230.0,0.14631245043616178,PHL-5434747
+5481381,10,2025-10-21,2025-10-29,2025-10-28,Closed,5 Business Days,7.0,490,test,0,Illegal Dumping,Streets Department,19142,5.0,1,812.0,100.0,0.2713178294573643,PHL-5481381
+5481206,10,2025-10-21,2025-11-24,2026-04-01,Closed,20 Business Days,162.0,2633,test,1,Maintenance Complaint,License & Inspections,19143,20.0,1,733.0,251.0,0.864696223316913,PHL-5481206
+5401396,8,2025-08-27,2026-01-16,,Open,90 Business Days,,522,test,1,Street Light Outage,Streets Department,19103,90.0,2,157.0,75.0,0.8259493670886076,PHL-5401396
+5430022,9,2025-09-16,2025-09-23,2025-11-22,Closed,5 Business Days,67.0,153,test,1,Sanitation Violation,Streets Department,19147,5.0,1,135.0,134.0,0.21951219512195122,PHL-5430022
+5769742,5,2026-05-05,2026-06-05,,Open,20 Business Days,,2267,test,1,Maintenance Complaint,License & Inspections,19120,20.0,1,672.0,134.0,0.8685823754789272,PHL-5769742
+5346137,7,2025-07-24,2025-08-25,2026-04-28,Closed,20 Business Days,278.0,3857,test,1,Maintenance Complaint,License & Inspections,19131,20.0,3,1261.0,251.0,0.8891194098662978,PHL-5346137
+5711869,3,2026-03-20,2026-04-22,,Open,20 Business Days,,1757,test,1,Maintenance Complaint,License & Inspections,19148,20.0,4,507.0,100.0,0.8467469879518073,PHL-5711869
+5364547,8,2025-08-04,2025-09-04,2025-09-12,Closed,20 Business Days,39.0,4046,test,1,Maintenance Complaint,License & Inspections,19135,20.0,0,1258.0,124.0,0.8485738255033557,PHL-5364547
+5604564,1,2026-01-21,2026-01-26,2026-01-23,Closed,2 Business Days,2.0,237,test,0,Rubbish/Recyclable Material Collection,Streets Department,19132,2.0,2,477.0,103.0,0.10514640638864241,PHL-5604564
+5717173,3,2026-03-25,2026-04-27,2026-05-24,Closed,20 Business Days,60.0,1756,test,1,Maintenance Complaint,License & Inspections,19141,20.0,2,502.0,85.0,0.8491295938104448,PHL-5717173
+5630141,1,2026-01-30,2026-02-05,2026-02-02,Closed,3 Business Days,3.0,5184,test,0,Salting,Streets Department,19121,3.0,4,9129.0,309.0,0.5280097779588511,PHL-5630141
+5611645,1,2026-01-26,2026-01-29,2026-02-02,Closed,3 Business Days,7.0,255,test,1,Salting,Streets Department,19103,3.0,0,792.0,79.0,0.25914634146341464,PHL-5611645
+5808034,6,2026-06-08,2026-07-13,,Open,20 Business Days,,2586,test,1,Maintenance Complaint,License & Inspections,19134,20.0,0,781.0,137.0,0.9170212765957447,PHL-5808034
+5781409,5,2026-05-14,2026-05-22,2026-05-19,Closed,5 Business Days,5.0,98,test,0,Illegal Dumping,Streets Department,19152,5.0,3,192.0,41.0,0.10571736785329018,PHL-5781409
+5323353,7,2025-07-14,2026-01-22,2026-01-09,Closed,120 Business Days,179.0,1911,test,0,Abandoned Vehicle,Police Department,19141,120.0,0,476.0,99.0,0.9850515463917526,PHL-5323353
+5581923,1,2026-01-06,2026-02-06,2026-07-29,Closed,20 Business Days,204.0,1657,test,1,Maintenance Complaint,License & Inspections,19153,20.0,1,437.0,19.0,0.8698162729658793,PHL-5581923
+5744576,4,2026-04-15,2026-10-26,2026-08-25,Closed,120 Business Days,132.0,1222,test,0,Abandoned Vehicle,Police Department,19149,120.0,2,289.0,46.0,0.995114006514658,PHL-5744576
+5582507,1,2026-01-06,2026-01-14,2026-01-13,Closed,5 Business Days,7.0,50,test,0,Dangerous Sidewalk,Streets Department,19124,5.0,1,46.0,169.0,0.3067484662576687,PHL-5582507
+5820183,6,2026-06-17,2026-07-22,2026-08-27,Closed,20 Business Days,71.0,2843,test,1,Maintenance Complaint,License & Inspections,19129,20.0,2,812.0,19.0,0.8534974482137496,PHL-5820183
+5669296,2,2026-02-20,2026-02-26,2026-02-24,Closed,3 Business Days,4.0,442,test,0,Street Defect,Streets Department,19128,3.0,4,237.0,38.0,0.5193889541715628,PHL-5669296
+5531569,11,2025-11-25,2026-06-04,,Open,120 Business Days,,2080,test,1,Abandoned Vehicle,Police Department,19152,120.0,1,503.0,47.0,0.9862494073020389,PHL-5531569
+5674562,2,2026-02-25,2026-02-27,2026-03-02,Closed,2 Business Days,5.0,522,test,1,Rubbish/Recyclable Material Collection,Streets Department,19145,2.0,2,413.0,79.0,0.06534802203304957,PHL-5674562
+5349872,7,2025-07-25,2025-07-29,2025-07-28,Closed,2 Business Days,3.0,2947,test,0,Rubbish/Recyclable Material Collection,Streets Department,19142,2.0,4,5398.0,198.0,0.3468282923384724,PHL-5349872
+5333040,7,2025-07-18,2025-07-22,2025-07-22,Closed,2 Business Days,4.0,2096,test,0,Rubbish/Recyclable Material Collection,Streets Department,19143,2.0,4,2221.0,391.0,0.5654167790666307,PHL-5333040
+5583620,1,2026-01-07,2026-01-09,2026-01-09,Closed,2 Business Days,2.0,359,test,0,Rubbish/Recyclable Material Collection,Streets Department,19146,2.0,2,491.0,185.0,0.1498956158663883,PHL-5583620
+5584534,1,2026-01-07,2026-01-12,2026-01-13,Closed,2 Business Days,6.0,359,test,1,Rubbish/Recyclable Material Collection,Streets Department,19139,2.0,2,491.0,118.0,0.1498956158663883,PHL-5584534
+5630708,1,2026-01-30,2026-02-03,2026-02-09,Closed,1 Business Day,10.0,1819,test,1,Shoveling,Streets Department,19122,1.0,4,1910.0,189.0,0.7694585448392555,PHL-5630708
+5309311,7,2025-07-02,2025-07-09,2025-07-11,Closed,5 Business Days,9.0,210,test,1,Dangerous Sidewalk,Streets Department,19147,5.0,2,81.0,180.0,0.5915492957746479,PHL-5309311
+5770319,5,2026-05-05,2026-05-28,2026-05-05,Closed,15 Business Days,0.0,152,test,0,Street Trees,Parks & Recreation,19123,15.0,1,61.0,53.0,0.6785714285714286,PHL-5770319
+5552158,12,2025-12-12,2026-01-23,2025-12-19,Closed,25 Business Days,7.0,32,test,0,Right of Way Unit,Streets Department,19130,25.0,4,35.0,61.0,0.25806451612903225,PHL-5552158
+5479811,10,2025-10-20,2025-10-24,2025-12-02,Closed,3 Business Days,43.0,514,test,1,Street Defect,Streets Department,19153,3.0,0,261.0,54.0,0.618531889290012,PHL-5479811
+5597318,1,2026-01-16,2026-01-23,2026-01-16,Closed,5 Business Days,0.0,31,test,0,Dangerous Sidewalk,Streets Department,19123,5.0,4,41.0,87.0,0.18128654970760233,PHL-5597318
+5538433,12,2025-12-03,2026-03-09,2025-12-04,Closed,60 Business Days,1.0,27,test,0,Street Paving,Streets Department,19122,60.0,2,5.0,50.0,0.5869565217391305,PHL-5538433
+5551893,12,2025-12-12,2025-12-15,2025-12-15,Closed,1 Business Days,3.0,163,test,0,Traffic Signal Emergency,Streets Department,19149,1.0,4,116.0,63.0,0.2895204262877442,PHL-5551893
+5810587,6,2026-06-09,2026-06-12,2026-06-11,Closed,2 Business Days,2.0,207,test,0,Rubbish/Recyclable Material Collection,Streets Department,19121,2.0,1,490.0,97.0,0.11342465753424658,PHL-5810587
+5694936,3,2026-03-09,2026-03-25,2026-03-10,Closed,10 Business Days,1.0,157,test,0,Street Light Outage,Streets Department,19140,10.0,0,70.0,165.0,0.6709401709401709,PHL-5694936
+5563866,12,2025-12-21,2025-12-31,2026-01-27,Closed,6 Business Days,37.0,151,test,1,Graffiti Removal,Community Life Improvement Program,19146,6.0,6,104.0,167.0,0.2529313232830821,PHL-5563866
+5765309,5,2026-05-01,2026-06-02,,Open,20 Business Days,,2130,test,1,Maintenance Complaint,License & Inspections,19149,20.0,4,650.0,71.0,0.8700980392156863,PHL-5765309
+5748131,4,2026-04-17,2026-05-05,2026-05-10,Closed,10 Business Days,23.0,170,test,1,Construction Complaints,License & Inspections,19145,10.0,4,121.0,92.0,0.4028436018957346,PHL-5748131
+5687801,3,2026-03-04,2026-03-11,2026-03-05,Closed,5 Business Days,1.0,151,test,0,Sanitation Violation,Streets Department,19140,5.0,2,122.0,169.0,0.3268398268398268,PHL-5687801
+5518775,11,2025-11-17,2025-12-02,2025-12-17,Closed,10 Business Days,30.0,451,test,1,Street Light Outage,Streets Department,19140,10.0,0,172.0,131.0,0.6906584992343032,PHL-5518775
+5752395,4,2026-04-21,2026-05-14,2026-06-05,Closed,15 Business Days,45.0,97,test,1,Street Trees,Parks & Recreation,19140,15.0,1,52.0,164.0,0.5418994413407822,PHL-5752395
+5634946,2,2026-02-02,2026-02-10,2026-02-09,Closed,5 Business Days,7.0,402,test,0,Other (Streets),Streets Department,19121,5.0,0,281.0,340.0,0.548431105047749,PHL-5634946
+5598773,1,2026-01-17,2026-01-20,2026-03-09,Closed,1 Business Days,51.0,94,test,1,Traffic Signal Emergency,Streets Department,19135,1.0,5,110.0,77.0,0.24289405684754523,PHL-5598773
+5431979,9,2025-09-17,2025-09-24,2025-09-30,Closed,5 Business Days,13.0,315,test,1,Illegal Dumping,Streets Department,19134,5.0,2,532.0,235.0,0.1382791922739245,PHL-5431979
+5319430,7,2025-07-11,2025-07-21,2025-07-22,Closed,5 Business Days,11.0,327,test,1,Other (Streets),Streets Department,19143,5.0,4,49.0,151.0,0.6942675159235668,PHL-5319430
+5523683,11,2025-11-20,2026-05-29,,Open,120 Business Days,,2153,test,1,Abandoned Vehicle,Police Department,19143,120.0,3,515.0,208.0,0.9876146788990826,PHL-5523683
+5451419,9,2025-09-30,2026-04-08,,Open,120 Business Days,,2500,test,1,Abandoned Vehicle,Police Department,19128,120.0,1,597.0,81.0,0.9928514694201748,PHL-5451419
+5627711,1,2026-01-29,2026-02-02,2026-04-01,Closed,1 Business Day,62.0,1464,test,1,Shoveling,Streets Department,19149,1.0,3,1613.0,214.0,0.7327327327327328,PHL-5627711
+5444939,9,2025-09-25,2026-02-17,2026-03-05,Closed,90 Business Days,161.0,180,test,1,Smoke Detector,Fire Department,19140,90.0,3,63.0,175.0,0.9183673469387755,PHL-5444939
+5333762,7,2025-07-18,2026-01-26,2025-11-05,Closed,120 Business Days,110.0,3836,test,0,Maintenance Complaint,Community Life Improvement Program,19141,120.0,4,1348.0,234.0,0.9174838555369529,PHL-5333762
+5374328,8,2025-08-08,2025-08-18,2025-08-18,Closed,5 Business Days,10.0,370,test,0,Illegal Dumping,Streets Department,19140,5.0,4,779.0,273.0,0.1028634973589102,PHL-5374328
+5313162,7,2025-07-08,2025-09-16,2025-07-25,Closed,45 Business Days,17.0,1177,test,0,Street Defect,Streets Department,19128,45.0,1,162.0,55.0,0.8535170413343002,PHL-5313162
+5619290,1,2026-01-27,2026-02-02,2026-02-02,Closed,3 Business Days,6.0,2836,test,0,Salting,Streets Department,19134,3.0,1,3164.0,257.0,0.8002257336343115,PHL-5619290
+5327440,7,2025-07-16,2025-07-18,2025-07-17,Closed,2 Business Days,1.0,809,test,0,Rubbish/Recyclable Material Collection,Streets Department,19146,2.0,2,400.0,225.0,0.382144544166273,PHL-5327440
+5659882,2,2026-02-13,2026-02-20,2026-02-19,Closed,5 Business Days,6.0,157,test,0,Illegal Dumping,Streets Department,19143,5.0,4,267.0,347.0,0.17541899441340783,PHL-5659882
+5721679,3,2026-03-30,2026-04-29,2026-08-13,Closed,20 Business Days,136.0,1719,test,1,Maintenance Complaint,License & Inspections,19124,20.0,0,491.0,112.0,0.8599299649824912,PHL-5721679
+5651394,2,2026-02-10,2026-02-17,2026-02-17,Closed,5 Business Days,7.0,150,test,0,Illegal Dumping,Streets Department,19131,5.0,1,211.0,332.0,0.17045454545454544,PHL-5651394
+5583890,1,2026-01-07,2026-01-09,2026-01-09,Closed,2 Business Days,2.0,359,test,0,Rubbish/Recyclable Material Collection,Streets Department,19121,2.0,2,491.0,80.0,0.1498956158663883,PHL-5583890
+5613347,1,2026-01-26,2026-01-30,2026-01-30,Closed,3 Business Days,4.0,255,test,0,Salting,Streets Department,19146,3.0,0,792.0,153.0,0.25914634146341464,PHL-5613347
+5548731,12,2025-12-10,2026-01-13,,Open,20 Business Days,,1857,test,1,Maintenance Complaint,License & Inspections,19144,20.0,2,564.0,125.0,0.8681626928471248,PHL-5548731
+5639113,2,2026-02-04,2026-02-06,2026-04-10,Closed,2 Business Days,65.0,933,test,1,Rubbish/Recyclable Material Collection,Streets Department,19104,2.0,2,2101.0,371.0,0.22596270283361589,PHL-5639113
+5783885,5,2026-05-18,2026-06-17,,Open,20 Business Days,,2227,test,1,Maintenance Complaint,License & Inspections,19142,20.0,0,633.0,50.0,0.8535837485626677,PHL-5783885
+5611161,1,2026-01-26,2026-01-29,2026-01-27,Closed,3 Business Days,1.0,255,test,0,Salting,Streets Department,19119,3.0,0,792.0,182.0,0.25914634146341464,PHL-5611161
+5358690,7,2025-07-31,2025-08-04,2025-08-04,Closed,2 Business Days,4.0,1679,test,0,Rubbish/Recyclable Material Collection,Streets Department,19141,2.0,3,2296.0,168.0,0.18521787093215664,PHL-5358690
+5363491,8,2025-08-04,2025-08-11,2025-08-06,Closed,5 Business Days,2.0,418,test,0,Illegal Dumping,Streets Department,19144,5.0,0,730.0,191.0,0.12315851502651738,PHL-5363491
+5763644,4,2026-04-30,2026-05-07,2026-05-05,Closed,5 Business Days,5.0,109,test,0,Sanitation Violation,Streets Department,19148,5.0,3,103.0,93.0,0.2124756335282651,PHL-5763644
+5760685,4,2026-04-28,2026-04-30,2026-04-30,Closed,2 Business Days,2.0,174,test,0,Rubbish/Recyclable Material Collection,Streets Department,19138,2.0,1,389.0,71.0,0.09162717219589257,PHL-5760685
+5345113,7,2025-07-23,2025-08-25,2025-08-05,Closed,20 Business Days,13.0,3905,test,0,Maintenance Complaint,License & Inspections,19132,20.0,2,1302.0,283.0,0.8964646464646465,PHL-5345113
+5430918,9,2025-09-16,2025-09-18,2025-09-18,Closed,2 Business Days,2.0,350,test,0,Rubbish/Recyclable Material Collection,Streets Department,19132,2.0,1,516.0,165.0,0.14350143501435014,PHL-5430918
+5614506,1,2026-01-26,2026-01-30,2026-01-30,Closed,3 Business Days,4.0,255,test,0,Salting,Streets Department,19106,3.0,0,792.0,46.0,0.25914634146341464,PHL-5614506
+5337307,7,2025-07-20,2025-10-22,2025-07-28,Closed,60 Business Days,8.0,1170,test,0,Street Defect,Streets Department,19147,60.0,6,450.0,397.0,0.8465991316931982,PHL-5337307
+5329758,7,2025-07-17,2025-07-21,2025-07-21,Closed,2 Business Days,4.0,1393,test,0,Rubbish/Recyclable Material Collection,Streets Department,19151,2.0,3,1153.0,181.0,0.49982059562253317,PHL-5329758
+5603239,1,2026-01-21,2026-01-22,2026-01-22,Closed,1 Business Day,1.0,245,test,0,Shoveling,Streets Department,19115,1.0,2,236.0,85.0,0.8112582781456954,PHL-5603239
+5791557,5,2026-05-26,2026-06-01,2026-06-08,Closed,4 Business Days,13.0,22,test,1,Stop Sign Repair,Streets Department,19125,4.0,1,11.0,40.0,0.5365853658536586,PHL-5791557
+5506586,11,2025-11-06,2026-05-18,,Open,120 Business Days,,108,test,1,Parks and Rec Safety and Maintenance,Parks & Recreation,19146,120.0,3,36.0,156.0,0.7397260273972602,PHL-5506586
+5776858,5,2026-05-11,2026-07-23,2026-05-12,Closed,45 Business Days,1.0,582,test,0,Street Defect,Streets Department,19104,45.0,0,246.0,78.0,0.5527065527065527,PHL-5776858
+5753609,4,2026-04-22,2026-06-01,2026-04-24,Closed,25 Business Days,2.0,20,test,0,Right of Way Unit,Streets Department,19136,25.0,2,26.0,38.0,0.28169014084507044,PHL-5753609
+5468421,10,2025-10-13,2025-10-21,2025-11-07,Closed,5 Business Days,25.0,285,test,1,Illegal Dumping,Streets Department,19134,5.0,0,374.0,210.0,0.20848573518653987,PHL-5468421
+5463839,10,2025-10-08,2026-01-28,2025-11-26,Closed,70 Business Days,49.0,3058,test,0,Maintenance Complaint,Community Life Improvement Program,19122,70.0,2,593.0,75.0,0.8449848024316109,PHL-5463839
+5358191,7,2025-07-30,2025-09-01,2025-09-13,Closed,20 Business Days,45.0,3902,test,1,Maintenance Complaint,License & Inspections,19135,20.0,2,1250.0,144.0,0.8719553072625699,PHL-5358191
+5404136,8,2025-08-28,2025-09-30,2025-10-03,Closed,20 Business Days,36.0,4593,test,1,Maintenance Complaint,License & Inspections,19120,20.0,3,1091.0,188.0,0.8556259314456036,PHL-5404136
+5782463,5,2026-05-15,2026-05-25,2026-05-19,Closed,5 Business Days,4.0,99,test,0,Illegal Dumping,Streets Department,19129,5.0,4,201.0,13.0,0.10831509846827134,PHL-5782463
+5540053,12,2025-12-04,2025-12-11,2025-12-10,Closed,5 Business Days,6.0,58,test,0,Dangerous Sidewalk,Streets Department,19154,5.0,3,31.0,41.0,0.3036649214659686,PHL-5540053
+5735515,4,2026-04-09,2026-04-17,2026-04-14,Closed,5 Business Days,5.0,126,test,0,Illegal Dumping,Streets Department,19139,5.0,3,183.0,105.0,0.11170212765957446,PHL-5735515
+5632292,2,2026-02-02,2026-02-03,2026-02-09,Closed,1 Business Day,7.0,1622,test,1,Shoveling,Streets Department,19125,1.0,0,2405.0,522.0,0.5637817170663886,PHL-5632292
+5621068,1,2026-01-28,2026-02-02,2026-02-01,Closed,3 Business Days,4.0,5322,test,0,Salting,Streets Department,19146,3.0,2,6208.0,664.0,0.7882109004739336,PHL-5621068
+5821270,6,2026-06-17,2026-06-23,2026-06-22,Closed,30 Business Days,5.0,250,test,0,Rubbish/Recyclable Material Collection,Streets Department,19107,30.0,2,610.0,24.0,0.1137915339098771,PHL-5821270
+5746161,4,2026-04-16,2026-04-20,2026-04-17,Closed,2 Business Days,1.0,336,test,0,Rubbish/Recyclable Material Collection,Streets Department,19133,2.0,3,532.0,73.0,0.14111717765644688,PHL-5746161
+5535693,12,2025-12-01,2025-12-10,2025-12-04,Closed,6 Business Days,3.0,229,test,0,Graffiti Removal,Community Life Improvement Program,19125,6.0,0,153.0,98.0,0.3013157894736842,PHL-5535693
+5713694,3,2026-03-23,2026-05-08,,Open,30 Business Days,,65,test,1,Alley Light Outage,Streets Department,19121,30.0,0,21.0,99.0,0.9701492537313433,PHL-5713694
+5472193,10,2025-10-15,2025-10-23,2025-10-18,Closed,5 Business Days,3.0,361,test,0,Illegal Dumping,Streets Department,19132,5.0,2,369.0,106.0,0.2452445652173913,PHL-5472193
+5551874,12,2025-12-12,2025-12-16,2025-12-12,Closed,,0.0,211,test,0,Rubbish/Recyclable Material Collection,Streets Department,19139,,4,421.0,136.0,0.09934086629001883,PHL-5551874
+5540423,12,2025-12-04,2026-01-06,,Open,20 Business Days,,1875,test,1,Maintenance Complaint,License & Inspections,19133,20.0,3,378.0,63.0,0.872093023255814,PHL-5540423
+5764632,4,2026-04-30,2026-05-18,2026-06-10,Closed,10 Business Days,41.0,134,test,1,Street Light Outage,Streets Department,19124,10.0,3,58.0,110.0,0.5851528384279476,PHL-5764632
+5831650,6,2026-06-26,2026-07-30,,Open,20 Business Days,,2981,test,1,Maintenance Complaint,License & Inspections,19125,20.0,4,713.0,47.0,0.8633072690414133,PHL-5831650
+5390373,8,2025-08-20,2025-08-22,2025-08-22,Closed,2 Business Days,2.0,536,test,0,Rubbish/Recyclable Material Collection,Streets Department,19140,2.0,2,812.0,253.0,0.07198495836690841,PHL-5390373
+5832653,6,2026-06-27,2027-01-07,2026-08-12,Closed,120 Business Days,46.0,2949,test,0,Maintenance Complaint,Community Life Improvement Program,19139,120.0,5,806.0,200.0,0.8683745583038869,PHL-5832653
+5460757,10,2025-10-07,2025-10-10,2025-12-08,Closed,3 Business Days,62.0,549,test,1,Street Defect,Streets Department,19143,3.0,1,158.0,211.0,0.5915948275862069,PHL-5460757
+5503959,11,2025-11-05,2025-11-11,2025-11-07,Closed,3 Business Days,2.0,10,test,0,Dumpster Violation,Streets Department,19107,3.0,2,7.0,73.0,0.20408163265306123,PHL-5503959
+5682735,2,2026-02-27,2026-05-11,2026-06-18,Closed,45 Business Days,111.0,582,test,1,Street Defect,Streets Department,19134,45.0,4,340.0,122.0,0.5617760617760618,PHL-5682735
+5688432,3,2026-03-04,2026-04-21,,Open,30 Business Days,,44,test,1,Alley Light Outage,Streets Department,19140,30.0,2,15.0,169.0,0.9777777777777777,PHL-5688432
+5766564,5,2026-05-01,2026-05-06,2026-05-05,Closed,2 Business Days,4.0,199,test,0,Rubbish/Recyclable Material Collection,Streets Department,19141,2.0,4,417.0,102.0,0.10096397767630644,PHL-5766564
+5514056,11,2025-11-13,2025-11-20,2025-11-15,Closed,5 Business Days,2.0,164,test,0,Illegal Dumping,Streets Department,19142,5.0,3,249.0,66.0,0.07592592592592592,PHL-5514056
+5320287,7,2025-07-11,2025-10-30,2025-08-25,Closed,70 Business Days,45.0,3673,test,0,Maintenance Complaint,Community Life Improvement Program,19140,70.0,4,625.0,103.0,0.9256552419354839,PHL-5320287
+5603966,1,2026-01-21,2026-01-22,2026-01-23,Closed,1 Business Day,2.0,245,test,1,Shoveling,Streets Department,19129,1.0,2,236.0,31.0,0.8112582781456954,PHL-5603966
+5597280,1,2026-01-16,2026-02-02,2026-01-21,Closed,10 Business Days,5.0,130,test,0,Construction Complaints,License & Inspections,19140,10.0,4,72.0,167.0,0.4529616724738676,PHL-5597280
+5355120,7,2025-07-29,2025-08-06,2025-07-31,Closed,5 Business Days,2.0,400,test,0,Illegal Dumping,Streets Department,19142,5.0,1,761.0,110.0,0.12198841110094541,PHL-5355120
+5351297,7,2025-07-26,2025-07-30,2025-08-12,Closed,2 Business Days,17.0,2802,test,1,Rubbish/Recyclable Material Collection,Streets Department,19137,2.0,5,4790.0,75.0,0.3135280295401141,PHL-5351297
+5641595,2,2026-02-04,2026-02-09,2026-02-06,Closed,2 Business Days,2.0,933,test,0,Rubbish/Recyclable Material Collection,Streets Department,19146,2.0,2,2101.0,983.0,0.22596270283361589,PHL-5641595
+5814217,6,2026-06-12,2026-06-16,2026-06-20,Closed,2 Business Days,8.0,316,test,1,Rubbish/Recyclable Material Collection,Streets Department,19141,2.0,4,605.0,101.0,0.15054787994282992,PHL-5814217
+5435668,9,2025-09-19,2025-09-24,2025-09-22,Closed,3 Business Days,3.0,19,test,0,Dead Animal in Street,Streets Department,19132,3.0,4,21.0,154.0,0.1792452830188679,PHL-5435668
+5437217,9,2025-09-19,2026-02-11,2026-07-24,Closed,90 Business Days,308.0,166,test,1,Smoke Detector,Fire Department,19148,90.0,4,46.0,135.0,0.9120879120879121,PHL-5437217
+5719786,3,2026-03-27,2026-04-01,2026-03-28,Closed,3 Business Days,1.0,10,test,0,Inlet Cleaning,Water Department (PWD),19111,3.0,4,34.0,57.0,0.07042253521126761,PHL-5719786
+5746868,4,2026-04-17,2026-05-11,2026-04-17,Closed,15 Business Days,0.0,93,test,0,Street Trees,Parks & Recreation,19145,15.0,4,53.0,92.0,0.4946808510638298,PHL-5746868
+5322266,7,2025-07-14,2025-08-13,2025-07-25,Closed,20 Business Days,11.0,3394,test,0,Maintenance Complaint,License & Inspections,19138,20.0,0,840.0,84.0,0.9367927132210875,PHL-5322266
+5627038,1,2026-01-29,2026-02-04,2026-02-02,Closed,3 Business Days,4.0,5410,test,0,Salting,Streets Department,19125,3.0,3,7959.0,415.0,0.6274646253769427,PHL-5627038
+5415413,9,2025-09-05,2025-10-15,2025-09-08,Closed,25 Business Days,3.0,52,test,0,Right of Way Unit,Streets Department,19115,25.0,4,30.0,55.0,0.4094488188976378,PHL-5415413
+5341227,7,2025-07-22,2025-08-14,2025-07-22,Closed,15 Business Days,0.0,441,test,0,Street Trees,Parks & Recreation,19126,15.0,1,157.0,131.0,0.48783185840707965,PHL-5341227
+5309092,7,2025-07-02,2025-07-09,2025-07-14,Closed,5 Business Days,12.0,432,test,1,Illegal Dumping,Streets Department,19107,5.0,2,469.0,82.0,0.2161080540270135,PHL-5309092
+5319745,7,2025-07-11,2025-07-28,2025-07-29,Closed,10 Business Days,18.0,498,test,1,Street Light Outage,Streets Department,19116,10.0,4,96.0,67.0,0.8845470692717584,PHL-5319745
+5356035,7,2025-07-29,2026-02-05,2025-08-01,Closed,120 Business Days,3.0,3768,test,0,Maintenance Complaint,Community Life Improvement Program,19140,120.0,1,1259.0,331.0,0.8801681850035038,PHL-5356035
+5631405,1,2026-01-31,2026-02-05,2026-02-05,Closed,3 Business Days,5.0,4150,test,0,Salting,Streets Department,19107,3.0,5,9847.0,148.0,0.39332764666856224,PHL-5631405
+5775362,5,2026-05-08,2026-08-14,,Open,60 Business Days,,165,test,1,Traffic (Other),Streets Department,19141,60.0,4,52.0,79.0,0.6547619047619048,PHL-5775362
+5690389,3,2026-03-05,2026-03-13,2026-03-09,Closed,5 Business Days,4.0,207,test,0,Illegal Dumping,Streets Department,19119,5.0,3,306.0,69.0,0.20474777448071216,PHL-5690389
+5334450,7,2025-07-18,2025-07-22,2025-07-19,Closed,2 Business Days,1.0,2096,test,0,Rubbish/Recyclable Material Collection,Streets Department,19138,2.0,4,2221.0,248.0,0.5654167790666307,PHL-5334450
+5420373,9,2025-09-10,2025-09-17,2025-09-16,Closed,5 Business Days,6.0,138,test,0,Sanitation Violation,Streets Department,19134,5.0,2,134.0,211.0,0.17783505154639176,PHL-5420373
+5793975,5,2026-05-27,2026-05-29,2026-05-28,Closed,2 Business Days,1.0,195,test,0,Rubbish/Recyclable Material Collection,Streets Department,19149,2.0,2,422.0,53.0,0.10821309655937847,PHL-5793975
+5553364,12,2025-12-15,2025-12-18,2025-12-17,Closed,3 Business Days,2.0,32,test,0,Salting,Streets Department,19128,3.0,0,34.0,68.0,0.9142857142857143,PHL-5553364
+5694726,3,2026-03-09,2026-03-17,2026-03-18,Closed,5 Business Days,9.0,37,test,1,Dangerous Sidewalk,Streets Department,19124,5.0,0,32.0,144.0,0.45121951219512196,PHL-5694726
+5779724,5,2026-05-13,2026-06-15,2026-08-10,Closed,20 Business Days,89.0,2476,test,1,Maintenance Complaint,License & Inspections,19140,20.0,2,618.0,144.0,0.8639218422889045,PHL-5779724
+5725109,3,2026-03-31,2026-06-10,2026-04-23,Closed,45 Business Days,23.0,840,test,0,Street Defect,Streets Department,19124,45.0,1,331.0,122.0,0.48667439165701043,PHL-5725109
+5567753,12,2025-12-24,2026-01-09,2026-01-09,Closed,10 Business Days,16.0,391,test,0,Street Light Outage,Streets Department,19143,10.0,2,148.0,214.0,0.6982142857142857,PHL-5567753
+5808791,6,2026-06-09,2026-06-11,2026-06-12,Closed,2 Business Days,3.0,207,test,1,Rubbish/Recyclable Material Collection,Streets Department,19131,2.0,1,490.0,145.0,0.11342465753424658,PHL-5808791
+5392714,8,2025-08-21,2025-09-22,2026-05-14,Closed,20 Business Days,266.0,4678,test,1,Maintenance Complaint,License & Inspections,19104,20.0,3,1139.0,153.0,0.8450144508670521,PHL-5392714
+5385472,8,2025-08-16,2025-08-25,2025-08-20,Closed,5 Business Days,4.0,415,test,0,Illegal Dumping,Streets Department,19134,5.0,5,672.0,283.0,0.12556732223903178,PHL-5385472
+5588387,1,2026-01-09,2026-02-11,2026-04-25,Closed,20 Business Days,106.0,1722,test,1,Maintenance Complaint,License & Inspections,19121,20.0,4,595.0,124.0,0.8741116751269036,PHL-5588387
+5743878,4,2026-04-15,2026-05-18,,Open,20 Business Days,,1882,test,1,Maintenance Complaint,License & Inspections,19114,20.0,2,571.0,34.0,0.8652873563218391,PHL-5743878
+5321142,7,2025-07-14,2025-07-21,2025-07-18,Closed,5 Business Days,4.0,1245,test,0,Illegal Dumping,Streets Department,19145,5.0,0,804.0,116.0,0.5575459023734886,PHL-5321142
+5633964,2,2026-02-02,2026-02-05,2026-02-05,Closed,3 Business Days,3.0,2353,test,0,Salting,Streets Department,19120,3.0,0,9912.0,484.0,0.21799147674634056,PHL-5633964
+5527170,11,2025-11-21,2025-12-01,2025-11-26,Closed,5 Business Days,5.0,279,test,0,Illegal Dumping,Streets Department,19120,5.0,4,545.0,161.0,0.1498388829215897,PHL-5527170
+5514725,11,2025-11-13,2025-11-28,2025-11-15,Closed,10 Business Days,2.0,260,test,0,Construction Complaints,License & Inspections,19134,10.0,3,96.0,163.0,0.4797047970479705,PHL-5514725
+5819605,6,2026-06-17,2026-06-25,2026-06-20,Closed,5 Business Days,3.0,96,test,0,Illegal Dumping,Streets Department,19123,5.0,2,220.0,28.0,0.1016949152542373,PHL-5819605
+5508535,11,2025-11-07,2025-11-12,2025-11-14,Closed,2 Business Days,7.0,319,test,1,Rubbish/Recyclable Material Collection,Streets Department,19122,2.0,4,509.0,68.0,0.15032987747408105,PHL-5508535
+5624301,1,2026-01-28,2026-02-03,2026-01-31,Closed,3 Business Days,3.0,5322,test,0,Salting,Streets Department,19139,3.0,2,6208.0,270.0,0.7882109004739336,PHL-5624301
+5694542,3,2026-03-09,2026-05-19,2026-03-11,Closed,45 Business Days,2.0,747,test,0,Street Defect,Streets Department,19143,45.0,0,474.0,198.0,0.5385724585436193,PHL-5694542
+5610601,1,2026-01-26,2026-01-29,2026-01-29,Closed,3 Business Days,3.0,255,test,0,Salting,Streets Department,19124,3.0,0,792.0,155.0,0.25914634146341464,PHL-5610601
+5482460,10,2025-10-22,2025-11-14,2025-10-27,Closed,15 Business Days,5.0,74,test,0,Street Trees,Parks & Recreation,19104,15.0,2,85.0,231.0,0.23197492163009403,PHL-5482460
+5618956,1,2026-01-27,2026-02-02,2026-01-29,Closed,3 Business Days,2.0,2836,test,0,Salting,Streets Department,19120,3.0,1,3164.0,183.0,0.8002257336343115,PHL-5618956
+5579477,1,2026-01-05,2026-01-07,2026-01-07,Closed,2 Business Days,2.0,231,test,0,Rubbish/Recyclable Material Collection,Streets Department,19111,2.0,0,445.0,77.0,0.10824742268041238,PHL-5579477
+5522632,11,2025-11-19,2026-02-23,2026-01-12,Closed,60 Business Days,54.0,238,test,0,Traffic (Other),Streets Department,19106,60.0,2,68.0,40.0,0.6918604651162791,PHL-5522632
+5368853,8,2025-08-06,2025-08-14,2025-08-12,Closed,5 Business Days,6.0,264,test,0,Sanitation Violation,Streets Department,19131,5.0,2,239.0,236.0,0.36213991769547327,PHL-5368853
+5439442,9,2025-09-22,2025-10-01,2025-09-25,Closed,6 Business Days,3.0,141,test,0,Graffiti Removal,Community Life Improvement Program,19134,6.0,0,173.0,221.0,0.19054054054054054,PHL-5439442
+5561459,12,2025-12-19,2026-06-29,,Open,120 Business Days,,1742,test,1,Abandoned Vehicle,Police Department,19111,120.0,4,342.0,108.0,0.9858517260894171,PHL-5561459
+5565460,12,2025-12-22,2026-01-23,2026-07-14,Closed,20 Business Days,204.0,1660,test,1,Maintenance Complaint,License & Inspections,19128,20.0,0,463.0,495.0,0.8512820512820513,PHL-5565460
+5611429,1,2026-01-26,2026-01-29,2026-01-30,Closed,3 Business Days,4.0,255,test,1,Salting,Streets Department,19147,3.0,0,792.0,136.0,0.25914634146341464,PHL-5611429
+5783150,5,2026-05-15,2026-05-20,2026-05-20,Closed,2 Business Days,5.0,208,test,0,Rubbish/Recyclable Material Collection,Streets Department,19147,2.0,4,394.0,63.0,0.1108151305274374,PHL-5783150
+5336925,7,2025-07-20,2025-07-23,2025-07-21,Closed,2 Business Days,1.0,2876,test,0,Rubbish/Recyclable Material Collection,Streets Department,19147,2.0,6,3835.0,397.0,0.5569326103795508,PHL-5336925
+5751898,4,2026-04-21,2026-05-22,,Open,20 Business Days,,1884,test,1,Maintenance Complaint,License & Inspections,19131,20.0,1,620.0,125.0,0.8654111162149747,PHL-5751898
+5434170,9,2025-09-18,2026-03-27,,Open,120 Business Days,,2487,test,1,Abandoned Vehicle,Police Department,19148,120.0,3,587.0,133.0,0.9904420549581839,PHL-5434170
+5554568,12,2025-12-15,2026-05-07,2026-04-24,Closed,90 Business Days,130.0,655,test,0,Smoke Detector,Fire Department,19133,90.0,0,98.0,67.0,0.9604105571847508,PHL-5554568
+5603961,1,2026-01-21,2026-01-29,,Open,5 Business Days,,1,test,1,Other,Fire Department,19132,5.0,2,0.0,103.0,0.5,PHL-5603961
+5485731,10,2025-10-24,2026-05-04,,Open,120 Business Days,,2391,test,1,Abandoned Vehicle,Police Department,19152,120.0,4,543.0,55.0,0.9970809007506255,PHL-5485731
+5313540,7,2025-07-08,2026-01-15,,Open,120 Business Days,,2105,test,1,Abandoned Vehicle,Police Department,19148,120.0,1,275.0,99.0,0.9924563884959925,PHL-5313540
+5364868,8,2025-08-04,2025-08-12,2025-08-06,Closed,5 Business Days,2.0,418,test,0,Illegal Dumping,Streets Department,19139,5.0,0,730.0,248.0,0.12315851502651738,PHL-5364868
+5751262,4,2026-04-21,2026-05-01,2026-05-29,Closed,7 Business Days,38.0,87,test,1,Other,Office of Information & Technology,19144,7.0,1,16.0,114.0,0.9886363636363636,PHL-5751262
+5625147,1,2026-01-29,2026-02-03,2026-01-29,Closed,3 Business Days,0.0,5410,test,0,Salting,Streets Department,19144,3.0,3,7959.0,354.0,0.6274646253769427,PHL-5625147
+5432919,9,2025-09-17,2025-10-20,2025-09-30,Closed,20 Business Days,13.0,3594,test,0,Maintenance Complaint,License & Inspections,19107,20.0,2,888.0,90.0,0.800623746936957,PHL-5432919
+5723800,3,2026-03-31,2026-04-30,,Open,20 Business Days,,1822,test,1,Maintenance Complaint,License & Inspections,19146,20.0,1,478.0,86.0,0.8651471984805318,PHL-5723800
+5417363,9,2025-09-08,2025-12-11,2025-09-10,Closed,60 Business Days,2.0,142,test,0,Traffic (Other),Streets Department,19143,60.0,0,61.0,262.0,0.6826923076923077,PHL-5417363
+5386175,8,2025-08-18,2025-10-27,2025-08-29,Closed,45 Business Days,11.0,929,test,0,Street Defect,Streets Department,19154,45.0,0,266.0,72.0,0.6907063197026022,PHL-5386175
+5665420,2,2026-02-18,2026-08-31,,Open,120 Business Days,,1293,test,1,Abandoned Vehicle,Police Department,19120,120.0,2,246.0,121.0,0.9870229007633587,PHL-5665420
+5643728,2,2026-02-05,2026-03-10,,Open,20 Business Days,,2055,test,1,Maintenance Complaint,License & Inspections,19132,20.0,3,566.0,214.0,0.902107111501317,PHL-5643728
+5545207,12,2025-12-08,2026-06-16,,Open,120 Business Days,,1752,test,1,Abandoned Vehicle,Police Department,19148,120.0,0,471.0,158.0,0.9837170129140932,PHL-5545207
+5413958,9,2025-09-05,2025-09-10,2025-09-09,Closed,3 Business Days,4.0,694,test,0,Street Defect,Streets Department,19124,3.0,4,210.0,176.0,0.6185383244206774,PHL-5413958
+5415003,9,2025-09-05,2025-09-22,2025-09-07,Closed,10 Business Days,2.0,280,test,0,Construction Complaints,License & Inspections,19141,10.0,4,118.0,95.0,0.4835924006908463,PHL-5415003
+5742775,4,2026-04-14,2026-04-16,2026-04-15,Closed,1 Business Days,1.0,0,test,0,Homeless Encampment Request,Office of Homeless Services,19123,1.0,1,5.0,45.0,0.0,PHL-5742775
+5429501,9,2025-09-16,2026-03-25,2025-10-21,Closed,120 Business Days,35.0,3461,test,0,Maintenance Complaint,Community Life Improvement Program,19134,120.0,1,868.0,249.0,0.7996765249537893,PHL-5429501
+5311920,7,2025-07-07,2025-07-14,2025-07-16,Closed,5 Business Days,9.0,764,test,1,Illegal Dumping,Streets Department,19148,5.0,0,526.0,111.0,0.39503619441571874,PHL-5311920
+5435452,9,2025-09-18,2026-03-30,,Open,120 Business Days,,2487,test,1,Abandoned Vehicle,Police Department,19150,120.0,3,587.0,44.0,0.9904420549581839,PHL-5435452
+5684193,3,2026-03-02,2026-03-05,2026-03-13,Closed,3 Business Days,11.0,590,test,1,Street Defect,Streets Department,19124,3.0,0,348.0,86.0,0.5373406193078324,PHL-5684193
+5624190,1,2026-01-28,2026-02-03,2026-02-02,Closed,3 Business Days,5.0,5322,test,0,Salting,Streets Department,19130,3.0,2,6208.0,320.0,0.7882109004739336,PHL-5624190
+5740837,4,2026-04-14,2026-05-14,,Open,20 Business Days,,1787,test,1,Maintenance Complaint,License & Inspections,19139,20.0,1,532.0,152.0,0.8683187560738581,PHL-5740837
+5673234,2,2026-02-24,2026-03-11,2026-04-03,Closed,10 Business Days,38.0,83,test,1,Construction Complaints,License & Inspections,19143,10.0,1,66.0,158.0,0.4213197969543147,PHL-5673234
+5767348,5,2026-05-04,2026-05-11,2026-05-06,Closed,5 Business Days,2.0,279,test,0,Other (Streets),Streets Department,19146,5.0,0,180.0,83.0,0.38376891334250346,PHL-5767348
+5358985,7,2025-07-31,2025-08-07,2025-08-01,Closed,5 Business Days,1.0,242,test,0,Other (Streets),Streets Department,19151,5.0,3,121.0,209.0,0.48303393213572854,PHL-5358985
+5608781,1,2026-01-24,2026-01-29,2026-01-29,Closed,3 Business Days,5.0,10,test,0,Dead Animal in Street,Streets Department,19143,3.0,5,16.0,153.0,0.11904761904761904,PHL-5608781
+5615226,1,2026-01-27,2026-01-30,2026-01-31,Closed,3 Business Days,4.0,2836,test,1,Salting,Streets Department,19147,3.0,1,3164.0,280.0,0.8002257336343115,PHL-5615226
+5828682,6,2026-06-24,2026-07-28,,Open,20 Business Days,,2864,test,1,Maintenance Complaint,License & Inspections,19139,20.0,2,677.0,110.0,0.8592859285928592,PHL-5828682
+5391549,8,2025-08-20,2025-09-22,2025-10-07,Closed,20 Business Days,48.0,4705,test,1,Maintenance Complaint,License & Inspections,19149,20.0,2,1152.0,96.0,0.8382326741492963,PHL-5391549
+5597157,1,2026-01-16,2026-02-17,,Open,20 Business Days,,1809,test,1,Maintenance Complaint,License & Inspections,19140,20.0,4,602.0,167.0,0.8718072289156626,PHL-5597157
+5455380,10,2025-10-02,2026-04-10,,Open,120 Business Days,,2663,test,1,Abandoned Vehicle,Police Department,19124,120.0,3,623.0,177.0,0.9936567164179104,PHL-5455380
+5553194,12,2025-12-15,2025-12-22,2025-12-17,Closed,5 Business Days,2.0,154,test,0,Illegal Dumping,Streets Department,19139,5.0,0,301.0,144.0,0.10026041666666667,PHL-5553194
+5580490,1,2026-01-06,2026-01-08,2026-01-07,Closed,2 Business Days,1.0,289,test,0,Rubbish/Recyclable Material Collection,Streets Department,19146,2.0,1,419.0,128.0,0.1305919566199729,PHL-5580490
+5338512,7,2025-07-21,2025-07-24,2025-07-24,Closed,3 Business Days,3.0,17,test,0,Dead Animal in Street,Streets Department,19141,3.0,0,10.0,297.0,0.288135593220339,PHL-5338512
+5711048,3,2026-03-20,2026-05-29,2026-05-28,Closed,45 Business Days,69.0,932,test,0,Street Defect,Streets Department,19148,45.0,4,354.0,100.0,0.5180655919955531,PHL-5711048
+5337861,7,2025-07-21,2026-01-28,2026-02-25,Closed,120 Business Days,219.0,2049,test,1,Abandoned Vehicle,Police Department,19133,120.0,0,669.0,154.0,0.9836773883821411,PHL-5337861
+5309274,7,2025-07-02,2025-08-11,2025-07-09,Closed,25 Business Days,7.0,37,test,0,Right of Way Unit,Streets Department,19146,25.0,2,16.0,155.0,0.29838709677419356,PHL-5309274
+5764759,4,2026-04-30,2026-05-08,2026-05-04,Closed,5 Business Days,4.0,93,test,0,Illegal Dumping,Streets Department,19149,5.0,3,195.0,75.0,0.10043196544276457,PHL-5764759
+5459222,10,2025-10-06,2025-11-05,2025-11-01,Closed,20 Business Days,26.0,2869,test,0,Maintenance Complaint,License & Inspections,19124,20.0,0,675.0,141.0,0.848314606741573,PHL-5459222
+5619228,1,2026-01-27,2026-02-02,2026-01-30,Closed,3 Business Days,3.0,2836,test,0,Salting,Streets Department,19145,3.0,1,3164.0,299.0,0.8002257336343115,PHL-5619228
+5517383,11,2025-11-16,2026-05-26,2026-05-12,Closed,120 Business Days,177.0,2125,test,0,Abandoned Vehicle,Police Department,19151,120.0,6,421.0,80.0,0.9985902255639098,PHL-5517383
+5664056,2,2026-02-18,2026-02-25,2026-02-25,Closed,5 Business Days,7.0,343,test,0,Other (Streets),Streets Department,19143,5.0,2,219.0,261.0,0.3048888888888889,PHL-5664056
+5761545,4,2026-04-29,2026-07-10,2026-05-19,Closed,45 Business Days,20.0,727,test,0,Street Defect,Streets Department,19132,45.0,2,275.0,115.0,0.5993404781533388,PHL-5761545
+5339664,7,2025-07-21,2025-08-21,2025-08-30,Closed,20 Business Days,40.0,3623,test,1,Maintenance Complaint,License & Inspections,19135,20.0,0,1371.0,242.0,0.9179123384849253,PHL-5339664
+5587583,1,2026-01-09,2026-01-16,2026-01-14,Closed,5 Business Days,5.0,163,test,0,Illegal Dumping,Streets Department,Missing,5.0,4,411.0,0.0,0.12895569620253164,PHL-5587583
+5395159,8,2025-08-22,2025-09-01,2025-08-26,Closed,5 Business Days,4.0,171,test,0,Sanitation Violation,Streets Department,19140,5.0,4,162.0,239.0,0.19700460829493088,PHL-5395159
+5396457,8,2025-08-25,2025-08-27,2025-08-27,Closed,2 Business Days,2.0,602,test,0,Rubbish/Recyclable Material Collection,Streets Department,19142,2.0,0,672.0,88.0,0.16796875,PHL-5396457
+5556121,12,2025-12-16,2025-12-19,2025-12-16,Closed,3 Business Days,0.0,666,test,0,Salting,Streets Department,19124,3.0,1,774.0,137.0,0.8593548387096774,PHL-5556121
+5835177,6,2026-06-30,2026-07-31,,Open,20 Business Days,,2898,test,1,Maintenance Complaint,License & Inspections,19118,20.0,1,848.0,11.0,0.8747358889224268,PHL-5835177
+5544291,12,2025-12-08,2026-06-16,,Open,120 Business Days,,1752,test,1,Abandoned Vehicle,Police Department,19124,120.0,0,471.0,165.0,0.9837170129140932,PHL-5544291
+5604942,1,2026-01-22,2026-01-29,2026-01-28,Closed,5 Business Days,6.0,210,test,0,Other (Streets),Streets Department,19153,5.0,3,114.0,16.0,0.3811252268602541,PHL-5604942
+5387849,8,2025-08-18,2025-08-22,2025-08-20,Closed,3 Business Days,2.0,24,test,0,Inlet Cleaning,Water Department (PWD),19135,3.0,0,69.0,117.0,0.08759124087591241,PHL-5387849
+5474607,10,2025-10-16,2025-11-18,2026-04-23,Closed,20 Business Days,189.0,2873,test,1,Maintenance Complaint,License & Inspections,19140,20.0,3,619.0,192.0,0.8609529517530716,PHL-5474607
+5746729,4,2026-04-16,2026-04-21,2026-04-24,Closed,2 Business Days,8.0,336,test,1,Rubbish/Recyclable Material Collection,Streets Department,19115,2.0,3,532.0,35.0,0.14111717765644688,PHL-5746729
+5493531,10,2025-10-29,2026-05-08,,Open,120 Business Days,,2380,test,1,Abandoned Vehicle,Police Department,19143,120.0,2,519.0,182.0,0.9966499162479062,PHL-5493531
+5361374,8,2025-08-01,2025-11-04,2025-08-06,Closed,60 Business Days,5.0,62,test,0,Street Paving,Streets Department,19146,60.0,4,32.0,205.0,0.6595744680851063,PHL-5361374
+5582667,1,2026-01-06,2026-03-18,2026-07-28,Closed,45 Business Days,203.0,368,test,1,Street Defect,Streets Department,19133,45.0,1,172.0,59.0,0.4681933842239186,PHL-5582667
+5790259,5,2026-05-22,2026-07-10,2026-05-22,Closed,30 Business Days,0.0,6,test,0,Hydrant Request,Water Department (PWD),19122,30.0,4,9.0,65.0,0.2,PHL-5790259
+5373320,8,2025-08-08,2025-08-13,2025-08-09,Closed,3 Business Days,1.0,16,test,0,Inlet Cleaning,Water Department (PWD),19121,3.0,4,67.0,205.0,0.04878048780487805,PHL-5373320
+5376409,8,2025-08-11,2025-09-11,2026-05-13,Closed,20 Business Days,275.0,4536,test,1,Maintenance Complaint,License & Inspections,19104,20.0,0,1410.0,181.0,0.8431226765799257,PHL-5376409
+5416411,9,2025-09-08,2025-09-09,2025-09-09,Closed,1 Business Days,1.0,5,test,0,Homeless Encampment Request,Office of Homeless Services,19107,1.0,0,25.0,60.0,0.03937007874015748,PHL-5416411
+5337061,7,2025-07-20,2025-07-28,2025-07-24,Closed,5 Business Days,4.0,722,test,0,Illegal Dumping,Streets Department,19122,5.0,6,966.0,162.0,0.25333333333333335,PHL-5337061
+5705413,3,2026-03-17,2026-08-07,2026-04-16,Closed,90 Business Days,30.0,207,test,0,Smoke Detector,Fire Department,19138,90.0,1,44.0,86.0,0.9366515837104072,PHL-5705413

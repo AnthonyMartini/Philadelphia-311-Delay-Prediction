@@ -1,0 +1,139 @@
+{
+  "test_results": {
+    "majority_class": {
+      "roc_auc": 0.5,
+      "pr_auc": 0.4095,
+      "brier": 0.4095,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "flag_rate": 0.0,
+      "precision_top10pct": 0.4395,
+      "delay_rate": 0.4095,
+      "n": 211406
+    },
+    "logistic_regression": {
+      "roc_auc": 0.7507,
+      "pr_auc": 0.6448,
+      "brier": 0.1996,
+      "precision": 0.6365,
+      "recall": 0.6175,
+      "f1": 0.6269,
+      "flag_rate": 0.3973,
+      "precision_top10pct": 0.7354,
+      "delay_rate": 0.4095,
+      "n": 211406
+    },
+    "xgboost": {
+      "roc_auc": 0.7507,
+      "pr_auc": 0.6205,
+      "brier": 0.2027,
+      "precision": 0.6063,
+      "recall": 0.7033,
+      "f1": 0.6512,
+      "flag_rate": 0.475,
+      "precision_top10pct": 0.7107,
+      "delay_rate": 0.4095,
+      "n": 211406
+    },
+    "xgboost_without_zip": {
+      "roc_auc": 0.7394,
+      "pr_auc": 0.6147,
+      "brier": 0.2066,
+      "precision": 0.5889,
+      "recall": 0.6865,
+      "f1": 0.634,
+      "flag_rate": 0.4773,
+      "precision_top10pct": 0.6411,
+      "delay_rate": 0.4095,
+      "n": 211406
+    }
+  },
+  "thresholds_chosen_on_validation": {
+    "logistic_regression": 0.5,
+    "xgboost": 0.5
+  },
+  "subgroups_by_department_test": {
+    "Community Life Improvement Program": {
+      "n": 13805,
+      "delay_rate": 0.1384,
+      "flag_rate": 0.0068,
+      "roc_auc": 0.4884,
+      "recall": 0.0084,
+      "precision": 0.1702
+    },
+    "Fire Department": {
+      "n": 3126,
+      "delay_rate": 0.4277,
+      "flag_rate": 0.9731,
+      "roc_auc": 0.5381,
+      "recall": 0.9529,
+      "precision": 0.4188
+    },
+    "License & Inspections": {
+      "n": 35345,
+      "delay_rate": 0.6899,
+      "flag_rate": 0.8694,
+      "roc_auc": 0.6777,
+      "recall": 0.9306,
+      "precision": 0.7384
+    },
+    "Parks & Recreation": {
+      "n": 5156,
+      "delay_rate": 0.327,
+      "flag_rate": 0.5745,
+      "roc_auc": 0.7424,
+      "recall": 0.8286,
+      "precision": 0.4716
+    },
+    "Police Department": {
+      "n": 18113,
+      "delay_rate": 0.7513,
+      "flag_rate": 0.6685,
+      "roc_auc": 0.5765,
+      "recall": 0.6942,
+      "precision": 0.7801
+    },
+    "Streets Department": {
+      "n": 131170,
+      "delay_rate": 0.3278,
+      "flag_rate": 0.3903,
+      "roc_auc": 0.7088,
+      "recall": 0.6018,
+      "precision": 0.5054
+    },
+    "Water Department (PWD)": {
+      "n": 2781,
+      "delay_rate": 0.0949,
+      "flag_rate": 0.0,
+      "roc_auc": 0.5625,
+      "recall": 0.0,
+      "precision": 0.0
+    }
+  },
+  "global_mean_abs_shap": {
+    "backlog_share": 0.6732000112533569,
+    "service_name": 0.49320000410079956,
+    "sla_business_days": 0.3273000121116638,
+    "zipcode": 0.24619999527931213,
+    "agency_responsible": 0.12710000574588776,
+    "prior_7d_service_volume": 0.08659999817609787,
+    "prior_7d_zip_volume": 0.029600000008940697,
+    "day_of_week": 0.016499999910593033
+  },
+  "shap_additivity_max_gap": 3.337860107421875e-06,
+  "train_seconds": 24.8,
+  "train_period": [
+    "2023-01-01",
+    "2024-12-31"
+  ],
+  "val_period": [
+    "2025-01-01",
+    "2025-06-30"
+  ],
+  "test_period": [
+    "2025-07-01",
+    "2026-06-30"
+  ],
+  "best_iteration": 134
+}

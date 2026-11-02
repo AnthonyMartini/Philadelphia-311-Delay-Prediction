@@ -1,0 +1,43 @@
+{
+  "rows_total": 5957830,
+  "requested_range": [
+    "2014-01-01",
+    "2026-10-04"
+  ],
+  "snapshot_date": "2026-10-04",
+  "missing_rate": {
+    "objectid": 0.0,
+    "status": 0.0,
+    "service_name": 0.0,
+    "agency_responsible": 0.0002,
+    "service_notice": 0.6117,
+    "requested_datetime": 0.0,
+    "updated_datetime": 0.0,
+    "expected_datetime": 0.6168,
+    "zipcode": 0.5697,
+    "closed_datetime": 0.0165
+  },
+  "rows_with_expected_date": 2282950,
+  "share_information_requests": 0.5622,
+  "negative_expected_window_rows": 819,
+  "closed_before_requested_rows": 0,
+  "status_counts": {
+    "Closed": 5859258,
+    "Open": 98572
+  },
+  "date_granularity": "day (no time of day in this export)",
+  "model_rows": 753736,
+  "censored_rows_dropped": 3575,
+  "split_rows": {
+    "train": 435464,
+    "test": 211406,
+    "val": 106866
+  },
+  "delay_rate_by_split": {
+    "test": 0.4095,
+    "train": 0.4824,
+    "val": 0.4631
+  },
+  "n_service_categories": 35,
+  "n_zip_categories": 58
+}
