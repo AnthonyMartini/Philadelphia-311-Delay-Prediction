@@ -85,8 +85,13 @@ class PredictionService:
             ))
         return results
 
-    def historical_tickets(self):
-        return [self._record(row) for _, row in self.reference_tickets().iterrows()]
+    def historical_tickets(self, status="all"):
+        reference = self.reference_tickets()
+        if status == "open":
+            reference = reference[reference["status"] != "Closed"]
+        elif status == "closed":
+            reference = reference[reference["status"] == "Closed"]
+        return [self._record(row) for _, row in reference.iterrows()]
 
     @staticmethod
     def _record(row, source="training_reference"):

@@ -46,7 +46,8 @@ origin to the backend's `PHL311_CORS_ORIGINS` when the browser calls the backend
 
 ## How the connection works
 
-The interface loads `/api/v1/tickets`, then batch-scores prepared intake features. Validation errors
+The interface loads one paginated `/api/v1/tickets` page at a time, then batch-scores only that
+page's prepared intake features. Validation errors
 are attached to the affected records and valid records are retried. Queue filters use the returned
 risk bands, and probabilities are rounded only for display. Explanations and similar records load
 when their screens open and are cached for the session. "Reload tickets" refreshes records and

@@ -59,21 +59,14 @@ export function createApiClient({ baseUrl = '', fetchImpl = globalThis.fetch, ti
   const getPrediction = (id, options) => request(`/tickets/${encodeURIComponent(id)}/prediction`, options);
   const getSimilar = (id, options) => request(`/tickets/${encodeURIComponent(id)}/similar`, options);
 
-  async function getTickets(options) {
-    const records = [];
-    let total;
-    do {
-      const page = await request(`/tickets?limit=400&offset=${records.length}`, options);
-      if (!Array.isArray(page.tickets) || !Number.isInteger(page.total) || page.total < records.length) {
-        throw new ApiError('The ticket list returned by the service is incomplete. Please retry.');
-      }
-      total = page.total;
-      if (!page.tickets.length && records.length < total) {
-        throw new ApiError('The service returned an incomplete ticket list. Please retry.');
-      }
-      records.push(...page.tickets);
-    } while (records.length < total);
-    return records;
+  async function getTickets({ page = 0, pageSize = 25, status = 'open', signal } = {}) {
+    const offset = page * pageSize;
+    const result = await request(`/tickets?limit=${pageSize}&offset=${offset}&status=${status}`, { signal });
+    if (!Array.isArray(result.tickets) || !Number.isInteger(result.total) || result.total < 0
+        || result.tickets.length > pageSize || offset > result.total && result.tickets.length) {
+      throw new ApiError('The ticket list returned by the service is incomplete. Please retry.');
+    }
+    return result;
   }
 
   async function scoreTickets(tickets, { signal } = {}) {

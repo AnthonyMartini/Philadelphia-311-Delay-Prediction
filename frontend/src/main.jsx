@@ -60,18 +60,17 @@ function TicketFields({ ticket, closed = false }) {
   ]} />;
 }
 
-function TicketList({ tickets, scoring, closed, go }) {
+function TicketList({ tickets, total, page, setPage, scoring, closed, go }) {
   const [search, setSearch] = useState('');
   const [band, setBand] = useState('all');
   const [sort, setSort] = useState('risk');
-  const [page, setPage] = useState(0);
   useEffect(() => setPage(0), [search, band, sort, closed]);
   const collection = tickets.filter((ticket) => closed ? ticket.status === 'Closed' : ticket.status !== 'Closed');
   const rows = filterTickets(tickets, { search, band, sort, closed });
-  const currentPage = Math.min(page, Math.max(0, Math.ceil(rows.length / 25) - 1));
-  const visible = rows.slice(currentPage * 25, (currentPage + 1) * 25);
+  const currentPage = page;
+  const visible = rows;
   const metrics = [
-    ['Requests', collection.length],
+    ['Requests', total],
     ['Requests at Risk', collection.filter((ticket) => ['High', 'Elevated'].includes(ticket.prediction?.risk_band)).length],
     ['Requests Needing Data Review', collection.filter((ticket) => ticket.scoreStatus === 'invalid').length],
   ];
@@ -106,9 +105,9 @@ function TicketList({ tickets, scoring, closed, go }) {
           <td><Risk ticket={ticket} /></td><td className="right"><button className="textbtn" onClick={() => go('ticket', ticket)}>Review →</button></td>
         </tr>)}</tbody></table></div>
       {!rows.length && <div className="empty"><h2>No matching requests</h2><p className="muted small">Try another search or risk filter.</p></div>}
-      <div className="tablefoot"><span>Showing {rows.length ? currentPage * 25 + 1 : 0}–{Math.min((currentPage + 1) * 25, rows.length)} of {rows.length} matching requests</span>
+      <div className="tablefoot"><span>Showing {rows.length ? currentPage * 25 + 1 : 0}–{currentPage * 25 + rows.length} of {total} matching requests</span>
         <div className="actions"><Button disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>Previous</Button>
-          <Button disabled={(currentPage + 1) * 25 >= rows.length} onClick={() => setPage(currentPage + 1)}>Next</Button></div>
+          <Button disabled={(currentPage + 1) * 25 >= total} onClick={() => setPage(currentPage + 1)}>Next</Button></div>
       </div>
     </section>
   </>;
@@ -262,7 +261,7 @@ function ActionLog({ logs, exportLog, go }) {
 }
 
 function App() {
-  const data = useTickets(api);
+  const data = useTickets(api, route.page === 'closed');
   const [route, setRoute] = useState(readRoute);
   const [logs, setLogs] = useState([]);
   const [message, setMessage] = useState('');
@@ -314,7 +313,8 @@ function App() {
     <div className="actions score-progress"><Button primary onClick={() => go('queue')}>Return to review queue</Button><Button onClick={() => go('log')}>View action log</Button></div></section>;
   else if (data.loading) content = <Loading />;
   else if (data.error && !data.tickets.length) content = <Failure title="Tickets could not be loaded" message={data.error} retry={data.reload} />;
-  else if (page === 'queue' || page === 'closed') content = <TicketList key={`${page}:${data.revision}`} tickets={data.tickets} scoring={data.scoring} closed={page === 'closed'} go={go} />;
+  else if (page === 'queue' || page === 'closed') content = <TicketList key={`${page}:${data.revision}`} tickets={data.tickets}
+    total={data.total} page={data.page} setPage={data.setPage} scoring={data.scoring} closed={page === 'closed'} go={go} />;
   else if (!selected) content = record.loading ? <Loading>Loading request…</Loading> : <Failure
     title={record.error?.status === 404 || !route.id ? 'Ticket not found' : 'Request unavailable'}
     message={record.error?.message ?? 'This request does not exist in the historical data.'}

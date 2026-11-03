@@ -3,6 +3,7 @@ import os
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
@@ -98,10 +99,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.get("/api/v1/tickets", response_model=DemoTicketPage, tags=["Historical demo"])
     def tickets(limit: int = Query(100, ge=1, le=400), offset: int = Query(0, ge=0),
+                status: Literal["open", "closed", "all"] = Query("all"),
                 service: PredictionService = Depends(get_service)):
         if not service.reference_path.is_file():
             raise HTTPException(status_code=503, detail="Historical reference tickets are not installed")
-        records = service.historical_tickets()
+        records = service.historical_tickets(status)
         return DemoTicketPage(total=len(records), tickets=records[offset:offset + limit])
 
     @app.get("/api/v1/tickets/{request_id}/prediction", response_model=Prediction, tags=["Historical demo"])

@@ -1,31 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
 import { ticketFromRecord, withScores } from './tickets.js';
 
-export function useTickets(api) {
+export function useTickets(api, closed = false) {
   const [revision, setRevision] = useState(0);
-  const [state, setState] = useState({ tickets: [], loading: true, scoring: false, error: '' });
+  const [page, setPage] = useState(0);
+  const [state, setState] = useState({ tickets: [], total: 0, loading: true, scoring: false, error: '' });
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     let tickets = [];
-    setState({ tickets, loading: true, scoring: false, error: '' });
+    setState({ tickets, total: 0, loading: true, scoring: false, error: '' });
     (async () => {
       try {
-        tickets = (await api.getTickets({ signal })).map(ticketFromRecord);
+        const pageResult = await api.getTickets({ page, status: closed ? 'closed' : 'open', signal });
+        tickets = pageResult.tickets.map(ticketFromRecord);
         if (signal.aborted) return;
         setState({ tickets, loading: false, scoring: true, error: '' });
         const scores = await api.scoreTickets(tickets.map((ticket) => ticket.input), { signal });
-        if (!signal.aborted) setState({ tickets: withScores(tickets, scores), loading: false, scoring: false, error: '' });
+        if (!signal.aborted) setState({
+          tickets: withScores(tickets, scores), total: pageResult.total, loading: false, scoring: false, error: '',
+        });
       } catch (error) {
         if (!signal.aborted) setState({
           tickets: tickets.map((ticket) => ({ ...ticket, scoreStatus: 'unavailable' })),
-          loading: false, scoring: false, error: error.message,
+          total: 0, loading: false, scoring: false, error: error.message,
         });
       }
     })();
     return () => controller.abort();
-  }, [api, revision]);
-  return { ...state, revision, reload: () => setRevision((value) => value + 1) };
+  }, [api, closed, page, revision]);
+  return {
+    ...state, page, revision, setPage,
+    reload: () => { setPage(0); setRevision((value) => value + 1); },
+  };
 }
 
 export function useResource(id, loader, revision, enabled = true) {

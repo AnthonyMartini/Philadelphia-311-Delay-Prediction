@@ -61,16 +61,16 @@ test('large batches are split to respect the server limit', async () => {
   assert.equal(result.predictions.size, 1001);
 });
 
-test('ticket loading follows pagination and rejects prematurely empty pages', async () => {
+test('ticket loading requests only the selected page', async () => {
   const urls = [];
   const api = createApiClient({ fetchImpl: async (url) => {
     urls.push(url);
-    return response({ total: 2, tickets: [{ ticket: tickets[urls.length - 1] }] });
+    return response({ total: 80000, tickets: [{ ticket: tickets[0] }] });
   } });
-  assert.equal((await api.getTickets()).length, 2);
-  assert.match(urls[1], /offset=1$/);
-  const incomplete = createApiClient({ fetchImpl: async () => response({ total: 2, tickets: [] }) });
-  await assert.rejects(incomplete.getTickets(), /incomplete ticket list/);
+  const result = await api.getTickets({ page: 3, pageSize: 25, status: 'open' });
+  assert.equal(result.total, 80000);
+  assert.equal(result.tickets.length, 1);
+  assert.match(urls[0], /limit=25&offset=75&status=open$/);
 });
 
 test('base URLs and ticket IDs are composed safely', async () => {

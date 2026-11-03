@@ -72,7 +72,7 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/tickets/PHL-5761985/prediction'
 |---|---|---|
 | POST | `/api/v1/predictions` | One ticket, with `include_explanation` defaulting to true. |
 | POST | `/api/v1/predictions/batch` | `{"tickets": [...], "include_explanation": false}`; 1–1,000 tickets, preserving order. |
-| GET | `/api/v1/tickets?limit=100&offset=0` | Paginated historical reference records, including prepared `ticket` payloads. Maximum page size 400. |
+| GET | `/api/v1/tickets?limit=100&offset=0&status=all` | Paginated historical reference records, including prepared `ticket` payloads. `status` may be `open`, `closed`, or `all`; maximum page size is 400. |
 | GET | `/api/v1/tickets/{request_id}/prediction` | Score one saved historical ticket; optional `?include_explanation=false`. Unknown IDs return 404. |
 | GET | `/api/v1/tickets/{request_id}` | Inspect a held-out or training-reference record by its PHL request ID. |
 | GET | `/api/v1/tickets/{request_id}/similar?k=3` | Up to 10 comparable training-reference tickets closed strictly before the target's intake date. |
