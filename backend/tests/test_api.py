@@ -9,9 +9,9 @@ import pytest
 from fastapi.testclient import TestClient
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from ml import config as C  # noqa: E402
+from backend.ml import config as C  # noqa: E402
 from backend.main import Settings, create_app  # noqa: E402
-from ml.scoring import read_tickets  # noqa: E402
+from backend.ml.scoring import read_tickets  # noqa: E402
 
 
 @pytest.fixture(scope="module")

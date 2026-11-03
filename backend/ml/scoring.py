@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ml import config as C
+from . import config as C
 
 REQUIRED = C.FEATURES
 

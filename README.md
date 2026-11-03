@@ -69,7 +69,7 @@ Backend integration tests:
 
 ```powershell
 & .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
-& .\.venv\Scripts\python.exe -m pytest -q backend/tests ml/tests
+& .\.venv\Scripts\python.exe -m pytest -q backend/tests backend/ml/tests
 ```
 
 ## GitHub Pages

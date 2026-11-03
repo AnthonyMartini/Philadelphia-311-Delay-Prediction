@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ml import config as C
+from . import config as C
 
 USECOLS = ["objectid", "status", "service_name", "agency_responsible", "service_notice",
            "requested_datetime", "updated_datetime", "expected_datetime", "zipcode",

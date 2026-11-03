@@ -8,10 +8,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from ml import config as C  # noqa: E402
-from ml.data_prep import _prior_window_counts, _service_backlog, add_label, parse_sla_days  # noqa: E402
-from ml.scoring import to_model_frame  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+from backend.ml import config as C  # noqa: E402
+from backend.ml.data_prep import _prior_window_counts, _service_backlog, add_label, parse_sla_days  # noqa: E402
+from backend.ml.scoring import to_model_frame  # noqa: E402
 
 D = pd.Timestamp
 
@@ -80,7 +80,7 @@ def test_split_is_chronological():
 
 @pytest.mark.skipif(not (ART / "xgb_model.json").exists(), reason="run train.py first")
 def test_shap_contributions_add_up_to_model_output():
-    from ml.scoring import DelayModel, read_tickets, sigmoid
+    from backend.ml.scoring import DelayModel, read_tickets, sigmoid
     m = DelayModel()
     demo = read_tickets(ART / "demo_tickets.csv").head(100)
     contrib = m.explain(demo)

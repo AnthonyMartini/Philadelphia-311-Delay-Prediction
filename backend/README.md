@@ -29,7 +29,7 @@ python3 -m venv .venv
 Interactive API documentation: <http://127.0.0.1:8000/docs>. Machine-readable contract:
 <http://127.0.0.1:8000/openapi.json>.
 
-Only `ml/artifacts/xgb_model.json` and `metadata.json` are required to score supplied inputs.
+Only `backend/ml/artifacts/xgb_model.json` and `metadata.json` are required to score supplied inputs.
 The saved `demo_tickets.csv` enables the historical ticket list. `reference_tickets.csv` additionally
 enables comparable-case lookup and inspection of its source records. Both CSVs are loaded only when
 needed. The raw City export,
@@ -154,7 +154,7 @@ Set environment variables before starting Uvicorn:
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `PHL311_ARTIFACT_DIR` | `ml/artifacts`, resolved relative to the model code | Directory containing the model bundle. An explicitly configured relative path resolves from the working directory. |
+| `PHL311_ARTIFACT_DIR` | `backend/ml/artifacts`, resolved relative to the model code | Directory containing the model bundle. An explicitly configured relative path resolves from the working directory. |
 | `PHL311_CORS_ORIGINS` | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated browser origins allowed to call the API. |
 | `PHL311_MODEL_THREADS` | `1` | XGBoost threads per worker, from 1 to 64. |
 
@@ -172,7 +172,7 @@ Each Uvicorn worker loads its own model. The default command binds to localhost 
 
 ```powershell
 & .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
-& .\.venv\Scripts\python.exe -m pytest -q backend/tests ml/tests
+& .\.venv\Scripts\python.exe -m pytest -q backend/tests backend/ml/tests
 ```
 
 The tests use the real saved model. They check all 400 demo records, including the unsupported

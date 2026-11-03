@@ -7,6 +7,6 @@ __pycache__/
 .pytest_cache/
 .pytest_tmp/
 .ruff_cache/
-ml/data/
-ml/artifacts/model_table.pkl
-ml/artifacts/review_log.jsonl
+backend/ml/data/
+backend/ml/artifacts/model_table.pkl
+backend/ml/artifacts/review_log.jsonl

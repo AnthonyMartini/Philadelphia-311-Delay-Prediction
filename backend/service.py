@@ -5,11 +5,19 @@ from pathlib import Path
 
 import pandas as pd
 
-from ml import config as C
-from ml.scoring import DelayModel, read_tickets, risk_band, similar_tickets
+try:
+    from .ml import config as C
+    from .ml.scoring import DelayModel, read_tickets, risk_band, similar_tickets
+except ImportError:
+    from ml import config as C
+    from ml.scoring import DelayModel, read_tickets, risk_band, similar_tickets
 
-from .schemas import (Contribution, DemoTicket, Explanation, ModelFeatures, Prediction,
-                      SimilarTicket, SimilarTicketResponse, TicketInput)
+try:
+    from .schemas import (Contribution, DemoTicket, Explanation, ModelFeatures, Prediction,
+                          SimilarTicket, SimilarTicketResponse, TicketInput)
+except ImportError:
+    from schemas import (Contribution, DemoTicket, Explanation, ModelFeatures, Prediction,
+                         SimilarTicket, SimilarTicketResponse, TicketInput)
 
 
 class InputError(ValueError):

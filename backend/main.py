@@ -9,11 +9,19 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from ml import config as C
+try:
+    from .ml import config as C
+except ImportError:
+    from ml import config as C
 
-from .schemas import (BatchPredictionRequest, BatchPredictionResponse, DemoTicket, DemoTicketPage,
-                      Prediction, PredictionRequest, SimilarTicketResponse, TicketInput)
-from .service import InputError, PredictionService
+try:
+    from .schemas import (BatchPredictionRequest, BatchPredictionResponse, DemoTicket, DemoTicketPage,
+                          Prediction, PredictionRequest, SimilarTicketResponse, TicketInput)
+    from .service import InputError, PredictionService
+except ImportError:
+    from schemas import (BatchPredictionRequest, BatchPredictionResponse, DemoTicket, DemoTicketPage,
+                         Prediction, PredictionRequest, SimilarTicketResponse, TicketInput)
+    from service import InputError, PredictionService
 
 
 @dataclass(frozen=True)
