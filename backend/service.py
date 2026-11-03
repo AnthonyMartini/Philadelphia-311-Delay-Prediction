@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 
-import config as C
-from scoring import DelayModel, read_tickets, risk_band, similar_tickets
+from ml import config as C
+from ml.scoring import DelayModel, read_tickets, risk_band, similar_tickets
 
 from .schemas import (Contribution, DemoTicket, Explanation, ModelFeatures, Prediction,
                       SimilarTicket, SimilarTicketResponse, TicketInput)

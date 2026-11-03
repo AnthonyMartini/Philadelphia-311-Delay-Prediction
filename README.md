@@ -18,29 +18,29 @@ First terminal (Windows PowerShell):
 
 ```powershell
 python -m venv .venv
-& .\.venv\Scripts\python.exe -m pip install -r 'ml 2/backend/requirements.txt'
-& .\.venv\Scripts\python.exe -m uvicorn backend.main:app --app-dir 'ml 2' --host 127.0.0.1 --port 8000
+& .\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
+& .\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
 Second terminal:
 
 ```sh
-npm ci
-npm run dev
+npm --prefix frontend ci
+npm --prefix frontend run dev
 ```
 
 Open the local URL shown by Vite (normally <http://localhost:5173>). Development and preview requests
 under `/api` are forwarded to the backend at `127.0.0.1:8000`. The backend must remain running.
-For Python setup alternatives and the API contract, see the [backend documentation](ml%202/backend/README.md).
+For Python setup alternatives and the API contract, see the [backend documentation](backend/README.md).
 
 Build and preview with:
 
 ```sh
-npm run build
-npm run preview
+npm --prefix frontend run build
+npm --prefix frontend run preview
 ```
 
-To connect to a different backend, copy `.env.example` to `.env.local`, set `VITE_API_BASE_URL` to
+To connect to a different backend, copy `frontend/.env.example` to `frontend/.env.local`, set `VITE_API_BASE_URL` to
 the backend origin, and restart Vite. Leave it empty to use the local proxy. Add the frontend's
 origin to the backend's `PHL311_CORS_ORIGINS` when the browser calls the backend directly.
 
@@ -68,8 +68,8 @@ npm run build
 Backend integration tests:
 
 ```powershell
-& .\.venv\Scripts\python.exe -m pip install -r 'ml 2/backend/requirements-dev.txt'
-& .\.venv\Scripts\python.exe -m pytest -q 'ml 2/tests'
+& .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
+& .\.venv\Scripts\python.exe -m pytest -q backend/tests ml/tests
 ```
 
 ## GitHub Pages

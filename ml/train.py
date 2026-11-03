@@ -28,8 +28,8 @@ from sklearn.metrics import (average_precision_score, brier_score_loss, f1_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-import config as C
-from scoring import REQUIRED, to_model_frame
+from ml import config as C
+from ml.scoring import REQUIRED, to_model_frame
 
 FIG = C.ART_DIR / "figures"
 

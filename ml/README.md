@@ -3,7 +3,7 @@
 Predicts whether a Philadelphia 311 service request will miss its promised completion window,
 explains each estimate with exact SHAP values, and shows similar closed tickets. Decision support only.
 
-For the HTTP prediction service, see [backend setup and API documentation](backend/README.md).
+For the HTTP prediction service, see [backend setup and API documentation](../backend/README.md).
 It can serve the committed XGBoost artifacts without the raw City export or Streamlit dependencies.
 
 ## Setup
@@ -18,10 +18,10 @@ Put the city export at `data/311_requests_all.csv` (not committed; ~870 MB).
 ## Run
 
 ```sh
-python data_prep.py        # audit + label + intake-time features  -> artifacts/audit.json, model_table.pkl  (~20 s)
-python train.py            # baselines, XGBoost, metrics, figures   -> artifacts/metrics.json, figures/       (~20 s)
-python -m pytest -q tests  # label, leakage, split-order, input, SHAP-additivity checks
-python -m streamlit run app.py   # dashboard at http://localhost:8501
+python -m ml.data_prep        # audit + label + intake-time features
+python -m ml.train             # baselines, XGBoost, metrics, figures
+python -m pytest -q ml/tests
+python -m streamlit run ml/app.py   # dashboard at http://localhost:8501
 ```
 
 If `streamlit run` gives "No module named 'streamlit.cli'", an older Anaconda copy is being found first;

@@ -1,4 +1,4 @@
-"""Run from the repository root: python -m uvicorn backend.main:app --app-dir 'ml 2'."""
+"""Run from the repository root: python -m uvicorn backend.main:app."""
 import os
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
@@ -9,7 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-import config as C
+from ml import config as C
 
 from .schemas import (BatchPredictionRequest, BatchPredictionResponse, DemoTicket, DemoTicketPage,
                       Prediction, PredictionRequest, SimilarTicketResponse, TicketInput)

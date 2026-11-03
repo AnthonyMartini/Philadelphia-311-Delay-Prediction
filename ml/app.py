@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-import config as C
-from scoring import DelayModel, read_tickets, risk_band, sigmoid, similar_tickets
+from ml import config as C
+from ml.scoring import DelayModel, read_tickets, risk_band, sigmoid, similar_tickets
 
 st.set_page_config(page_title="311 Delay Insight", layout="wide")
 LOG = C.ART_DIR / "review_log.jsonl"
