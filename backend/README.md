@@ -36,6 +36,21 @@ needed. The raw City export,
 training table, logistic-regression artifact, charts, and Streamlit are not required by this API.
 Missing or incompatible model artifacts stop startup with an error.
 
+## Run with Docker
+
+Build and run the API from the repository root:
+
+```powershell
+docker build -f backend/Dockerfile -t philadelphia-311-backend backend
+docker run --rm -p 8000:80 `
+  -e PHL311_CORS_ORIGINS=http://localhost:5173 `
+  philadelphia-311-backend
+```
+
+Open <http://127.0.0.1:8000/docs>. The image contains only the inference code,
+required model artifacts, and the dependencies needed by the API; training scripts,
+tests, charts, and the Streamlit dashboard are excluded.
+
 ## Try a real prediction
 
 The values in `example_request.json` are illustrative prepared features. The response is calculated
@@ -167,6 +182,28 @@ $env:PHL311_CORS_ORIGINS = 'http://localhost:5173,https://your-frontend.example'
 This service needs a Python process on its host. GitHub Pages continues to host only the static
 React frontend. Configure the deployed frontend's API URL and add its actual origin above.
 Each Uvicorn worker loads its own model. The default command binds to localhost for development.
+
+### Vercel Container Runtime
+
+Create a separate Vercel project from this repository with these settings:
+
+| Setting | Value |
+|---|---|
+| Root Directory | `backend` |
+| Framework Preset | `Container` |
+| Dockerfile | `Dockerfile` |
+| Build Command | Leave empty |
+| Output Directory | Leave empty |
+
+Set these environment variables in the Vercel backend project:
+
+```text
+PHL311_CORS_ORIGINS=https://your-github-pages-origin.example
+PHL311_MODEL_THREADS=1
+```
+
+Do not set `PHL311_ARTIFACT_DIR`; the image includes its artifacts at
+`/app/ml/artifacts`. Vercel supplies `PORT` when the container runs.
 
 ## Verification
 
