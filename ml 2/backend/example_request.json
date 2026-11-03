@@ -1,0 +1,12 @@
+{
+  "request_id": "EXAMPLE-1",
+  "service_name": "Illegal Dumping",
+  "agency_responsible": "Streets Department",
+  "zipcode": "19121",
+  "sla_business_days": 5,
+  "day_of_week": 0,
+  "prior_7d_service_volume": 43,
+  "prior_7d_zip_volume": 120,
+  "backlog_share": 0.6,
+  "include_explanation": true
+}

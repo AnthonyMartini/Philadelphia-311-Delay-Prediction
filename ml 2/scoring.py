@@ -3,6 +3,7 @@
 Shared by train.py, app.py, and tests so the app explains exactly the model that was trained.
 """
 import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -44,25 +45,39 @@ def sigmoid(z):
 class DelayModel:
     """Wraps the trained XGBoost booster plus metadata saved by train.py."""
 
-    def __init__(self, art_dir=C.ART_DIR):
+    def __init__(self, art_dir=C.ART_DIR, *, nthread=None):
         import xgboost as xgb
+        art_dir = Path(art_dir)
         self.xgb = xgb
         self.meta = json.loads((art_dir / "metadata.json").read_text())
         self.booster = xgb.Booster()
         self.booster.load_model(str(art_dir / "xgb_model.json"))
         self.threshold = self.meta["threshold"]
+        if self.meta["features"] != REQUIRED or self.booster.feature_names != REQUIRED:
+            raise ValueError("Model, metadata, and configured feature order must match")
+        if not 0 <= self.threshold <= 1:
+            raise ValueError("Model threshold must be between zero and one")
+        best_iteration = self.meta["best_iteration"]
+        if not isinstance(best_iteration, int) or not 0 <= best_iteration < self.booster.num_boosted_rounds():
+            raise ValueError("Model metadata contains an invalid best_iteration")
+        if self.booster.attr("best_iteration") != str(best_iteration):
+            raise ValueError("Model and metadata best_iteration must match")
+        self.iteration_range = (0, best_iteration + 1)
+        if nthread is not None:
+            self.booster.set_param({"nthread": nthread})
 
     def _dmatrix(self, df):
         X = to_model_frame(df, self.meta["categories"])
-        return self.xgb.DMatrix(X, enable_categorical=True)
+        return self.xgb.DMatrix(X, enable_categorical=True, nthread=1)
 
     def predict_proba(self, df):
-        return self.booster.predict(self._dmatrix(df))
+        return self.booster.predict(self._dmatrix(df), iteration_range=self.iteration_range)
 
     def explain(self, df):
         """Exact TreeSHAP contributions in log-odds, one column per input feature, plus 'base'.
         Row sums equal the model's output log-odds (checked in tests)."""
-        contribs = self.booster.predict(self._dmatrix(df), pred_contribs=True)
+        contribs = self.booster.predict(self._dmatrix(df), pred_contribs=True,
+                                      iteration_range=self.iteration_range)
         out = pd.DataFrame(contribs, columns=REQUIRED + ["base"], index=df.index)
         return out
 

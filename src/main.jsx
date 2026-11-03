@@ -1,1185 +1,352 @@
-import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
-import "./styles.css";
+import React, { useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createApiClient } from './api.js';
+import { filterTickets, formatDate, percent, riskClass, ticketFromRecord } from './tickets.js';
+import { useResource, useTickets } from './useTickets.js';
+import './styles.css';
 
-const tickets = [
-  {
-    id: "DEMO-1042",
-    category: "Illegal dumping",
-    dept: "Sanitation",
-    zip: "19121",
-    time: "09:12",
-    risk: 78,
-    channel: "Web",
-    volume: 43,
-  },
-  {
-    id: "DEMO-1043",
-    category: "Pothole",
-    dept: "Streets ",
-    zip: "19145",
-    time: "09:24",
-    risk: 64,
-    channel: "Phone",
-    volume: 31,
-  },
-  {
-    id: "DEMO-1044",
-    category: "Street light outage",
-    dept: "Streets ",
-    zip: "19134",
-    time: "09:31",
-    risk: 42,
-    channel: "Mobile app",
-    volume: 20,
-  },
-  {
-    id: "DEMO-1045",
-    category: "Graffiti removal",
-    dept: "Public property ",
-    zip: "19147",
-    time: "09:42",
-    risk: 21,
-    channel: "Web",
-    volume: 12,
-  },
-  {
-    id: "DEMO-1046",
-    category: "Category missing",
-    dept: "Unverified",
-    zip: "19132",
-    time: "09:51",
-    risk: null,
-    channel: "Web",
-    volume: null,
-  },
-];
-const closedTickets = [
-  {
-    ...tickets[0],
-    id: "HIST-1017",
-    submitted: "Sep 01",
-    closed: "Sep 25, 2026",
-    days: 24,
-  },
-  {
-    ...tickets[1],
-    id: "HIST-1088",
-    submitted: "Aug 20",
-    closed: "Sep 27, 2026",
-    days: 38,
-  },
-  {
-    ...tickets[3],
-    id: "HIST-1124",
-    submitted: "Sep 10",
-    closed: "Sep 29, 2026",
-    days: 19,
-  },
-];
-// Illustrative contributions for the wireframe; these are not fitted-model SHAP results.
-const demoContributions = {
-  "DEMO-1042": [1.1, 0.7, 0.35],
-  "DEMO-1043": [0.75, 0.5, 0.2],
-  "DEMO-1044": [0.3, 0.2, -0.12],
-  "DEMO-1045": [-0.25, -0.2, 0.08],
-};
-function explanationFor(ticket) {
-  if (ticket.risk === null) return null;
-  const base = -0.8;
-  const output = Math.log(ticket.risk / (100 - ticket.risk));
-  const leading = demoContributions[ticket.id] || [0.3, 0.2, 0.1];
-  const values = [
-    ...leading,
-    output - base - leading.reduce((sum, value) => sum + value, 0),
-  ];
-  return {
-    base,
-    output,
-    total: output - base,
-    factors: values.map((value, i) => ({
-      label: [
-        "Prior local request volume",
-        "Service category",
-        "Submission month",
-        "Intake channel",
-      ][i],
-      value,
-    })),
-  };
-}
-const signed = (value) =>
-  `${value < 0 ? "−" : "+"}${Math.abs(value).toFixed(2)}`;
-const policyURL =
-  "https://www.phila.gov/services/trash-recycling-city-upkeep/report-a-problem-with-trash-recycling-or-city-upkeep/track-a-service-request-with-311/";
-const pages = [
-  "closed-record",
-  "queue",
-  "closed",
-  "ticket",
-  "similar",
-  "policy",
-  "decision",
-  "saved",
-  "missing",
-  "log",
-];
-const navItems = [
-  ["queue", "Review Queue", "▦"],
-  ["closed", "Closed Tickets", "▤"],
-  ["log", "Action Log", "☷"],
-];
-const actions = [
-  "Request expedited review",
-  "Confirm standard processing",
-  "Request more information",
-];
-const actionDescriptions = [
-  "Ask a human to review potential delay; not an automatic priority change.",
-  "Preserve the normal handling pathway.",
-  "Resolve missing or uncertain inputs without assuming low risk.",
-];
+const api = createApiClient({ baseUrl: import.meta.env.VITE_API_BASE_URL ?? '' });
+const pages = ['queue', 'closed', 'ticket', 'closed-record', 'similar', 'policy', 'decision', 'saved', 'missing', 'log'];
+const ticketPages = ['ticket', 'closed-record', 'similar', 'policy', 'decision', 'missing'];
+const navItems = [['queue', 'Review Queue', '▦'], ['closed', 'Closed Tickets', '▤'], ['log', 'Action Log', '☷']];
+const policyURL = 'https://www.phila.gov/services/trash-recycling-city-upkeep/report-a-problem-with-trash-recycling-or-city-upkeep/track-a-service-request-with-311/';
+const signed = (value) => `${value < 0 ? '−' : '+'}${Math.abs(value).toFixed(2)}`;
 
 function readRoute() {
-  const [page, id] = location.hash.slice(1).split("/");
-  const selected =
-    [...tickets, ...closedTickets].find((t) => t.id === id) ||
-    (page === "missing" ? tickets[4] : tickets[0]);
-  return {
-    page: pages.includes(page) && page !== "saved" ? page : "queue",
-    selected,
-  };
+  const [page, encodedId] = location.hash.slice(1).split('/');
+  let id;
+  try { id = encodedId ? decodeURIComponent(encodedId) : null; }
+  catch { id = encodedId; }
+  return { page: pages.includes(page) ? page === 'saved' ? 'log' : page : 'queue', id };
 }
-function Button({ children, primary, onClick, ...props }) {
-  return (
-    <button
-      className={`btn${primary ? " primary" : ""}`}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </button>
-  );
+
+function Button({ children, primary, ...props }) {
+  return <button className={`btn${primary ? ' primary' : ''}`} {...props}>{children}</button>;
 }
-function Notice({ children, type = "" }) {
+function Notice({ children, type = '' }) {
   return <div className={`notice ${type}`}>{children}</div>;
 }
 function Head({ title, subtitle, children }) {
-  return (
-    <div className="head">
-      <div>
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
-      </div>
-      {children}
-    </div>
-  );
+  return <div className="head"><div><h1>{title}</h1>{subtitle && <p>{subtitle}</p>}</div>{children}</div>;
+}
+function Loading({ children = 'Loading tickets…' }) {
+  return <section className="card state" role="status"><h2>{children}</h2><div className="loading" /></section>;
+}
+function Failure({ title = 'Request unavailable', message, retry, children }) {
+  return <section className="card state" role="alert"><h2>{title}</h2><p className="muted">{message}</p>
+    <div className="actions">{retry && <Button primary onClick={retry}>Retry</Button>}{children}</div></section>;
+}
+function Fields({ items }) {
+  return <div className="meta">{items.map(([label, value]) => <div key={label}>
+    <div className="key">{label}</div><div className="value">{value ?? 'Not recorded'}</div>
+  </div>)}</div>;
 }
 function Risk({ ticket }) {
-  if (ticket.risk === null)
-    return <span className="pill neutral">No score</span>;
-  const level =
-    ticket.risk >= 60 ? "high" : ticket.risk >= 35 ? "medium" : "low";
-  return <span className={`prob ${level}`}>{ticket.risk}%</span>;
+  if (!ticket.prediction) return <span className="pill neutral">{ticket.scoreStatus === 'loading' ? 'Scoring…'
+    : ticket.scoreStatus === 'invalid' ? 'No score' : 'Unavailable'}</span>;
+  return <span><strong className={`prob ${riskClass(ticket.prediction.risk_band)}`}>{percent(ticket.prediction)}%</strong>
+    <span className="secondary">{ticket.prediction.risk_band}</span></span>;
+}
+function TicketFields({ ticket, closed = false }) {
+  const input = ticket.input;
+  return <Fields items={[
+    ['Service category', ticket.category], ['Department', ticket.dept],
+    ['ZIP', ticket.zip === 'Missing' ? 'Not recorded' : ticket.zip], ['Submitted', formatDate(ticket.requestedDate)],
+    ['Promised window', ticket.serviceNotice], ['Due date', formatDate(ticket.expectedDate)],
+    ['Same-service requests, prior 7 days', input.prior_7d_service_volume],
+    ['Same-ZIP requests, prior 7 days', input.prior_7d_zip_volume],
+    ['Recent backlog share', `${Math.round(input.backlog_share * 100)}%`],
+    ...(closed ? [['Closed', formatDate(ticket.closedDate)], ['Days to close', ticket.days]] : []),
+  ]} />;
+}
+
+function TicketList({ tickets, scoring, closed, go }) {
+  const [search, setSearch] = useState('');
+  const [band, setBand] = useState('all');
+  const [sort, setSort] = useState('risk');
+  const [page, setPage] = useState(0);
+  useEffect(() => setPage(0), [search, band, sort, closed]);
+  const collection = tickets.filter((ticket) => closed ? ticket.status === 'Closed' : ticket.status !== 'Closed');
+  const rows = filterTickets(tickets, { search, band, sort, closed });
+  const currentPage = Math.min(page, Math.max(0, Math.ceil(rows.length / 25) - 1));
+  const visible = rows.slice(currentPage * 25, (currentPage + 1) * 25);
+  const metrics = [
+    ['Requests', collection.length],
+    ['Requests at Risk', collection.filter((ticket) => ['High', 'Elevated'].includes(ticket.prediction?.risk_band)).length],
+    ['Requests Needing Data Review', collection.filter((ticket) => ticket.scoreStatus === 'invalid').length],
+  ];
+  return <>
+    <Head title={closed ? 'Historical Closed Tickets' : 'Review Queue'}
+      subtitle={closed ? 'Recorded closures from the historical sample.' : 'Requests marked open in the saved export.'} />
+    {!closed && <div className="grid three">{metrics.map(([label, value], i) => <div className={`card kpi kpi-${i + 1}`} key={label}>
+      <div className="label">{label}</div><div className="num">{i > 0 && scoring ? '…' : value}</div>
+    </div>)}</div>}
+    {scoring && <p className="muted small score-progress" role="status">Calculating model estimates…</p>}
+    <section className="card tablecard">
+      <div className="toolbar"><h2>{closed ? 'Closed Requests' : 'Open Historical Requests'}</h2>
+        <div className="filters">
+          <input type="search" aria-label="Search tickets" placeholder="Search ID, category or ZIP" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <select aria-label="Filter risk" value={band} onChange={(e) => setBand(e.target.value)}>
+            <option value="all">All risk levels</option><option value="High">High</option><option value="Elevated">Elevated</option>
+            <option value="Standard">Standard</option><option value="missing">Needs data review</option>
+          </select>
+          {!closed && <select aria-label="Sort tickets" value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="risk">Risk: high to low</option><option value="date">Newest submitted</option>
+          </select>}
+        </div>
+      </div>
+      <div className="table-scroll"><table><thead><tr>{[
+        'Request / category', 'Department', 'ZIP', 'Submitted', ...(closed ? ['Closed', 'Days to close'] : []), 'Delay risk', '',
+      ].map((label, i) => <th scope="col" key={i}>{label}</th>)}</tr></thead>
+        <tbody>{visible.map((ticket) => <tr className="clickrow" key={ticket.id}>
+          <td><button className="ticketlink" onClick={() => go(closed ? 'closed-record' : 'ticket', ticket)}>{ticket.id}</button>
+            <span className="secondary">{ticket.category}</span></td>
+          <td>{ticket.dept}</td><td>{ticket.zip === 'Missing' ? '—' : ticket.zip}</td><td>{formatDate(ticket.requestedDate)}</td>
+          {closed && <><td>{formatDate(ticket.closedDate)}</td><td>{ticket.days ?? '—'}</td></>}
+          <td><Risk ticket={ticket} /></td><td className="right"><button className="textbtn" onClick={() => go('ticket', ticket)}>Review →</button></td>
+        </tr>)}</tbody></table></div>
+      {!rows.length && <div className="empty"><h2>No matching requests</h2><p className="muted small">Try another search or risk filter.</p></div>}
+      <div className="tablefoot"><span>Showing {rows.length ? currentPage * 25 + 1 : 0}–{Math.min((currentPage + 1) * 25, rows.length)} of {rows.length} matching requests</span>
+        <div className="actions"><Button disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>Previous</Button>
+          <Button disabled={(currentPage + 1) * 25 >= rows.length} onClick={() => setPage(currentPage + 1)}>Next</Button></div>
+      </div>
+    </section>
+  </>;
+}
+
+function TicketPage({ ticket, detail, go }) {
+  const prediction = ticket.prediction;
+  const explanation = detail.value?.explanation;
+  const factors = explanation?.contributions ?? [];
+  const scale = Math.max(0.01, ...factors.map((factor) => Math.abs(factor.value)));
+  const [expanded, setExpanded] = useState(false);
+  return <div className="grid detailgrid">
+    <section className="card"><h2>Estimated delay risk at intake</h2>
+      {prediction ? <><div className="riskfigure">{percent(prediction)}<span>%</span></div>
+        <span className={`pill ${riskClass(prediction.risk_band)}`}>{prediction.risk_band}</span>
+        <p className="muted small score-progress">Probability of missing the promised completion window.</p>
+        <div className="gauge"><div style={{ width: `${prediction.delay_probability * 100}%` }} /></div></>
+        : <p role="status">{detail.loading ? 'Calculating estimate…' : 'Estimate unavailable.'}</p>}
+      <TicketFields ticket={ticket} />
+      <div className="rule" /><p className="muted small">This estimates risk at submission using historical conditions. It is not a current status update.</p>
+      {prediction?.warnings.map((warning) => <Notice key={warning} type="warning">{warning}</Notice>)}
+    </section>
+    <section className="card"><div className="head"><h2>SHAP Breakdown</h2>
+      <Button disabled={!explanation} aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>
+        {expanded ? 'Hide Explanation' : 'Explain this estimate'}</Button></div>
+      {detail.loading && <div role="status"><p className="muted">Loading model explanation…</p><div className="loading" /></div>}
+      {detail.error && <Failure title="Explanation unavailable" message={detail.error.message} retry={detail.retry} />}
+      {explanation && <>
+        <div className="figurelabel"><span>Model contributions in log-odds</span><span>Blue raises · gray lowers the estimate</span></div>
+        {factors.map(({ feature, label, value }) => <div className="factor" key={feature}>
+          <span>{label}</span><div className={`track ${value < 0 ? 'negative' : ''}`}><span style={{ width: `${Math.abs(value) / scale * 100}%` }} /></div>
+          <strong>{signed(value)}</strong></div>)}
+        <div className="equation">
+          <div>Base log-odds<strong>{explanation.base_log_odds.toFixed(2)}</strong></div><span>+</span>
+          <div>Contributions<strong>{signed(factors.reduce((sum, factor) => sum + factor.value, 0))}</strong></div><span>=</span>
+          <div>Output log-odds<strong>{explanation.output_log_odds.toFixed(2)}</strong></div><span>→</span>
+          <div>Probability<strong>≈ {percent(detail.value)}%</strong></div>
+        </div>
+        {expanded && <div className="answer"><h3>Understanding this estimate</h3>
+          <p>The model starts at a baseline probability of {Math.round(100 / (1 + Math.exp(-explanation.base_log_odds)))}%.
+            The factors below move the estimate to {percent(detail.value)}%.</p>
+          <ul>{[...factors].sort((a, b) => Math.abs(b.value) - Math.abs(a.value)).map((factor) => <li key={factor.feature}>
+            <strong>{factor.label}</strong> {factor.value < 0 ? 'lowers' : 'raises'} the estimate ({signed(factor.value)} log-odds).
+          </li>)}</ul><p className="muted small">These describe associations in the model, not causes of delay. Log-odds contributions are not percentage-point changes.</p>
+        </div>}
+      </>}
+      <div className="actions score-progress"><Button primary onClick={() => go('similar')}>Find similar tickets →</Button>
+        <Button onClick={() => go('policy')}>Check official guidance →</Button></div>
+    </section>
+  </div>;
+}
+
+function SimilarPage({ resource, go }) {
+  if (resource.loading) return <Loading>Loading comparable closed records…</Loading>;
+  if (resource.error) return <Failure title="Similar tickets unavailable" message={resource.error.message} retry={resource.retry} />;
+  const matches = resource.value?.tickets ?? [];
+  return <><Head title="Comparable Closed Records" subtitle={`Outcomes known before ${formatDate(resource.value?.as_of)}.`} />
+    {!matches.length ? <section className="card empty"><h2>No suitable earlier records</h2><p className="muted">No closed requests of this modeled service category were available before submission.</p></section>
+      : <div className="grid three">{matches.map((record) => {
+        const ticket = ticketFromRecord(record);
+        return <article className="card" key={ticket.id}><h2>{ticket.id}</h2><p className="small">{ticket.category}</p>
+          <span className={`pill ${record.outcome === 'On time' ? 'low' : 'high'}`}>{record.outcome}</span>
+          <Fields items={[
+            ['Submitted', formatDate(ticket.requestedDate)], ['Closed', formatDate(ticket.closedDate)],
+            ['Time to close', `${record.days_to_close} days`], ['ZIP', ticket.zip],
+          ]} /><div className="rule" /><p className="muted small">Matched by modeled service category and intake workload, with ZIP included in the comparison.</p>
+          <button className="textbtn" onClick={() => go('closed-record', ticket)}>Inspect source record ↗</button></article>;
+      })}</div>}
+    <div className="actions score-progress"><Button primary onClick={() => go('policy')}>Open policy guidance →</Button><Button onClick={() => go('ticket')}>Back to explanation</Button></div>
+  </>;
+}
+
+function ClosedRecord({ ticket, go }) {
+  return <><Head title={`${ticket.id} : ${ticket.category}`}><span className="pill low">{ticket.status}</span></Head>
+    <section className="card"><p className="muted small">{ticket.source === 'training_reference' ? 'Historical comparison record from the training reference sample.' : 'Historical record from the held-out evaluation sample.'}</p>
+      <TicketFields ticket={ticket} closed /><div className="rule" /><h3>Estimated risk at intake</h3><Risk ticket={ticket} />
+      {ticket.scoreError && <p className="error">{ticket.scoreError}</p>}
+      <p className="muted small score-progress">Closure status records when the case was closed; it does not document how the issue was resolved.</p>
+      <div className="actions"><Button onClick={() => go('ticket')}>View estimate and explanation</Button><Button onClick={() => go('closed')}>Back to closed tickets</Button></div>
+    </section></>;
+}
+
+function Unscorable({ ticket, go }) {
+  return <section className="card state"><div className="bigicon" aria-hidden="true">!</div>
+    <h1>This request could not be scored.</h1><p className="muted">{ticket.id} · {ticket.category}</p>
+    <Notice type="warning">{ticket.scoreError || 'The supplied ticket values are unsupported by the model.'}</Notice>
+    <p className="muted small score-progress">Preserve standard processing and request data review. An unavailable estimate does not imply low risk.</p>
+    <TicketFields ticket={ticket} /><div className="actions score-progress"><Button primary onClick={() => go('decision')}>Request human review</Button>
+      <Button onClick={() => go(ticket.status === 'Closed' ? 'closed' : 'queue')}>Return to requests</Button></div>
+  </section>;
+}
+
+function PolicyPage({ go }) {
+  const [question, setQuestion] = useState('How can a resident check the status of an existing 311 request?');
+  const [answer, setAnswer] = useState('supported');
+  return <div className="grid policygrid"><section className="card"><h2>Policy guidance</h2>
+    <p className="muted small">Prewritten guidance based on a public City source.</p>
+    <label htmlFor="question">Operational question</label><textarea id="question" value={question} onChange={(e) => setQuestion(e.target.value)} />
+    <Button primary disabled={!question.trim()} onClick={() => setAnswer(/(status|track|check)/i.test(question) && !/(guarantee|crew|tomorrow)/i.test(question) ? 'supported' : 'unsupported')}>Show guidance</Button>
+    <div className="answer score-progress">{answer === 'supported' ? <><span className="sourcetag">PREWRITTEN GUIDANCE</span>
+      <p className="score-progress">Use the service request number to look up the request. If a case is private, the resident may need the account used when submitting it. A resident can also contact 311 for a status update.</p>
+      <p className="muted small">This does not guarantee a completion date or identify a crew.</p>
+      <a href={policyURL} target="_blank" rel="noopener noreferrer">[1] Track a service request with 311 ↗</a>
+    </> : <><span className="pill high">Unsupported by available sources</span><h3 className="score-progress">No verified instruction available.</h3>
+      <p>I cannot verify crew assignments, internal escalation rules, or guaranteed completion times from this source.</p>
+      <Button onClick={() => go('decision')}>Continue to human review</Button></>}</div>
+  </section><aside className="card"><h2>Official public guidance</h2><p className="muted small">Policy answers here are prewritten. The prediction model runs separately.</p>
+    <div className="sourcecard"><h3>Track a service request with 311</h3><p className="muted">City of Philadelphia</p>
+      <a href={policyURL} target="_blank" rel="noopener noreferrer">Open original guidance ↗</a></div></aside></div>;
+}
+
+const actions = ['Request expedited review', 'Confirm standard processing', 'Request more information'];
+const actionDescriptions = ['Ask a human to review potential delay.', 'Preserve the normal handling pathway.', 'Resolve missing or uncertain inputs.'];
+function DecisionPage({ ticket, onSave, go }) {
+  const [action, setAction] = useState(ticket.scoreStatus === 'invalid' ? actions[2] : actions[0]);
+  const [rationale, setRationale] = useState('');
+  const [ack, setAck] = useState(false);
+  const [error, setError] = useState('');
+  function submit(event) {
+    event.preventDefault();
+    if (rationale.trim().length < 10 || !ack) { setError('Add a rationale of at least 10 characters and acknowledge the review conditions.'); return; }
+    onSave({ ticket_id: ticket.id, action, rationale: rationale.trim(), at: new Date().toISOString(),
+      delay_probability: ticket.prediction?.delay_probability ?? null, risk_band: ticket.prediction?.risk_band ?? null,
+      model_version: ticket.prediction?.model_version ?? null, scored_at: ticket.prediction?.scored_at ?? null,
+      prediction_error: ticket.scoreError || (!ticket.prediction ? 'Prediction unavailable at review time.' : null),
+      features: ticket.prediction?.features ?? ticket.input, city_submission: false, mode: 'simulation' });
+  }
+  return <><Head title="Review a Ticket" /><div className="grid two"><section className="card"><h2>Review decision</h2>
+    <form onSubmit={submit}>{actions.map((choice, i) => <label className="option" key={choice}><input type="radio" name="action" checked={action === choice} onChange={() => setAction(choice)} />
+      <span><b>{choice}</b><br /><small>{actionDescriptions[i]}</small></span></label>)}
+      <label htmlFor="rationale">Review rationale (required)</label><textarea id="rationale" value={rationale} maxLength={500}
+        onChange={(e) => setRationale(e.target.value)} aria-describedby="decisionError" />
+      <label className="checkrow"><input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} />
+        <span>I understand that the estimate is noncausal. This simulated decision will not change a City request.</span></label>
+      <p className="error" id="decisionError" role="alert">{error}</p><div className="actions"><Button primary type="submit">Save simulated decision</Button>
+        <Button type="button" onClick={() => go('ticket')}>Cancel</Button></div>
+    </form></section><section className="card"><h2>{ticket.id}</h2><Risk ticket={ticket} />
+      {ticket.scoreError && <p className="error">{ticket.scoreError}</p>}<TicketFields ticket={ticket} />
+      <div className="rule" /><p className="muted small">Review decisions stay in this browser session. Refreshing the page clears the log.</p></section></div></>;
+}
+
+function ActionLog({ logs, exportLog, go }) {
+  return <><Head title="A record of human review." subtitle="Session-only simulated decisions, including the actual model output used during review." />
+    <Button onClick={exportLog} disabled={!logs.length}>Export JSON log</Button><section className="card tablecard">
+      {!logs.length ? <div className="empty"><h2>No review decisions yet</h2><p className="muted small">Open a request and record a review.</p><Button onClick={() => go('queue')}>Open review queue</Button></div>
+        : <div className="table-scroll"><table><thead><tr>{['Ticket', 'Action', 'Rationale', 'Created', 'Model estimate'].map((label) => <th key={label} scope="col">{label}</th>)}</tr></thead>
+          <tbody>{logs.map((log, i) => <tr key={i}><td>{log.ticket_id}</td><td>{log.action}</td><td className="log-rationale">{log.rationale}</td>
+            <td>{new Date(log.at).toLocaleString()}</td><td>{log.delay_probability === null ? 'No score' : `${Math.round(log.delay_probability * 100)}% · ${log.risk_band}`}
+              <span className="secondary">Simulation</span></td></tr>)}</tbody></table></div>}
+    </section></>;
 }
 
 function App() {
+  const data = useTickets(api);
   const [route, setRoute] = useState(readRoute);
-  const { page, selected } = route;
-  const activeSection =
-    page === "closed-record"
-      ? "closed"
-      : [
-            "ticket",
-            "similar",
-            "policy",
-            "decision",
-            "saved",
-            "missing",
-          ].includes(page)
-        ? "queue"
-        : page;
-  const explanation = explanationFor(selected);
   const [logs, setLogs] = useState([]);
-  const [message, setMessage] = useState("");
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [sort, setSort] = useState("risk");
-  const [question, setQuestion] = useState(
-    "How can a resident check the status of an existing 311 request?",
-  );
-  const [answer, setAnswer] = useState("supported");
-  const [action, setAction] = useState(actions[0]);
-  const [rationale, setRationale] = useState("");
-  const [ack, setAck] = useState(false);
-  const [error, setError] = useState("");
-  const [explainedTicket, setExplainedTicket] = useState(null);
-
-  useEffect(() => {
-    setExplainedTicket(null);
-  }, [page, selected.id]);
+  const [message, setMessage] = useState('');
+  const needsTicket = ticketPages.includes(route.page);
+  const listTicket = data.tickets.find((ticket) => ticket.id === route.id);
+  const record = useResource(route.id, api.getRecord, data.revision, needsTicket && !listTicket && !data.loading);
+  const baseTicket = listTicket ?? (record.value ? ticketFromRecord(record.value) : null);
+  const detail = useResource(baseTicket?.id, api.getPrediction, data.revision,
+    Boolean(baseTicket) && ['ticket', 'closed-record', 'decision', 'missing'].includes(route.page) && baseTicket.scoreStatus !== 'invalid');
+  const selected = baseTicket ? { ...baseTicket,
+    prediction: detail.value ?? baseTicket.prediction,
+    scoreStatus: detail.value ? 'ready' : detail.error?.status === 422 ? 'invalid' : detail.error && !baseTicket.prediction ? 'unavailable' : baseTicket.scoreStatus,
+    scoreError: detail.error?.status === 422 ? detail.error.message : baseTicket.scoreError,
+  } : null;
+  const page = route.page === 'ticket' && selected?.scoreStatus === 'invalid' ? 'missing'
+    : route.page === 'missing' && selected?.prediction ? 'ticket' : route.page;
+  const similar = useResource(selected?.id, api.getSimilar, data.revision, page === 'similar');
 
   useEffect(() => {
     const handler = () => setRoute(readRoute());
-    window.addEventListener("hashchange", handler);
-    return () => window.removeEventListener("hashchange", handler);
+    window.addEventListener('hashchange', handler);
+    window.addEventListener('popstate', handler);
+    return () => { window.removeEventListener('hashchange', handler); window.removeEventListener('popstate', handler); };
   }, []);
   useEffect(() => {
     if (!message) return;
-    const timer = setTimeout(() => setMessage(""), 5500);
-    return () => clearTimeout(timer);
+    const timeout = setTimeout(() => setMessage(''), 5000);
+    return () => clearTimeout(timeout);
   }, [message]);
-  useEffect(() => {
-    if (answer !== "loading" || page !== "policy") return;
-    const timer = setTimeout(
-      () =>
-        setAnswer(
-          /(status|track|check)/i.test(question) &&
-            !/(guarantee|crew|tomorrow)/i.test(question)
-            ? "supported"
-            : "unsupported",
-        ),
-      650,
-    );
-    return () => clearTimeout(timer);
-  }, [answer, page, question]);
 
   function go(next, ticket = selected) {
-    if (next === "ticket" && ticket.risk === null) next = "missing";
-    setRoute({ page: next, selected: ticket });
-    history.pushState(null, "", `#${next}/${ticket.id}`);
-    if (next === "queue" || next === "closed") {
-      setSearch("");
-      setFilter("all");
-      setSort("risk");
-    }
-    if (next === "policy") {
-      setAnswer("supported");
-      setQuestion(
-        "How can a resident check the status of an existing 311 request?",
-      );
-    }
-    if (next === "decision") {
-      setAction(ticket.risk === null ? actions[2] : actions[0]);
-      setRationale("");
-      setAck(false);
-      setError("");
-    }
+    const id = ticketPages.includes(next) || next === 'saved' ? ticket?.id ?? null : null;
+    setRoute({ page: next, id });
+    history.pushState(null, '', `#${next}${id ? `/${encodeURIComponent(id)}` : ''}`);
     window.scrollTo(0, 0);
   }
-  useEffect(() => {
-    const handler = () => setRoute(readRoute());
-    window.addEventListener("popstate", handler);
-    return () => window.removeEventListener("popstate", handler);
-  }, []);
   function exportLog() {
-    const url = URL.createObjectURL(
-      new Blob(
-        [
-          JSON.stringify(
-            {
-              prototype: true,
-              generated_at: new Date().toISOString(),
-              records: logs,
-            },
-            null,
-            2,
-          ),
-        ],
-        { type: "application/json" },
-      ),
-    );
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "311_demo_action_log.json";
-    link.click();
+    const url = URL.createObjectURL(new Blob([JSON.stringify({ historical: true, session_only: true,
+      generated_at: new Date().toISOString(), records: logs }, null, 2)], { type: 'application/json' }));
+    const link = document.createElement('a'); link.href = url; link.download = '311_review_log.json'; link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setMessage("Exported a local demo log. Nothing was submitted to the City.");
+    setMessage('Exported the session review log. No City request changed.');
   }
-  function saveDecision(event) {
-    event.preventDefault();
-    if (rationale.trim().length < 10 || !ack) {
-      setError(
-        "Add a rationale of at least 10 characters and acknowledge the prototype safeguards.",
-      );
-      return;
-    }
-    setLogs((previous) => [
-      ...previous,
-      {
-        ticket_id: selected.id,
-        action,
-        rationale: rationale.trim(),
-        at: new Date().toISOString(),
-        risk: selected.risk,
-        model: "MOCK-NO-MODEL",
-        city_submission: false,
-      },
-    ]);
-    go("saved");
+
+  let content;
+  if (page === 'log') content = <ActionLog logs={logs} exportLog={exportLog} go={go} />;
+  else if (page === 'saved') content = <section className="card state"><div className="bigicon">✓</div><h1>Review recorded.</h1>
+    <p>{logs.at(-1)?.action} · {logs.at(-1)?.ticket_id}</p><Notice type="success">Saved in this browser session. No City request changed.</Notice>
+    <div className="actions score-progress"><Button primary onClick={() => go('queue')}>Return to review queue</Button><Button onClick={() => go('log')}>View action log</Button></div></section>;
+  else if (data.loading) content = <Loading />;
+  else if (data.error && !data.tickets.length) content = <Failure title="Tickets could not be loaded" message={data.error} retry={data.reload} />;
+  else if (page === 'queue' || page === 'closed') content = <TicketList key={`${page}:${data.revision}`} tickets={data.tickets} scoring={data.scoring} closed={page === 'closed'} go={go} />;
+  else if (!selected) content = record.loading ? <Loading>Loading request…</Loading> : <Failure
+    title={record.error?.status === 404 || !route.id ? 'Ticket not found' : 'Request unavailable'}
+    message={record.error?.message ?? 'This request does not exist in the historical data.'}
+    retry={record.error && record.error.status !== 404 ? record.retry : undefined}>
+    <Button onClick={() => go('queue')}>Return to queue</Button></Failure>;
+  else {
+    const body = page === 'missing' ? <Unscorable ticket={selected} go={go} />
+      : page === 'closed-record' ? <ClosedRecord ticket={selected} go={go} />
+        : page === 'similar' ? <SimilarPage resource={similar} go={go} />
+          : page === 'policy' ? <PolicyPage key={selected.id} go={go} />
+            : page === 'decision' ? <DecisionPage key={selected.id} ticket={selected} go={go} onSave={(entry) => { setLogs((previous) => [...previous, entry]); go('saved'); }} />
+              : <TicketPage key={selected.id} ticket={selected} detail={detail} go={go} />;
+    content = <><div className="crumb"><button className="textbtn" onClick={() => go(selected.status === 'Closed' ? 'closed' : 'queue')}>
+      {selected.status === 'Closed' ? 'Closed tickets' : 'Review queue'}</button><span>/</span>{selected.id}</div>
+      {!['closed-record', 'decision'].includes(page) && <><Head title={`${selected.id} : ${selected.category}`}>
+        <Button primary onClick={() => go('decision')}>Record a review decision →</Button></Head>
+        <div className="tabs">{[['ticket', 'Risk & explanation'], ['similar', 'Similar tickets'], ['policy', 'Policy guidance']].map(([key, label]) =>
+          <button key={key} className={`tab ${page === key || page === 'missing' && key === 'ticket' ? 'active' : ''}`} onClick={() => go(key)}>{label}</button>)}</div></>}
+      {body}</>;
   }
-  const isClosed = page === "closed";
-  const queueTickets = isClosed ? closedTickets : tickets;
-  const rows = queueTickets
-    .filter((t) =>
-      `${t.id} ${t.category} ${t.zip}`
-        .toLowerCase()
-        .includes(search.toLowerCase()),
-    )
-    .filter(
-      (t) =>
-        isClosed ||
-        filter === "all" ||
-        (filter === "high" && t.risk !== null && t.risk >= 60) ||
-        (filter === "missing" && t.risk === null),
-    )
-    .sort((a, b) =>
-      isClosed
-        ? b.closed.localeCompare(a.closed)
-        : sort === "risk"
-          ? (b.risk ?? -1) - (a.risk ?? -1)
-          : a.time.localeCompare(b.time),
-    );
-  const ticketTabs = (
-    <>
-      <div className="crumb">
-        <button className="textbtn" onClick={() => go("queue")}>
-          Review queue
-        </button>
-        <span>/</span>
-        {selected.id}
-      </div>
-      <div className="head">
-        <div>
-          <h1>
-            {selected.id} : {selected.category}
-          </h1>
-        </div>
-        <Button primary onClick={() => go("decision")}>
-          Record a review decision →
-        </Button>
-      </div>
-      <div className="tabs">
-        {[
-          ["ticket", "Risk & explanation"],
-          ["similar", "Similar tickets"],
-          ["policy", "Policy guidance"],
-        ].map(([key, label]) => (
-          <button
-            key={key}
-            className={`tab ${page === key ? "active" : ""}`}
-            onClick={() => go(key)}
-          >
-            {label}{" "}
-          </button>
-        ))}
-      </div>
-    </>
-  );
-
-  return (
-    <div className="shell">
-      <aside className="sidebar">
-        {navItems.map(([key, label, icon]) => (
-          <button
-            key={key}
-            className={`navbutton ${activeSection === key ? "active" : ""}`}
-            aria-current={activeSection === key ? "page" : undefined}
-            onClick={() => go(key)}
-          >
-            <span aria-hidden="true">{icon}</span>
-            {label}
-          </button>
-        ))}
-      </aside>
-      <div className="workspace">
-        <header className="topbar">
-          <div className="topbar-brand">
-            <img
-              className="app-logo"
-              src={`${import.meta.env.BASE_URL}311-logo.png`}
-              alt=""
-              width="40"
-              height="40"
-            />
-            <strong>Philadelphia 311 Delay Insight</strong>
-          </div>
-          <div>
-            <span>Demo dispatcher</span>
-            <b className="avatar">DD</b>
-          </div>
-        </header>
-
-        <main className="content" aria-live="polite">
-          {(page === "queue" || isClosed) && (
-            <>
-              <Head
-                title={isClosed ? "Historical Closed Tickets" : "Review Queue"}
-              />
-              {!isClosed && (
-                <div className="grid three">
-                  {[
-                    ["Requests", "5"],
-                    ["Requests at Risk", "2"],
-                    ["Requests Needing Data Review", "1"],
-                  ].map(([label, num], i) => (
-                    <div className={`card kpi kpi-${i + 1}`} key={label}>
-                      <div className="label">{label}</div>
-                      <div className="num">{num}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <section className="card tablecard">
-                <div className="toolbar">
-                  <h2 style={{ margin: 0 }}>
-                    {isClosed ? "Closed Requests" : "Incoming Review Queue"}
-                  </h2>
-                  <div className="filters">
-                    <input
-                      type="search"
-                      aria-label="Search tickets"
-                      placeholder="Search ID, category or ZIP"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                    {!isClosed && (
-                      <select
-                        aria-label="Filter risk"
-                        value={filter}
-                        onChange={(e) => setFilter(e.target.value)}
-                      >
-                        <option value="all">All risk levels</option>
-                        <option value="high">Elevated risk</option>
-                        <option value="missing">Needs data review</option>
-                      </select>
-                    )}
-                    {!isClosed && (
-                      <select
-                        aria-label="Sort tickets"
-                        value={sort}
-                        onChange={(e) => setSort(e.target.value)}
-                      >
-                        <option value="risk">Risk: high to low</option>
-                        <option value="time">Submission time</option>
-                      </select>
-                    )}
-                  </div>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      {[
-                        "Request / category",
-                        "Department",
-                        "ZIP",
-                        "Submitted",
-                        isClosed ? "Closed" : "Delay risk",
-                        ...(!isClosed ? ["Needs Data Review"] : []),
-                        isClosed ? "Days to close" : "",
-                      ].map((label, i) => (
-                        <th key={i} scope="col">
-                          {label}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rows.map((t) => (
-                      <tr className="clickrow" key={t.id}>
-                        <td>
-                          {isClosed ? (
-                            <button
-                              className="ticketlink"
-                              onClick={() => go("closed-record", t)}
-                            >
-                              {t.id}
-                            </button>
-                          ) : (
-                            <button
-                              className="ticketlink"
-                              onClick={() => go("ticket", t)}
-                            >
-                              {t.id}
-                            </button>
-                          )}
-                          <span className="secondary">{t.category}</span>
-                        </td>
-                        <td>{t.dept}</td>
-                        <td>{t.zip}</td>
-                        <td>
-                          {t.time}
-                          <span className="secondary">
-                            {t.submitted || "Oct 03"}
-                          </span>
-                        </td>
-                        <td>{isClosed ? t.closed : <Risk ticket={t} />}</td>
-                        {!isClosed && (
-                          <td>
-                            {t.risk === null ? (
-                              <span className="pill high">Yes</span>
-                            ) : (
-                              "No"
-                            )}
-                          </td>
-                        )}
-                        <td className="right">
-                          {isClosed ? (
-                            `${t.days} days`
-                          ) : (
-                            <button
-                              className="textbtn"
-                              onClick={() => go("ticket", t)}
-                            >
-                              Review →
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {!rows.length && (
-                  <div className="empty">
-                    <h2>No matching requests</h2>
-                    <p className="muted small">
-                      Try another search or risk filter.
-                    </p>
-                  </div>
-                )}
-                <div className="tablefoot">
-                  <span>
-                    Showing {rows.length} of {queueTickets.length} requests
-                  </span>
-                </div>
-              </section>
-            </>
-          )}
-
-          {page === "closed-record" && (
-            <>
-              <div className="crumb">
-                <button className="textbtn" onClick={() => go("closed")}>
-                  Historical Closed Tickets
-                </button>
-                <span>/</span>
-                {selected.id}
-              </div>
-              <Head title={`${selected.id} : ${selected.category}`}>
-                <span className="pill low">Closed</span>
-              </Head>
-              <section className="card">
-                <h2>Request Details</h2>
-                <div className="meta">
-                  {[
-                    ["Request ID", selected.id],
-                    ["Service category", selected.category],
-                    ["Status", "Closed"],
-                    ["Department", selected.dept.trim()],
-                    ["Location", `ZIP ${selected.zip}`],
-                    ["Intake channel", selected.channel],
-                    [
-                      "Submitted",
-                      `${selected.submitted}, 2026 · ${selected.time}`,
-                    ],
-                    ["Closed", selected.closed],
-                    ["Time to close", `${selected.days} days`],
-                    [
-                      "Prior 7-day volume at intake",
-                      `${selected.volume} requests`,
-                    ],
-                    ["Risk estimate at intake", `${selected.risk}%`],
-                    ["Resolution notes", "Not available"],
-                  ].map(([label, value]) => (
-                    <div key={label}>
-                      <div className="key">{label}</div>
-                      <div className="value">{value}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="rule" />
-                <Button onClick={() => go("closed")}>
-                  Back to Closed Tickets
-                </Button>
-              </section>
-            </>
-          )}
-          {page === "ticket" && (
-            <>
-              {ticketTabs}
-              <div className="grid detailgrid">
-                <section className="card">
-                  <h2 style={{ marginTop: 20 }}>Estimated delay risk</h2>
-                  <div className="riskfigure">
-                    {selected.risk}
-                    <span>%</span>
-                  </div>
-                  <p className="muted small">
-                    Estimated probability, not a measured prediction.
-                  </p>
-                  <div className="gauge">
-                    <div style={{ width: `${selected.risk}%` }} />
-                  </div>
-                  <div className="meta">
-                    {[
-                      ["Department", selected.dept],
-                      ["Submitted", `${selected.time} · Oct 03`],
-                      ["Intake channel", selected.channel],
-                      ["Location", `ZIP ${selected.zip}`],
-                      ["Prior 7-day volume", `${selected.volume} requests`],
-                    ].map(([key, value]) => (
-                      <div key={key}>
-                        <div className="key">{key}</div>
-                        <div className="value">{value}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="rule" />
-                </section>
-                <section className="card">
-                  <div className="head">
-                    <div>
-                      <h2>SHAP Breakdown</h2>
-                    </div>
-                    <Button
-                      aria-expanded={explainedTicket === selected.id}
-                      aria-controls="shap-explanation"
-                      onClick={() =>
-                        setExplainedTicket(
-                          explainedTicket === selected.id ? null : selected.id,
-                        )
-                      }
-                    >
-                      {explainedTicket === selected.id
-                        ? "Hide Explanation"
-                        : "Ask AI to Explain✨"}
-                    </Button>
-                  </div>
-                  {explanation && (
-                    <>
-                      <div className="figurelabel">
-                        <span>Illustrative contributions in log-odds</span>
-                        <span>Blue increases risk · gray decreases risk</span>
-                      </div>
-                      {explanation.factors.map(({ label, value }) => (
-                        <div className="factor" key={label}>
-                          <span>{label}</span>
-                          <div
-                            className={`track ${value < 0 ? "negative" : ""}`}
-                          >
-                            <span
-                              style={{
-                                width: `${(Math.abs(value) / 1.2) * 100}%`,
-                              }}
-                            />
-                          </div>
-                          <strong>{signed(value)}</strong>
-                        </div>
-                      ))}
-                      <div className="equation">
-                        <div>
-                          Base log-odds
-                          <strong>{explanation.base.toFixed(2)}</strong>
-                        </div>
-                        <span>+</span>
-                        <div>
-                          Contributions
-                          <strong>{signed(explanation.total)}</strong>
-                        </div>
-                        <span>=</span>
-                        <div>
-                          Output log-odds
-                          <strong>{explanation.output.toFixed(2)}</strong>
-                        </div>
-                        <span>→</span>
-                        <div>
-                          Probability<strong>≈ {selected.risk}%</strong>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {explanation && explainedTicket === selected.id && (
-                    <div
-                      id="shap-explanation"
-                      className="answer"
-                      style={{ marginTop: 20 }}
-                    >
-                      <h3>Understanding this estimate</h3>
-                      <p className="muted small">
-                        Sample explanation · AI service not connected
-                      </p>
-                      <p>
-                        This ticket starts from a baseline risk of{" "}
-                        {Math.round(100 / (1 + Math.exp(-explanation.base)))}%.
-                        The contributions below move that estimate to{" "}
-                        {selected.risk}%.
-                      </p>
-                      <ul>
-                        {[...explanation.factors]
-                          .sort((a, b) => Math.abs(b.value) - Math.abs(a.value))
-                          .map(({ label, value }) => (
-                            <li key={label}>
-                              <strong>{label}</strong>{" "}
-                              {value < 0 ? "lowers" : "raises"} the estimate (
-                              {signed(value)} log-odds).
-                            </li>
-                          ))}
-                      </ul>
-                      <p>
-                        The largest influence is{" "}
-                        {[...explanation.factors]
-                          .sort(
-                            (a, b) => Math.abs(b.value) - Math.abs(a.value),
-                          )[0]
-                          .label.toLowerCase()}
-                        . These values describe contributions to the estimate,
-                        not the causes of a delay.
-                      </p>
-                      <p className="muted small">
-                        Log-odds contributions are added to the baseline and
-                        converted to a probability. They are not
-                        percentage-point changes.
-                      </p>
-                    </div>
-                  )}
-                  <div className="actions" style={{ marginTop: 22 }}>
-                    <Button onClick={() => go("similar")}>
-                      Find similar tickets →
-                    </Button>
-                    <Button onClick={() => go("policy")}>
-                      Check official guidance →
-                    </Button>
-                  </div>
-                </section>
-              </div>
-            </>
-          )}
-
-          {page === "similar" && (
-            <>
-              {ticketTabs}
-              <Head title="Comparable Closed Records" />
-              <div className="grid three">
-                {closedTickets.map((record) => (
-                  <article className="card" key={record.id}>
-                    <h2 style={{ marginTop: 18 }}>{record.id}</h2>
-                    <p className="small">{record.category}</p>
-                    <div className="rule" />
-                    <div className="meta">
-                      {[
-                        ["Status", "Closed"],
-                        ["Time to close", `${record.days} days`],
-                        ["Match basis", "Category + intake context"],
-                        ["Handling notes", "Not available"],
-                      ].map(([key, value]) => (
-                        <div key={key}>
-                          <div className="key">{key}</div>
-                          <div className="value">{value}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <p className="muted small" style={{ marginTop: 22 }}>
-                      Closure status alone does not document how an issue was
-                      resolved.
-                    </p>
-                    <button
-                      className="textbtn"
-                      onClick={() => go("closed-record", record)}
-                    >
-                      Inspect source record ↗
-                    </button>
-                  </article>
-                ))}
-              </div>
-              <div className="actions" style={{ marginTop: 20 }}>
-                <Button primary onClick={() => go("policy")}>
-                  Open policy guidance →
-                </Button>
-                <Button onClick={() => go("ticket")}>
-                  Back to explanation
-                </Button>
-              </div>
-            </>
-          )}
-
-          {page === "policy" && (
-            <>
-              {ticketTabs}
-              <div className="grid policygrid">
-                <section className="card">
-                  <div className="head">
-                    <div>
-                      <h2>Ask the AI Policy Assistant ✨</h2>
-                    </div>
-                  </div>
-                  <label htmlFor="question">Operational Question</label>
-                  <textarea
-                    id="question"
-                    value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
-                    disabled={answer === "loading"}
-                  />
-                  <div className="actions" style={{ margin: "12px 0 19px" }}>
-                    <Button
-                      primary
-                      disabled={answer === "loading"}
-                      onClick={() =>
-                        question.trim()
-                          ? setAnswer("loading")
-                          : setMessage("Enter a question first.")
-                      }
-                    >
-                      Retrieve guidance
-                    </Button>
-                  </div>
-                  <div className="answer">
-                    {answer === "supported" && (
-                      <>
-                        <span className="sourcetag">
-                          DEMO ANSWER · based on official public guidance
-                        </span>
-                        <p style={{ marginTop: 12 }}>
-                          Use the service request number to look up the request.
-                          If a case is private, the resident may need the
-                          account used when submitting it. A resident can also
-                          contact 311 for a status update.
-                        </p>
-                        <p className="muted small">
-                          This guidance does not guarantee a completion date or
-                          identify a crew. It is a prewritten source-based
-                          response, not an LLM response.
-                        </p>
-                        <a
-                          className="textbtn"
-                          href={policyURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          [1] Track a service request with 311 ↗
-                        </a>
-                      </>
-                    )}
-                    {answer === "loading" && (
-                      <>
-                        <h3>Retrieving approved context…</h3>
-                        <div className="loading" />
-                        <p className="muted small">
-                          Simulated loading state. No API is called.
-                        </p>
-                      </>
-                    )}
-                    {answer === "unsupported" && (
-                      <>
-                        <span className="pill high">
-                          Unsupported by available sources
-                        </span>
-                        <h2 style={{ marginTop: 17 }}>
-                          No verified instruction available.
-                        </h2>
-                        <p>
-                          I cannot verify a crew assignment, internal escalation
-                          rule, or guaranteed completion time from the approved
-                          source in this prototype.
-                        </p>
-                        <p className="muted small">
-                          Consult the responsible department or official
-                          guidance.
-                        </p>
-                        <div className="actions">
-                          <Button onClick={() => go("decision")}>
-                            Continue to human review
-                          </Button>
-                          <Button onClick={() => go("policy")}>
-                            Return to supported question
-                          </Button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </section>
-                <aside className="card">
-                  <h2>Evidence Before an Answer.</h2>
-                  <p className="muted small">
-                    Where generated answers come from
-                  </p>
-                  {[
-                    [
-                      "Retrieve approved sources",
-                      "Official City pages with source URLs.",
-                    ],
-                    [
-                      "Answer from context only",
-                      "Treat retrieved text as data, not instructions.",
-                    ],
-                    [
-                      "Validate citations",
-                      "Check source IDs and claim support.",
-                    ],
-                  ].map(([title, sub], i) => (
-                    <div className="stateline" key={title}>
-                      <span className="stepbadge">{i + 1}</span>
-                      <div>
-                        <h3>{title}</h3>
-                        <span className="muted small">{sub}</span>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="sourcecard">
-                    <h3 style={{ marginTop: 12 }}>
-                      Track a service request with 311
-                    </h3>
-                    <p className="muted">
-                      City of Philadelphia · reference supplied in prototype
-                    </p>
-                    <a
-                      href={policyURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Open original guidance ↗
-                    </a>
-                  </div>
-                </aside>
-              </div>
-            </>
-          )}
-
-          {page === "decision" && (
-            <>
-              <div className="crumb">
-                <button className="textbtn" onClick={() => go("ticket")}>
-                  {selected.id}
-                </button>
-                <span>/</span>Human review
-              </div>
-              <Head title="Review a Ticket" />
-              <div className="grid two">
-                <section className="card">
-                  <h2>Review decision</h2>
-                  <form onSubmit={saveDecision}>
-                    {actions.map((choice, i) => (
-                      <label className="option" key={choice}>
-                        <input
-                          type="radio"
-                          name="action"
-                          value={choice}
-                          checked={action === choice}
-                          onChange={() => setAction(choice)}
-                        />
-                        <span>
-                          <b>{choice}</b>
-                          <br />
-                          <small>{actionDescriptions[i]}</small>
-                        </span>
-                      </label>
-                    ))}
-                    <label htmlFor="rationale">
-                      Review rationale <span className="muted">(required)</span>
-                    </label>
-                    <textarea
-                      id="rationale"
-                      value={rationale}
-                      onChange={(e) => setRationale(e.target.value)}
-                      maxLength={500}
-                      placeholder="Review the intake category and workload signal; verify the appropriate handling path."
-                      aria-describedby="decisionError"
-                    />
-                    <label className="checkrow">
-                      <input
-                        type="checkbox"
-                        checked={ack}
-                        onChange={(e) => setAck(e.target.checked)}
-                      />
-                      <span>
-                        I understand the risk estimate is noncausal. This action
-                        will not deprioritize a request or submit anything to
-                        the City.
-                      </span>
-                    </label>
-                    <p id="decisionError" className="error" role="alert">
-                      {error}
-                    </p>
-                    <div className="actions">
-                      <Button primary type="submit">
-                        Save simulated decision
-                      </Button>
-                      <Button type="button" onClick={() => go("ticket")}>
-                        Cancel
-                      </Button>
-                    </div>
-                  </form>
-                </section>
-                <section className="card">
-                  <h2 style={{ marginTop: 18 }}>Ticket summary</h2>
-                  <div className="meta">
-                    {[
-                      ["Request ID", selected.id],
-                      ["Service category", selected.category],
-                      ["Department", selected.dept.trim()],
-                      ["Location", `ZIP ${selected.zip}`],
-                      ["Intake channel", selected.channel],
-                      ["Submitted", selected.time],
-                    ].map(([label, value]) => (
-                      <div key={label}>
-                        <div className="key">{label}</div>
-                        <div className="value">{value}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="rule" />
-                  <div className="risk-summary">
-                    <div className="key">Estimated delay risk</div>
-                    <div className="riskfigure">
-                      {selected.risk === null ? "No score" : selected.risk}
-                      {selected.risk !== null && <span>%</span>}
-                    </div>
-                    <p className="muted small">
-                      {selected.risk === null
-                        ? "A verified service category is needed before this request can be scored."
-                        : `This is an estimated probability that the request may experience delay. Review the intake details before choosing an action.`}
-                    </p>
-                  </div>
-                  <div className="rule" />
-                  <h3>Review summary</h3>
-                  <p className="muted small">
-                    {selected.risk === null
-                      ? "The missing category requires human review and data correction."
-                      : `${selected.category} request received through ${selected.channel.toLowerCase()} intake in ZIP ${selected.zip}.`}
-                  </p>
-                </section>
-              </div>
-            </>
-          )}
-
-          {page === "saved" && (
-            <section className="card state">
-              <div className="bigicon">✓</div>
-              <div className="eyebrow">Simulation recorded</div>
-              <h1>Review recorded. No City request changed.</h1>
-              <p className="muted">
-                {logs.at(-1)?.action} for {logs.at(-1)?.ticket_id}
-              </p>
-              <Notice type="success">
-                The human decision remains separate from the model output.
-                Nothing was sent to a City system or an external AI service.
-              </Notice>
-              <div className="rule" />
-              <div className="actions">
-                <Button primary onClick={() => go("queue")}>
-                  Return to review queue
-                </Button>
-                <Button onClick={() => go("log")}>View action log</Button>
-                <Button onClick={exportLog}>Export demo log</Button>
-              </div>
-            </section>
-          )}
-          {page === "missing" && (
-            <>
-              <div className="crumb">
-                <button className="textbtn" onClick={() => go("queue")}>
-                  Review queue
-                </button>
-                <span>/</span>
-                {selected.id}
-              </div>
-              <section className="card state">
-                <div className="missing-state-heading">
-                  <div className="bigicon" aria-hidden="true">
-                    !
-                  </div>
-                  <h1>Not enough information to score.</h1>
-                </div>
-                <p className="muted">
-                  {selected.id} has no verified service category. The prototype
-                  does not substitute a reassuring low-risk number.
-                </p>
-                <Notice type="warning">
-                  <strong>Prediction withheld.</strong> Preserve standard
-                  processing and request data review.
-                </Notice>
-                <div className="rule" />
-                <h3>Planned behavior</h3>
-                <p className="muted small">
-                  Check required fields, timestamp validity and supported
-                  categories. Show what is missing; log the validation error;
-                  allow human review.
-                </p>
-                <div className="actions">
-                  <Button primary onClick={() => go("decision")}>
-                    Request human review
-                  </Button>
-                  <Button onClick={() => go("queue")}>Return to queue</Button>
-                </div>
-              </section>
-            </>
-          )}
-          {page === "log" && (
-            <>
-              <Head title="A record of human review." />
-              <div className="actions" style={{ marginBottom: 18 }}>
-                <Button onClick={exportLog}>Export JSON log</Button>
-              </div>
-              <section className="card tablecard">
-                {logs.length ? (
-                  <table>
-                    <thead>
-                      <tr>
-                        {[
-                          "Ticket",
-                          "Action",
-                          "Rationale",
-                          "Created",
-                          "Mode",
-                        ].map((label) => (
-                          <th scope="col" key={label}>
-                            {label}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {logs.map((log, i) => (
-                        <tr key={i}>
-                          <td>{log.ticket_id}</td>
-                          <td>{log.action}</td>
-                          <td
-                            style={{ maxWidth: 380, overflowWrap: "anywhere" }}
-                          >
-                            {log.rationale}
-                          </td>
-                          <td>{new Date(log.at).toLocaleTimeString()}</td>
-                          <td>
-                            <span className="pill neutral">Simulation</span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <div className="empty">
-                    <h2>No review decisions yet</h2>
-                    <p className="muted small">
-                      Open a ticket, review the evidence and save a simulated
-                      decision.
-                    </p>
-                    <Button primary onClick={() => go("ticket", tickets[0])}>
-                      Open ticket
-                    </Button>
-                  </div>
-                )}
-              </section>
-            </>
-          )}
-        </main>
-      </div>
-      {message && (
-        <div className="toast" role="status">
-          {message}
-        </div>
-      )}
-    </div>
-  );
+  const activeSection = ['queue', 'closed', 'log'].includes(page) ? page : selected?.status === 'Closed' ? 'closed' : 'queue';
+  return <div className="shell"><aside className="sidebar">{navItems.map(([key, label, icon]) => <button key={key}
+    className={`navbutton ${activeSection === key ? 'active' : ''}`} aria-current={activeSection === key ? 'page' : undefined} onClick={() => go(key)}>
+    <span aria-hidden="true">{icon}</span>{label}</button>)}</aside><div className="workspace">
+    <header className="topbar"><div className="topbar-brand"><img className="app-logo" src={`${import.meta.env.BASE_URL}311-logo.png`} alt="" width="40" height="40" />
+      <strong>Philadelphia 311 Delay Insight</strong></div><div><span>Dispatcher view</span><b className="avatar">DD</b></div></header>
+    <main className="content"><div className="dataset-banner"><div><span className="sourcetag">HISTORICAL DATA · MODEL ESTIMATES</span>
+      <p>Saved Philadelphia 311 requests. Status reflects the export; this is not a live City queue.</p></div>
+      <Button disabled={data.loading || data.scoring} onClick={data.reload}>Reload tickets</Button></div>
+      {data.error && data.tickets.length > 0 && <div className="request-warning" role="alert"><Notice type="warning">{data.error} Scores are unavailable until a successful retry.</Notice><Button onClick={data.reload}>Retry scoring</Button></div>}
+      {content}
+    </main></div>{message && <div className="toast" role="status">{message}</div>}</div>;
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+createRoot(document.getElementById('root')).render(<App />);

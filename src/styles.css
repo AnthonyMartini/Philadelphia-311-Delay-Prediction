@@ -828,6 +828,38 @@ tr.clickrow:hover {
   font-size: 11px;
   color: var(--muted);
 }
+.workspace { min-width: 0; }
+.dataset-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding: 15px 18px;
+  border: 1px solid #dce4ff;
+  background: var(--blue-light);
+  border-radius: 12px;
+}
+.dataset-banner p { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+.dataset-banner .btn { flex-shrink: 0; }
+.score-progress { margin-top: 20px; }
+.table-scroll { overflow-x: auto; }
+.table-scroll table { min-width: 850px; }
+.tablefoot { align-items: center; gap: 12px; flex-wrap: wrap; }
+.tablefoot .btn { padding: 6px 10px; font-size: 11px; }
+.toolbar h2 { margin: 0; }
+.toolbar .filters { flex-wrap: wrap; }
+.meta .value { overflow-wrap: anywhere; }
+.factor { grid-template-columns: minmax(145px, 210px) minmax(45px, 1fr) 46px; }
+.equation { flex-wrap: wrap; gap: 12px; }
+.log-rationale { max-width: 380px; overflow-wrap: anywhere; }
+.request-warning { margin-bottom: 20px; display: flex; gap: 12px; align-items: center; }
+.card .state { padding: 16px; margin: 15px 0; box-shadow: none; }
+@media (max-width: 720px) {
+  .dataset-banner { align-items: flex-start; flex-direction: column; }
+  .request-warning { align-items: flex-start; flex-direction: column; }
+  .factor { grid-template-columns: minmax(110px, 145px) minmax(35px, 1fr) 40px; gap: 8px; }
+}
 @media (min-width: 1550px) {
   .content {
     padding-top: 40px;

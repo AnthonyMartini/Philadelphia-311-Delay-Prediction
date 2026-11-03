@@ -136,11 +136,14 @@ def main():
 
     # Global explanation: mean |SHAP| per feature on a test sample (TreeSHAP via pred_contribs)
     booster = model.get_booster()
+    iteration_range = (0, model.best_iteration + 1)
     samp = Xte.sample(min(20000, len(Xte)), random_state=C.RANDOM_STATE)
-    contribs = booster.predict(xgb.DMatrix(samp, enable_categorical=True), pred_contribs=True)
+    contribs = booster.predict(xgb.DMatrix(samp, enable_categorical=True), pred_contribs=True,
+                              iteration_range=iteration_range)
     shap_abs = pd.Series(np.abs(contribs[:, :-1]).mean(0), index=REQUIRED).sort_values(ascending=False)
     additivity_gap = float(np.max(np.abs(contribs.sum(1) - booster.predict(
-        xgb.DMatrix(samp, enable_categorical=True), output_margin=True))))
+        xgb.DMatrix(samp, enable_categorical=True), output_margin=True,
+        iteration_range=iteration_range))))
 
     # Figures
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.2))

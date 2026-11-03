@@ -3,6 +3,9 @@
 Predicts whether a Philadelphia 311 service request will miss its promised completion window,
 explains each estimate with exact SHAP values, and shows similar closed tickets. Decision support only.
 
+For the HTTP prediction service, see [backend setup and API documentation](backend/README.md).
+It can serve the committed XGBoost artifacts without the raw City export or Streamlit dependencies.
+
 ## Setup
 
 ```sh
