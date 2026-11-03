@@ -261,8 +261,8 @@ function ActionLog({ logs, exportLog, go }) {
 }
 
 function App() {
-  const data = useTickets(api, route.page === 'closed');
   const [route, setRoute] = useState(readRoute);
+  const data = useTickets(api, route.page === 'closed');
   const [logs, setLogs] = useState([]);
   const [message, setMessage] = useState('');
   const needsTicket = ticketPages.includes(route.page);
