@@ -34,7 +34,9 @@ class PredictionService:
         for name in ("xgb_model.json", "metadata.json"):
             fingerprint.update((art_dir / name).read_bytes())
         self.model_version = f"xgb-{fingerprint.hexdigest()[:16]}"
+        self.demo_path = art_dir / "demo_tickets.csv"
         self.reference_path = art_dir / "reference_tickets.csv"
+        self._demo = None
         self._reference = None
 
     def normalize(self, ticket: TicketInput, index=None):
@@ -86,14 +88,20 @@ class PredictionService:
         return results
 
     def historical_tickets(self, status="all", offset=0, limit=100):
-        reference = self.reference_tickets()
         if status == "open":
-            reference = reference[reference["status"] != "Closed"]
+            tickets = self.demo_tickets()
+            tickets = tickets[tickets["status"] != "Closed"]
+            source = "held_out"
         elif status == "closed":
-            reference = reference[reference["status"] == "Closed"]
-        total = len(reference)
-        page = reference.iloc[offset:offset + limit]
-        return total, [self._record(row) for _, row in page.iterrows()]
+            tickets = self.reference_tickets()
+            source = "training_reference"
+            tickets = tickets[tickets["status"] == "Closed"]
+        else:
+            tickets = self.reference_tickets()
+            source = "training_reference"
+        total = len(tickets)
+        page = tickets.iloc[offset:offset + limit]
+        return total, [self._record(row, source) for _, row in page.iterrows()]
 
     @staticmethod
     def _record(row, source="training_reference"):
@@ -115,11 +123,22 @@ class PredictionService:
             self._reference = reference.set_index("request_id", drop=False)
         return self._reference
 
+    def demo_tickets(self):
+        if self._demo is None:
+            self._demo = read_tickets(self.demo_path)
+            self._demo["request_id"] = "PHL-" + self._demo["objectid"]
+            self._demo = self._demo.set_index("request_id", drop=False)
+        return self._demo
+
     def get_ticket(self, request_id):
+        if self.demo_path.is_file():
+            demo = self.demo_tickets()
+            if request_id in demo.index:
+                return self._record(demo.loc[request_id], "held_out")
         if self.reference_path.is_file():
             reference = self.reference_tickets()
             if request_id in reference.index:
-                return self._record(reference.loc[request_id])
+                return self._record(reference.loc[request_id], "training_reference")
         return None
 
     def similar(self, ticket: DemoTicket, k=3):

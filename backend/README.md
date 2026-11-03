@@ -30,8 +30,9 @@ Interactive API documentation: <http://127.0.0.1:8000/docs>. Machine-readable co
 <http://127.0.0.1:8000/openapi.json>.
 
 Only `backend/ml/artifacts/xgb_model.json` and `metadata.json` are required to score supplied inputs.
-The saved `reference_tickets.csv` provides the historical ticket list, ticket inspection, and
-comparable-case lookup. It is loaded only when needed. The raw City export,
+The saved `demo_tickets.csv` provides the open review queue. The saved `reference_tickets.csv`
+provides closed historical tickets, ticket inspection, and comparable-case lookup. They are
+loaded only when needed. The raw City export,
 training table, logistic-regression artifact, charts, and Streamlit are not required by this API.
 Missing or incompatible model artifacts stop startup with an error.
 

@@ -10,7 +10,6 @@ ml/README.md
 ml/prompts/
 ml/data/
 ml/artifacts/figures/
-ml/artifacts/demo_tickets.csv
 ml/artifacts/audit.json
 ml/artifacts/logreg.joblib
 ml/artifacts/metrics.json
