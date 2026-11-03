@@ -103,8 +103,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 service: PredictionService = Depends(get_service)):
         if not service.reference_path.is_file():
             raise HTTPException(status_code=503, detail="Historical reference tickets are not installed")
-        records = service.historical_tickets(status)
-        return DemoTicketPage(total=len(records), tickets=records[offset:offset + limit])
+        total, records = service.historical_tickets(status, offset, limit)
+        return DemoTicketPage(total=total, tickets=records)
 
     @app.get("/api/v1/tickets/{request_id}/prediction", response_model=Prediction, tags=["Historical demo"])
     def predict_demo(request_id: str, include_explanation: bool = True,
