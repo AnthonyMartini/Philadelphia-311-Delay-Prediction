@@ -67,7 +67,7 @@ class BatchPredictionResponse(BaseModel):
 
 
 class DemoTicket(BaseModel):
-    source: Literal["held_out", "training_reference"] = "held_out"
+    source: Literal["held_out", "training_reference"] = "training_reference"
     ticket: TicketInput
     requested_date: date
     expected_date: date | None

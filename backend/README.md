@@ -30,9 +30,8 @@ Interactive API documentation: <http://127.0.0.1:8000/docs>. Machine-readable co
 <http://127.0.0.1:8000/openapi.json>.
 
 Only `backend/ml/artifacts/xgb_model.json` and `metadata.json` are required to score supplied inputs.
-The saved `demo_tickets.csv` enables the historical ticket list. `reference_tickets.csv` additionally
-enables comparable-case lookup and inspection of its source records. Both CSVs are loaded only when
-needed. The raw City export,
+The saved `reference_tickets.csv` provides the historical ticket list, ticket inspection, and
+comparable-case lookup. It is loaded only when needed. The raw City export,
 training table, logistic-regression artifact, charts, and Streamlit are not required by this API.
 Missing or incompatible model artifacts stop startup with an error.
 
@@ -73,15 +72,15 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/tickets/PHL-5761985/prediction'
 |---|---|---|
 | POST | `/api/v1/predictions` | One ticket, with `include_explanation` defaulting to true. |
 | POST | `/api/v1/predictions/batch` | `{"tickets": [...], "include_explanation": false}`; 1–1,000 tickets, preserving order. |
-| GET | `/api/v1/tickets?limit=100&offset=0` | Paginated historical demo records, including prepared `ticket` payloads. Maximum page size 400. |
+| GET | `/api/v1/tickets?limit=100&offset=0` | Paginated historical reference records, including prepared `ticket` payloads. Maximum page size 400. |
 | GET | `/api/v1/tickets/{request_id}/prediction` | Score one saved historical ticket; optional `?include_explanation=false`. Unknown IDs return 404. |
 | GET | `/api/v1/tickets/{request_id}` | Inspect a held-out or training-reference record by its PHL request ID. |
 | GET | `/api/v1/tickets/{request_id}/similar?k=3` | Up to 10 comparable training-reference tickets closed strictly before the target's intake date. |
 
 All input validation errors return HTTP 422 with a `detail` list identifying the offending field.
 A batch is validated completely before scoring; a category error includes its ticket index.
-The list returns 503 if its demo CSV is absent; similar lookup returns 503 if the reference CSV
-is absent. Each record identifies whether it comes from the held-out sample or training references.
+The list and similar lookup return 503 if the reference CSV is absent. Each record identifies that
+it comes from the training references.
 Missing record IDs return 404. `/docs` documents all request and response fields.
 
 ## Input contract
@@ -212,8 +211,7 @@ Do not set `PHL311_ARTIFACT_DIR`; the image includes its artifacts at
 & .\.venv\Scripts\python.exe -m pytest -q backend/tests backend/ml/tests
 ```
 
-The tests use the real saved model. They check all 400 demo records, including the unsupported
-department case, and verify prediction parity for the 399 supported records. They also cover
+The tests use the real saved model and reference records. They also cover
 single/batch equivalence, SHAP reconstruction, missing/invalid inputs, category normalization, CORS,
 startup failures, time-filtered similar records, and source inspection. The training-table chronology
 test skips when `model_table.pkl` is absent. `constraints.txt` pins the tested dependency versions.

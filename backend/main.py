@@ -99,9 +99,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/api/v1/tickets", response_model=DemoTicketPage, tags=["Historical demo"])
     def tickets(limit: int = Query(100, ge=1, le=400), offset: int = Query(0, ge=0),
                 service: PredictionService = Depends(get_service)):
-        if not service.demo_path.is_file():
-            raise HTTPException(status_code=503, detail="Historical demo tickets are not installed")
-        records = service.demo_tickets()
+        if not service.reference_path.is_file():
+            raise HTTPException(status_code=503, detail="Historical reference tickets are not installed")
+        records = service.historical_tickets()
         return DemoTicketPage(total=len(records), tickets=records[offset:offset + limit])
 
     @app.get("/api/v1/tickets/{request_id}/prediction", response_model=Prediction, tags=["Historical demo"])
@@ -126,7 +126,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
 
 def find_ticket(service: PredictionService, request_id: str):
-    if not service.demo_path.is_file() and not service.reference_path.is_file():
+    if not service.reference_path.is_file():
         raise HTTPException(status_code=503, detail="Historical ticket data is not installed")
     ticket = service.get_ticket(request_id)
     if ticket is None:

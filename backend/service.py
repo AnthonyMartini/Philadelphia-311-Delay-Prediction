@@ -34,9 +34,7 @@ class PredictionService:
         for name in ("xgb_model.json", "metadata.json"):
             fingerprint.update((art_dir / name).read_bytes())
         self.model_version = f"xgb-{fingerprint.hexdigest()[:16]}"
-        self.demo_path = art_dir / "demo_tickets.csv"
         self.reference_path = art_dir / "reference_tickets.csv"
-        self._demo = None
         self._reference = None
 
     def normalize(self, ticket: TicketInput, index=None):
@@ -87,14 +85,11 @@ class PredictionService:
             ))
         return results
 
-    def demo_tickets(self):
-        if self._demo is None:
-            frame = read_tickets(self.demo_path)
-            self._demo = [self._record(row) for _, row in frame.iterrows()]
-        return self._demo
+    def historical_tickets(self):
+        return [self._record(row) for _, row in self.reference_tickets().iterrows()]
 
     @staticmethod
-    def _record(row, source="held_out"):
+    def _record(row, source="training_reference"):
         integer_fields = {"sla_business_days", "day_of_week", "prior_7d_service_volume", "prior_7d_zip_volume"}
         values = {f: None if pd.isna(row[f]) else int(row[f]) if f in integer_fields else row[f]
                   for f in C.FEATURES}
@@ -114,14 +109,10 @@ class PredictionService:
         return self._reference
 
     def get_ticket(self, request_id):
-        if self.demo_path.is_file():
-            demo = next((r for r in self.demo_tickets() if r.ticket.request_id == request_id), None)
-            if demo is not None:
-                return demo
         if self.reference_path.is_file():
             reference = self.reference_tickets()
             if request_id in reference.index:
-                return self._record(reference.loc[request_id], "training_reference")
+                return self._record(reference.loc[request_id])
         return None
 
     def similar(self, ticket: DemoTicket, k=3):
