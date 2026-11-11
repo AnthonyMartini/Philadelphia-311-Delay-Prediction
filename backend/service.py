@@ -8,9 +8,11 @@ import pandas as pd
 try:
     from .ml import config as C
     from .ml.scoring import DelayModel, read_tickets, risk_band, similar_tickets
+    from .database import TicketDatabase
 except ImportError:
     from ml import config as C
     from ml.scoring import DelayModel, read_tickets, risk_band, similar_tickets
+    from database import TicketDatabase
 
 try:
     from .schemas import (Contribution, DemoTicket, Explanation, ModelFeatures, Prediction,
@@ -28,7 +30,7 @@ class InputError(ValueError):
 
 
 class PredictionService:
-    def __init__(self, art_dir: Path, model_threads: int = 1):
+    def __init__(self, art_dir: Path, model_threads: int = 1, connection_string: str | None = None):
         self.model = DelayModel(art_dir, nthread=model_threads)
         fingerprint = hashlib.sha256()
         for name in ("xgb_model.json", "metadata.json"):
@@ -38,6 +40,7 @@ class PredictionService:
         self.reference_path = art_dir / "reference_tickets.csv"
         self._demo = None
         self._reference = None
+        self.database = TicketDatabase(connection_string) if connection_string else None
 
     def normalize(self, ticket: TicketInput, index=None):
         values = ticket.model_dump(include=set(C.FEATURES))
@@ -88,6 +91,11 @@ class PredictionService:
         return results
 
     def historical_tickets(self, status="all", offset=0, limit=100):
+        if self.database:
+            tickets = self.database.tickets(status, offset, limit)
+            total = self.database.count(status)
+            return total, [self._record(row, self._source_name(row.get("source")))
+                           for _, row in tickets.iterrows()]
         if status == "open":
             tickets = self.demo_tickets()
             tickets = tickets[tickets["status"] != "Closed"]
@@ -131,6 +139,12 @@ class PredictionService:
         return self._demo
 
     def get_ticket(self, request_id):
+        if self.database:
+            ticket = self.database.ticket(request_id)
+            if not ticket.empty:
+                row = ticket.iloc[0]
+                return self._record(row, self._source_name(row.get("source")))
+            return None
         if self.demo_path.is_file():
             demo = self.demo_tickets()
             if request_id in demo.index:
@@ -157,3 +171,12 @@ class PredictionService:
         ) for _, row in matches.iterrows()]
         return SimilarTicketResponse(request_id=ticket.ticket.request_id,
                                      as_of=ticket.requested_date, tickets=records)
+
+    @staticmethod
+    def _source_name(source):
+        return {
+            "train": "training_reference",
+            "test": "held_out",
+            "training_reference": "training_reference",
+            "held_out": "held_out",
+        }.get(source, "training_reference")

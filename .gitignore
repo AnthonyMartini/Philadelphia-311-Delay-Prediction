@@ -1,6 +1,7 @@
 node_modules/
 dist/
 *.local
+backend/.env
 .venv/
 __pycache__/
 *.py[cod]

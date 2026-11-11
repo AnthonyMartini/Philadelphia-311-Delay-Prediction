@@ -36,6 +36,18 @@ loaded only when needed. The raw City export,
 training table, logistic-regression artifact, charts, and Streamlit are not required by this API.
 Missing or incompatible model artifacts stop startup with an error.
 
+## PostgreSQL ticket database
+
+Set `CONN_STRING` to use the prepared `tickets` table in PostgreSQL:
+
+```powershell
+& .\.venv\Scripts\python.exe -m uvicorn backend.main:app --env-file backend/.env --host 127.0.0.1 --port 8000
+```
+
+When configured, `/api/v1/tickets` reads from PostgreSQL. `status=open` excludes rows whose
+`status` is `Closed`; `status=closed` returns only closed rows. Without `CONN_STRING`, the
+service keeps using the committed CSV artifacts.
+
 ## Run with Docker
 
 Build and run the API from the repository root:

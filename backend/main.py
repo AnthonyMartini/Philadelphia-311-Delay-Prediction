@@ -30,6 +30,7 @@ class Settings:
     art_dir: Path = C.ART_DIR
     cors_origins: tuple[str, ...] = ("http://localhost:5173", "http://127.0.0.1:5173")
     model_threads: int = 1
+    connection_string: str | None = None
 
     def __post_init__(self):
         if not 1 <= self.model_threads <= 64:
@@ -42,6 +43,7 @@ class Settings:
             cors_origins=tuple(origin.strip() for origin in os.environ.get(
                 "PHL311_CORS_ORIGINS", ",".join(cls.cors_origins)).split(",") if origin.strip()),
             model_threads=int(os.environ.get("PHL311_MODEL_THREADS", "1")),
+            connection_string=os.environ.get("CONN_STRING"),
         )
 
 
@@ -58,7 +60,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app):
         # Invalid or missing artifacts fail startup rather than exposing an unusable predictor.
-        app.state.service = PredictionService(settings.art_dir, settings.model_threads)
+        app.state.service = PredictionService(
+            settings.art_dir, settings.model_threads, settings.connection_string)
         try:
             yield
         finally:
@@ -101,7 +104,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def tickets(limit: int = Query(100, ge=1, le=400), offset: int = Query(0, ge=0),
                 status: Literal["open", "closed", "all"] = Query("all"),
                 service: PredictionService = Depends(get_service)):
-        if not service.reference_path.is_file():
+        if not service.database and not service.reference_path.is_file():
             raise HTTPException(status_code=503, detail="Historical reference tickets are not installed")
         total, records = service.historical_tickets(status, offset, limit)
         return DemoTicketPage(total=total, tickets=records)
@@ -120,7 +123,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def similar_records(request_id: str, k: int = Query(3, ge=1, le=10),
                         service: PredictionService = Depends(get_service)):
         ticket = find_ticket(service, request_id)
-        if not service.reference_path.is_file():
+        if not service.database and not service.reference_path.is_file():
             raise HTTPException(status_code=503, detail="Historical reference tickets are not installed")
         return service.similar(ticket, k)
 
@@ -128,7 +131,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
 
 def find_ticket(service: PredictionService, request_id: str):
-    if not service.reference_path.is_file():
+    if not service.database and not service.reference_path.is_file():
         raise HTTPException(status_code=503, detail="Historical ticket data is not installed")
     ticket = service.get_ticket(request_id)
     if ticket is None:
