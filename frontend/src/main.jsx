@@ -64,7 +64,7 @@ function TicketList({ tickets, total, page, setPage, scoring, closed, go }) {
   const [search, setSearch] = useState('');
   const [band, setBand] = useState('all');
   const [sort, setSort] = useState('risk');
-  useEffect(() => setPage(0), [search, band, sort, closed]);
+  useEffect(() => setPage(0), [closed, setPage]);
   const collection = tickets.filter((ticket) => closed ? ticket.status === 'Closed' : ticket.status !== 'Closed');
   const rows = filterTickets(tickets, { search, band, sort, closed });
   const currentPage = page;
@@ -84,12 +84,13 @@ function TicketList({ tickets, total, page, setPage, scoring, closed, go }) {
     <section className="card tablecard">
       <div className="toolbar"><h2>{closed ? 'Closed Requests' : 'Open Historical Requests'}</h2>
         <div className="filters">
-          <input type="search" aria-label="Search tickets" placeholder="Search ID, category or ZIP" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <select aria-label="Filter risk" value={band} onChange={(e) => setBand(e.target.value)}>
+          <input type="search" aria-label="Search tickets" placeholder="Search ID, category or ZIP" value={search}
+            onChange={(e) => { setSearch(e.target.value); setPage(0); }} />
+          <select aria-label="Filter risk" value={band} onChange={(e) => { setBand(e.target.value); setPage(0); }}>
             <option value="all">All risk levels</option><option value="High">High</option><option value="Elevated">Elevated</option>
             <option value="Standard">Standard</option><option value="missing">Needs data review</option>
           </select>
-          {!closed && <select aria-label="Sort tickets" value={sort} onChange={(e) => setSort(e.target.value)}>
+          {!closed && <select aria-label="Sort tickets" value={sort} onChange={(e) => { setSort(e.target.value); setPage(0); }}>
             <option value="risk">Risk: high to low</option><option value="date">Newest submitted</option>
           </select>}
         </div>
